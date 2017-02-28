@@ -1,5 +1,7 @@
 package aidanogrady.com.keepfit.data.model;
 
+import java.util.UUID;
+
 /**
  * A Goal is a certain distance the user is aiming to walk in a single day. Each goal has a unique
  * name to it which acts as a brief description of the goal in question.
@@ -11,7 +13,7 @@ public class Goal {
     /**
      * The ID of this goal.
      */
-    private int mId;
+    private String mId;
 
     /**
      * The name of this goal.
@@ -30,17 +32,28 @@ public class Goal {
 
 
     /**
-     * Constructs a new Goal.
+     * Constructs a new Goal. Use this constructor for brand new goals.
+     *
+     * @param name the name of the goal
+     * @param steps then umber of steps to achieve this goal
+     */
+    public Goal(String name, int steps) {
+        this(UUID.randomUUID().toString(), name, steps, -1);
+    }
+
+    /**
+     * Constructs a new Goal. Use this constructor if the Goal already has an ID (is a copy of
+     * another Goal).
      *
      * @param id the id of the new goal
      * @param name the name of the new goal
      * @param steps the number of steps required to achieve the new goal
      */
-    public Goal(int id, String name, int steps) {
+    public Goal(String id, String name, int steps, int lastAchieved) {
         this.mId = id;
         this.mName = name;
         this.mSteps = steps;
-        this.mLastAchieved = -1;
+        this.mLastAchieved = lastAchieved;
     }
 
 
@@ -49,7 +62,7 @@ public class Goal {
      *
      * @return id
      */
-    public int getId() {
+    public String getId() {
         return mId;
     }
 

@@ -16,7 +16,7 @@ public class History {
     /**
      * The ID of the goal that was attempted on this day.
      */
-    private int mGoalId;
+    private String mGoalId;
 
     /**
      * The number of steps achieved on this day.
@@ -26,8 +26,22 @@ public class History {
 
     /**
      * Constructs a new History object.
+     *
+     * @param date the date of this day in history
+     * @param goalId the id of the goal being achieved on this day
      */
-    public History(int date, int goalId, int steps) {
+    public History(int date, String goalId) {
+        this(date, goalId, 0);
+    }
+
+    /**
+     * Constructs a new History object.
+     *
+     * @param date the date of this day in history
+     * @param goalId the id of the goal being achieved on this day
+     * @param steps the number of steps achieved on this day
+     */
+    public History(int date, String goalId, int steps) {
         this.mDate = date;
         this.mGoalId = goalId;
         this.mSteps = steps;
@@ -48,7 +62,7 @@ public class History {
      *
      * @return goalId
      */
-    public int getGoalId() {
+    public String getGoalId() {
         return mGoalId;
     }
 
