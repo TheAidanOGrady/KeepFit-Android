@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.source.local;
+package com.aidanogrady.keepfit.data.source.local;
 
 /**
  * The Class for containing constants related to the SqLite database types.

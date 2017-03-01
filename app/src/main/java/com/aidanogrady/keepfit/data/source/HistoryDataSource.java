@@ -1,8 +1,8 @@
-package aidanogrady.com.keepfit.data.source;
+package com.aidanogrady.keepfit.data.source;
 
 import java.util.List;
 
-import aidanogrady.com.keepfit.data.model.History;
+import com.aidanogrady.keepfit.data.model.History;
 
 /**
  * Interface for accessing history data.
@@ -11,7 +11,6 @@ import aidanogrady.com.keepfit.data.model.History;
  * @since 0.2
  */
 public interface HistoryDataSource extends DataSource {
-
     /**
      * Interface for the callback when all history loaded or unavailable.
      */
@@ -37,25 +36,25 @@ public interface HistoryDataSource extends DataSource {
      * @param date the date of the history
      * @param callback the callback to enact when history is retrieved.
      */
-    void gethistory(int date, GetHistoryCallback callback);
+    void getHistory(int date, GetHistoryCallback callback);
 
     /**
      * Inserts this history to the data source.
      *
      * @param history the history to be inserted.
      */
-    void inserthistory(History history);
+    void insertHistory(History history);
 
 
     /**
      * Deletes all history from the data source.
      */
-    void deleteAllhistorys();
+    void deleteAllHistory();
 
     /**
      * Deletes the history with the given date from the data source.
      *
      * @param date the history to be deleted from data source.
      */
-    void deletehistory(int date);
+    void deleteHistory(int date);
 }

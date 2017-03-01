@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit;
+package com.aidanogrady.keepfit;
 
 import org.junit.Test;
 

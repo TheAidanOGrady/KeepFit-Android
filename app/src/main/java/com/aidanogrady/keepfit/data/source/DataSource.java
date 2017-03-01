@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.source;
+package com.aidanogrady.keepfit.data.source;
 
 /**
  * Interface for accessing data.

@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.source.local;
+package com.aidanogrady.keepfit.data.source.local;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,12 +23,32 @@ public class KeepFitDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "KeepFit.db";
 
     /**
+     * The singleton instance of the DbHelper.
+     */
+    private static KeepFitDbHelper sInstance;
+
+
+    /**
      * Constructs a new KeepFitDbHelper
      *
      * @param context the context to create the table in.
      */
-    public KeepFitDbHelper(Context context) {
+    private KeepFitDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+
+    /**
+     * Returns the singleton instance of the KeepFitDbHelper. If the helper does not yet exist, then
+     * a new one is instantiated.
+     *
+     * @param context the context being request
+     * @return singleton db helper
+     */
+    public static KeepFitDbHelper getInstance(Context context) {
+        if (sInstance == null)
+            sInstance = new KeepFitDbHelper(context.getApplicationContext());
+        return sInstance;
     }
 
     @Override

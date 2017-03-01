@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.source.local;
+package com.aidanogrady.keepfit.data.source.local;
 
 import android.provider.BaseColumns;
 
@@ -14,12 +14,14 @@ public class HistoryPersistenceContract {
      */
     private HistoryPersistenceContract() {}
 
+
     static abstract class HistoryEntry implements BaseColumns {
         static final String TABLE_NAME = "history";
         static final String COLUMN_NAME_DATE = "date";
         static final String COLUMN_NAME_GOAL = "goal";
         static final String COLUMN_NAME_STEPS = "steps";
     }
+
 
     /**
      * Returns the string that forms the creation of the Goal table.

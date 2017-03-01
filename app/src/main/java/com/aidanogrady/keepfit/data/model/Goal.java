@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.model;
+package com.aidanogrady.keepfit.data.model;
 
 import java.util.UUID;
 

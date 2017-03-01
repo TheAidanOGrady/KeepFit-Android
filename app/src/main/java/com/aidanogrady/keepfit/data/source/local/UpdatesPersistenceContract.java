@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.source.local;
+package com.aidanogrady.keepfit.data.source.local;
 
 import android.provider.BaseColumns;
 
@@ -14,12 +14,14 @@ public class UpdatesPersistenceContract {
      */
     private UpdatesPersistenceContract() {}
 
+
     static abstract class UpdateEntry implements BaseColumns {
         static final String TABLE_NAME = "goal";
         static final String COLUMN_NAME_DATE = "date";
         static final String COLUMN_NAME_TIME = "time";
         static final String COLUMN_NAME_STEPS = "steps";
     }
+
 
     /**
      * Returns the string that forms the creation of the Update table.

@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.source.local;
+package com.aidanogrady.keepfit.data.source.local;
 
 import android.provider.BaseColumns;
 
@@ -14,6 +14,7 @@ public class GoalsPersistenceContract {
      */
     private GoalsPersistenceContract() {}
 
+
     static abstract class GoalEntry implements BaseColumns {
         static final String TABLE_NAME = "goal";
         static final String COLUMN_NAME_ID = "uuid";
@@ -21,6 +22,7 @@ public class GoalsPersistenceContract {
         static final String COLUMN_NAME_STEPS = "steps";
         static final String COLUMN_NAME_LAST_ACHIEVED = "last_achieved";
     }
+
 
     /**
      * Returns the string that forms the creation of the Goal table.

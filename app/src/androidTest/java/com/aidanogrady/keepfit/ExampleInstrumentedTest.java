@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit;
+package com.aidanogrady.keepfit;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

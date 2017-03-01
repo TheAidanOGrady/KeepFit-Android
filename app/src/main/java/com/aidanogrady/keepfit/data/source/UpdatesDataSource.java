@@ -1,8 +1,8 @@
-package aidanogrady.com.keepfit.data.source;
+package com.aidanogrady.keepfit.data.source;
 
 import java.util.List;
 
-import aidanogrady.com.keepfit.data.model.Update;
+import com.aidanogrady.keepfit.data.model.Update;
 
 /**
  * Interface for accessing updates.
@@ -11,7 +11,6 @@ import aidanogrady.com.keepfit.data.model.Update;
  * @since 0.2
  */
 public interface UpdatesDataSource extends DataSource {
-
     /**
      * Interface for the callback when an update are loaded or unavailable.
      */

@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.base;
+package com.aidanogrady.keepfit.base;
 
 /**
  * The BaseView of the application.

@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.model;
+package com.aidanogrady.keepfit.data.model;
 
 /**
  * An update denotes a timestamp and the number of steps the user manually recorded at this given

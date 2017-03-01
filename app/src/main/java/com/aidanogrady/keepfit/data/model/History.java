@@ -1,4 +1,4 @@
-package aidanogrady.com.keepfit.data.model;
+package com.aidanogrady.keepfit.data.model;
 
 /**
  * History pertains to a historical record of what was achieved on a particular day. It keeps track

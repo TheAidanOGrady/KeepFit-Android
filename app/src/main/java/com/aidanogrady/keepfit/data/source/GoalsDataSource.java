@@ -1,8 +1,8 @@
-package aidanogrady.com.keepfit.data.source;
+package com.aidanogrady.keepfit.data.source;
 
 import java.util.List;
 
-import aidanogrady.com.keepfit.data.model.Goal;
+import com.aidanogrady.keepfit.data.model.Goal;
 
 /**
  * Interface for accessing goals data.
@@ -11,7 +11,6 @@ import aidanogrady.com.keepfit.data.model.Goal;
  * @since 0.2
  */
 public interface GoalsDataSource extends DataSource {
-
     /**
      * Interface for the callback when goals are loaded or unavailable.
      */
