@@ -15,7 +15,7 @@ public interface UpdatesDataSource extends DataSource {
      * Interface for the callback when an update are loaded or unavailable.
      */
     interface LoadUpdatesCallback {
-        void onUpdatesLoaded(List<Update> update);
+        void onUpdatesLoaded(List<Update> updates);
 
         void onDataNotAvailable();
     }

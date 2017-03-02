@@ -15,7 +15,7 @@ public interface HistoryDataSource extends DataSource {
      * Interface for the callback when all history loaded or unavailable.
      */
     interface LoadHistoryCallback {
-        void onHistoryLoaded(List<History> history);
+        void onHistoryLoaded(List<History> histories);
 
         void onDataNotAvailable();
     }

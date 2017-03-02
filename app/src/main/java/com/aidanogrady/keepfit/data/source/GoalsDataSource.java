@@ -15,7 +15,7 @@ public interface GoalsDataSource extends DataSource {
      * Interface for the callback when goals are loaded or unavailable.
      */
     interface LoadGoalsCallback {
-        void onGoalsLoaded(List<Goal> goal);
+        void onGoalsLoaded(List<Goal> goals);
 
         void onDataNotAvailable();
     }

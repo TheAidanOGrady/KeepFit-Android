@@ -55,6 +55,35 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
 
     @Override
     public void getUpdates(LoadUpdatesCallback callback) {
+        List<Update> updates = new ArrayList<>();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        String[] projection = {
+                UpdateEntry.COLUMN_NAME_DATE,
+                UpdateEntry.COLUMN_NAME_TIME,
+                UpdateEntry.COLUMN_NAME_STEPS
+        };
+
+        Cursor c = db.query(UpdateEntry.TABLE_NAME, projection, null, null, null, null, null);
+        if (c != null && c.getCount() > 0) {
+            while (c.moveToNext()) {
+                int date_ = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_DATE));
+                long time = c.getLong(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_TIME));
+                int steps = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_STEPS));
+
+                Update update = new Update(date_, time, steps);
+                updates.add(update);
+            }
+        }
+
+        if (c != null)
+            c.close();
+        db.close();
+
+        if (updates.isEmpty())
+            callback.onDataNotAvailable();
+        else
+            callback.onUpdatesLoaded(updates);
 
     }
 
