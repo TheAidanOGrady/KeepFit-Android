@@ -31,6 +31,13 @@ public interface HistoryDataSource extends DataSource {
 
 
     /**
+     * Gets all history from the data source..
+     *
+     * @param callback the callback to enact when history is retrieved.
+     */
+    void getHistory(LoadHistoryCallback callback);
+
+    /**
      * Gets the history with the given ID and enacts the given callback.
      *
      * @param date the date of the history
@@ -44,7 +51,6 @@ public interface HistoryDataSource extends DataSource {
      * @param history the history to be inserted.
      */
     void insertHistory(History history);
-
 
     /**
      * Deletes all history from the data source.

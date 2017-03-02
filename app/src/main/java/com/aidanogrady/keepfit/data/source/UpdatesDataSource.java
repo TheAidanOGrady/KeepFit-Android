@@ -46,6 +46,13 @@ public interface UpdatesDataSource extends DataSource {
     void getUpdatesForDate(int date, LoadUpdatesCallback callback);
 
     /**
+     * Inserts the given update into the database.
+     *
+     * @param update the update to be added
+     */
+    void insertUpdate(Update update);
+
+    /**
      * Removes all updates from the data source.
      */
     void deleteAllUpdates();

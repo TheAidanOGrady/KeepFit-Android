@@ -1,9 +1,16 @@
 package com.aidanogrady.keepfit.data.source.local;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.aidanogrady.keepfit.data.model.Goal;
 import com.aidanogrady.keepfit.data.source.GoalsDataSource;
+import com.aidanogrady.keepfit.data.source.local.GoalsPersistenceContract.GoalEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Concrete implementation of the GoalsDataSource as a local SQLite Database.
@@ -48,31 +55,116 @@ public class GoalsLocalDataSource implements GoalsDataSource {
 
     @Override
     public void getGoals(LoadGoalsCallback callback) {
+        List<Goal> goals = new ArrayList<>();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
+        String[] projection = {
+                GoalEntry.COLUMN_NAME_ID,
+                GoalEntry.COLUMN_NAME_NAME,
+                GoalEntry.COLUMN_NAME_STEPS,
+                GoalEntry.COLUMN_NAME_LAST_ACHIEVED
+        };
+
+        Cursor c = db.query(GoalEntry.TABLE_NAME, projection, null, null, null, null, null);
+        if (c != null && c.getCount() > 0) {
+            while (c.moveToNext()) {
+                String goalId = c.getString(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_ID));
+                String name = c.getString(c.getColumnIndex(GoalEntry.COLUMN_NAME_NAME));
+                int steps = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_STEPS));
+                int last = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_LAST_ACHIEVED));
+                Goal goal = new Goal(goalId, name, steps, last);
+                goals.add(goal);
+            }
+        }
+
+        if (c != null)
+            c.close();
+        db.close();
+
+        if (goals.isEmpty())
+            callback.onDataNotAvailable();
+        else
+            callback.onGoalsLoaded(goals);
     }
 
     @Override
     public void getGoal(String id, GetGoalCallback callback) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
+        String[] projection = {
+                GoalEntry.COLUMN_NAME_ID,
+                GoalEntry.COLUMN_NAME_NAME,
+                GoalEntry.COLUMN_NAME_STEPS,
+                GoalEntry.COLUMN_NAME_LAST_ACHIEVED
+        };
+
+        String selection = GoalEntry.COLUMN_NAME_ID + " LIKE ?";
+        String[] selectionArgs = { id };
+
+        Cursor c = db.query(
+                GoalEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        Goal goal = null;
+        if (c != null && c.getCount() > 0) {
+            c.moveToFirst();
+            String goalId = c.getString(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_ID));
+            String name = c.getString(c.getColumnIndex(GoalEntry.COLUMN_NAME_NAME));
+            int steps = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_STEPS));
+            int last = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_LAST_ACHIEVED));
+            goal = new Goal(goalId, name, steps, last);
+        }
+
+        if (c != null)
+            c.close();
+        db.close();
+
+        if (goal == null)
+            callback.onDataNotAvailable();
+        else
+            callback.onGoalLoaded(goal);
     }
 
     @Override
     public void insertGoal(Goal goal) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(GoalEntry.COLUMN_NAME_ID, goal.getId());
+        values.put(GoalEntry.COLUMN_NAME_NAME, goal.getName());
+        values.put(GoalEntry.COLUMN_NAME_STEPS, goal.getSteps());
+        values.put(GoalEntry.COLUMN_NAME_LAST_ACHIEVED, goal.getLastAchieved());
+
+        db.insertOrThrow(GoalEntry.TABLE_NAME, null, values);
+        db.close();
     }
 
     @Override
-    public void updateGoal(Goal goal) {
+    public void updateGoal(Goal goal, String oldId) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(GoalEntry.COLUMN_NAME_ID, goal.getId());
+        values.put(GoalEntry.COLUMN_NAME_NAME, goal.getName());
+        values.put(GoalEntry.COLUMN_NAME_STEPS, goal.getSteps());
+        values.put(GoalEntry.COLUMN_NAME_LAST_ACHIEVED, goal.getLastAchieved());
+
+        String where = GoalEntry.COLUMN_NAME_ID + " LIKE ?";
+        String[] whereArgs = { oldId };
+        db.update(GoalEntry.TABLE_NAME, values, where, whereArgs);
     }
 
     @Override
     public void deleteAllGoals() {
-
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.delete(GoalEntry.TABLE_NAME, null, null);
+        db.close();
     }
 
     @Override
     public void deleteGoal(String id) {
-
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        String selection = GoalEntry.COLUMN_NAME_ID + " LIKE ?";
+        String[] selectionArgs = { id };
+        db.delete(GoalEntry.TABLE_NAME, selection, selectionArgs);
+        db.close();
     }
 }

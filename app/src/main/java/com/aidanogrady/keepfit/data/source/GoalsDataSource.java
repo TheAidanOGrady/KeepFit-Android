@@ -58,7 +58,7 @@ public interface GoalsDataSource extends DataSource {
      *
      * @param goal the goal to be updated.
      */
-    void updateGoal(Goal goal);
+    void updateGoal(Goal goal, String oldId);
 
     /**
      * Deletes all goals from the data source.
