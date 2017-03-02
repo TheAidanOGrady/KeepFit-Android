@@ -11,16 +11,16 @@ import android.database.sqlite.SQLiteOpenHelper;
  * @author Aidan O'Grady
  * @since 0.2.1
  */
-public class KeepFitDbHelper extends SQLiteOpenHelper {
+class KeepFitDbHelper extends SQLiteOpenHelper {
     /**
      * The current version of the database.
      */
-    public static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 1;
 
     /**
      * The name of the database.
      */
-    public static final String DATABASE_NAME = "KeepFit.db";
+    private static final String DATABASE_NAME = "KeepFit.db";
 
     /**
      * The singleton instance of the DbHelper.
@@ -45,7 +45,7 @@ public class KeepFitDbHelper extends SQLiteOpenHelper {
      * @param context the context being request
      * @return singleton db helper
      */
-    public static KeepFitDbHelper getInstance(Context context) {
+    static KeepFitDbHelper getInstance(Context context) {
         if (sInstance == null)
             sInstance = new KeepFitDbHelper(context.getApplicationContext());
         return sInstance;

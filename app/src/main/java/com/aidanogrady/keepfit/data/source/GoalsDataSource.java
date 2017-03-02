@@ -1,8 +1,8 @@
 package com.aidanogrady.keepfit.data.source;
 
-import java.util.List;
-
 import com.aidanogrady.keepfit.data.model.Goal;
+
+import java.util.List;
 
 /**
  * Interface for accessing goals data.

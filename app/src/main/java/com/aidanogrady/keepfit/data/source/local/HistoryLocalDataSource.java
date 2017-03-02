@@ -81,10 +81,12 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         }
         db.close();
 
-        if (histories.isEmpty())
+        if (histories.isEmpty()) {
             callback.onDataNotAvailable();
-        else
+        }
+        else {
             callback.onHistoryLoaded(histories);
+        }
     }
 
     @Override
@@ -112,15 +114,18 @@ public class HistoryLocalDataSource implements HistoryDataSource {
             history = new History(date_, goal, steps);
         }
 
-        if (c != null)
+        if (c != null) {
             c.close();
+        }
         db.close();
 
 
-        if (history == null)
+        if (history == null) {
             callback.onDataNotAvailable();
-        else
+        }
+        else {
             callback.onHistoryLoaded(history);
+        }
     }
 
     @Override

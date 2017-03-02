@@ -80,11 +80,12 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
             c.close();
         db.close();
 
-        if (updates.isEmpty())
+        if (updates.isEmpty()) {
             callback.onDataNotAvailable();
-        else
+        }
+        else {
             callback.onUpdatesLoaded(updates);
-
+        }
     }
 
     @Override
@@ -119,10 +120,12 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
         }
         db.close();
 
-        if (updates.isEmpty())
+        if (updates.isEmpty()) {
             callback.onDataNotAvailable();
-        else
+        }
+        else {
             callback.onUpdatesLoaded(updates);
+        }
     }
 
     @Override
@@ -142,6 +145,5 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.delete(UpdateEntry.TABLE_NAME, null, null);
         db.close();
-
     }
 }

@@ -48,8 +48,9 @@ public class GoalsLocalDataSource implements GoalsDataSource {
      * @return the singleton instance
      */
     public static GoalsLocalDataSource getInstance(Context context) {
-        if (sInstance == null)
+        if (sInstance == null) {
             sInstance = new GoalsLocalDataSource(context);
+        }
         return sInstance;
     }
 
@@ -77,14 +78,17 @@ public class GoalsLocalDataSource implements GoalsDataSource {
             }
         }
 
-        if (c != null)
+        if (c != null) {
             c.close();
+        }
         db.close();
 
-        if (goals.isEmpty())
+        if (goals.isEmpty()) {
             callback.onDataNotAvailable();
-        else
+        }
+        else {
             callback.onGoalsLoaded(goals);
+        }
     }
 
     @Override
@@ -113,14 +117,17 @@ public class GoalsLocalDataSource implements GoalsDataSource {
             goal = new Goal(goalId, name, steps, last);
         }
 
-        if (c != null)
+        if (c != null) {
             c.close();
+        }
         db.close();
 
-        if (goal == null)
+        if (goal == null) {
             callback.onDataNotAvailable();
-        else
+        }
+        else {
             callback.onGoalLoaded(goal);
+        }
     }
 
     @Override

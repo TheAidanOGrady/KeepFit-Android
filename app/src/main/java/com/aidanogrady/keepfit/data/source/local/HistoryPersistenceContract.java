@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
  * @author Aidan O'Grady
  * @since 0.2.1
  */
-public class HistoryPersistenceContract {
+class HistoryPersistenceContract {
     /**
      * Private construct to prevent accidental instantiating of the contract class.
      */
@@ -28,7 +28,7 @@ public class HistoryPersistenceContract {
      *
      * @return create goal table statement
      */
-    public static String getCreateTable() {
+    static String getCreateTable() {
         return "CREATE TABLE " + HistoryEntry.TABLE_NAME + " (" +
                 HistoryEntry._ID + DbConstants.INTEGER_TYPE + DbConstants.PRIMARY_KEY +
                 DbConstants.SEP +
@@ -44,8 +44,7 @@ public class HistoryPersistenceContract {
      *
      * @return drop goal table statement
      */
-    public static String getDropTable() {
+    static String getDropTable() {
         return "DROP TABLE IF EXITS " + HistoryEntry.TABLE_NAME;
     }
-
 }
