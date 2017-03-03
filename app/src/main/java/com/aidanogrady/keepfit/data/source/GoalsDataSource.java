@@ -61,6 +61,11 @@ public interface GoalsDataSource extends DataSource {
     void updateGoal(Goal goal, String oldId);
 
     /**
+     * Refreshes the data source.
+     */
+    void refreshGoals();
+
+    /**
      * Deletes all goals from the data source.
      */
     void deleteAllGoals();

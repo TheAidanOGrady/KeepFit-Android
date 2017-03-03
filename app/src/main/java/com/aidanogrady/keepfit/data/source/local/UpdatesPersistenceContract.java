@@ -16,7 +16,7 @@ class UpdatesPersistenceContract {
 
 
     static abstract class UpdateEntry implements BaseColumns {
-        static final String TABLE_NAME = "goal";
+        static final String TABLE_NAME = "updates";
         static final String COLUMN_NAME_DATE = "date";
         static final String COLUMN_NAME_TIME = "time";
         static final String COLUMN_NAME_STEPS = "steps";
@@ -33,7 +33,9 @@ class UpdatesPersistenceContract {
                 UpdateEntry._ID + DbConstants.INTEGER_TYPE + DbConstants.PRIMARY_KEY +
                 DbConstants.SEP +
                 UpdateEntry.COLUMN_NAME_DATE + DbConstants.INTEGER_TYPE +
+                DbConstants.SEP +
                 UpdateEntry.COLUMN_NAME_TIME + DbConstants.INTEGER_TYPE +
+                DbConstants.SEP +
                 UpdateEntry.COLUMN_NAME_STEPS + DbConstants.INTEGER_TYPE + " )";
     }
 

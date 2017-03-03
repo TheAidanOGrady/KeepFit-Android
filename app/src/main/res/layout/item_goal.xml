@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/goal_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:background="@drawable/circle"
+        android:textColor="@color/colorIcons"
+        android:textSize="24sp" />
+
+    <RelativeLayout
+        android:id="@+id/goal_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/goal_icon"
+        android:paddingStart="16dp"
+        android:paddingEnd="0dp">
+
+        <TextView
+            android:id="@+id/goal_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/goal_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goal_name"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:paddingStart="1dp"
+            android:paddingEnd="2dp" />
+
+        <TextView
+            android:id="@+id/steps_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goal_name"
+            android:layout_toEndOf="@id/goal_steps" />
+
+        <TextView
+            android:id="@+id/last_achieved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goal_steps"
+            android:text="@string/last_achieved" />
+        <TextView
+            android:id="@+id/goal_achieved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goal_steps"
+            android:layout_toEndOf="@id/last_achieved"
+            android:layout_marginStart="8dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

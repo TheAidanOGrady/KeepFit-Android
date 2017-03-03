@@ -4,11 +4,13 @@ package com.aidanogrady.keepfit.base;
  * The BaseView of the application.
  *
  * @author Aidan O'Grady
- * @since 0.0
+ * @since 0.1
  */
-public interface BaseView {
+public interface BaseView<T> {
     /**
-     * Starts the view.
+     * Sets the presenter to the given presenter.
+     *
+     * @param presenter the presenter to be set
      */
-    void start();
+    void setPresenter(T presenter);
 }

@@ -92,4 +92,17 @@ public class Goal {
     public int getLastAchieved() {
         return mLastAchieved;
     }
+
+    /**
+     * Converts a given int to a string.
+     *
+     * @param lastAchieved the date to be converted
+     * @return the converted date
+     */
+    public static String getLastAchievedAsString(int lastAchieved) {
+        if (lastAchieved > 0) {
+            return lastAchieved + " days ago";
+        }
+        return "N/A";
+    }
 }

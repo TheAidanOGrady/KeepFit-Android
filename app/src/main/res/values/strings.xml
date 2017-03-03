@@ -1,7 +1,16 @@
 <resources>
     <string name="app_name">KeepFit</string>
-    <string name="today_title">Title</string>
+    <string name="today_title">Today</string>
     <string name="goals_title">Goals</string>
     <string name="history_title">History</string>
     <string name="statistics_title">Statistics</string>
+    <string name="last_achieved">Last Achieved:</string>
+    <string name="steps">steps</string>
+    <string name="enter_goal_name">Goal name</string>
+    <string name="enter_goal_steps">No. of steps</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="no_goals_icon">\'No goals\' icon</string>
+    <string name="no_goals_main">You have no goals!</string>
+    <string name="no_goals_add">Add a goal item +</string>
 </resources>

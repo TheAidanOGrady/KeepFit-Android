@@ -127,6 +127,11 @@ public class GoalsRepository implements GoalsDataSource {
     }
 
     @Override
+    public void refreshGoals() {
+        mCacheIsDirty = true;
+    }
+
+    @Override
     public void deleteAllGoals() {
         mGoalsLocalDataSource.deleteAllGoals();
         if (mCachedGoals == null) {

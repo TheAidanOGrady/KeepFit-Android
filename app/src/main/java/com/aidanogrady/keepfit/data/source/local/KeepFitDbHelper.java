@@ -15,7 +15,7 @@ class KeepFitDbHelper extends SQLiteOpenHelper {
     /**
      * The current version of the database.
      */
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     /**
      * The name of the database.
@@ -53,7 +53,9 @@ class KeepFitDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        System.out.println(GoalsPersistenceContract.getCreateTable());
         db.execSQL(GoalsPersistenceContract.getCreateTable());
+        System.out.println(HistoryPersistenceContract.getCreateTable());
         db.execSQL(HistoryPersistenceContract.getCreateTable());
         db.execSQL(UpdatesPersistenceContract.getCreateTable());
     }

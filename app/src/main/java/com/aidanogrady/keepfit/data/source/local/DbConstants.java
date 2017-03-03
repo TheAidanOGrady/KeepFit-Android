@@ -25,7 +25,7 @@ class DbConstants {
     /**
      * String denoting that a column is a primary key. Autoincrement is always used.
      */
-    static final String PRIMARY_KEY = " PRIMARY KEY AUTOINCREMENT,";
+    static final String PRIMARY_KEY = " PRIMARY KEY AUTOINCREMENT";
 
     /**
      * String denoting that th column is unique.

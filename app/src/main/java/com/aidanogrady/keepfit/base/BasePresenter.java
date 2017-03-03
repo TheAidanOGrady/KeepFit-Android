@@ -8,9 +8,7 @@ package com.aidanogrady.keepfit.base;
  */
 public interface BasePresenter<T> {
     /**
-     * Sets the presenter to the given presenter.
-     *
-     * @param presenter the presenter to be set
+     * Starts the view.
      */
-    void setPresenter(T presenter);
+    void start();
 }

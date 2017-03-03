@@ -160,6 +160,11 @@ public class GoalsLocalDataSource implements GoalsDataSource {
     }
 
     @Override
+    public void refreshGoals() {
+        // Logic handled by repository
+    }
+
+    @Override
     public void deleteAllGoals() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.delete(GoalEntry.TABLE_NAME, null, null);
