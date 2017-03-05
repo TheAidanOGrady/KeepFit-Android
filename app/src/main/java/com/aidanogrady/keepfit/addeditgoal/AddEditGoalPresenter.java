@@ -51,7 +51,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
 
     @Override
     public void start() {
-        if (!isNewGoal() && mIsDataMissing) {
+        if (!isNewGoal()) {
             populateGoal();
         }
     }
@@ -79,6 +79,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
             throw new RuntimeException("deleteGoal() was called but goal was new");
         }
         mGoalsRepository.deleteGoal(mGoalId);
+        mAddEditGoalView.showGoalsList();
     }
 
     @Override
@@ -88,6 +89,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
 
     @Override
     public void onGoalLoaded(Goal goal) {
+        System.out.println(goal);
         if (mAddEditGoalView.isActive()) {
             mAddEditGoalView.setName(goal.getName());
             mAddEditGoalView.setSteps(goal.getSteps());

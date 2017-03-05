@@ -86,7 +86,7 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
         mGoalsView.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(mGoalsView.getContext(), layoutManager.getOrientation());
-        mGoalsView.addItemDecoration(dividerItemDecoration);;
+        mGoalsView.addItemDecoration(dividerItemDecoration);
 
         FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab_add_goal);
         fab.setOnClickListener(view -> mPresenter.addNewGoal());
@@ -96,7 +96,7 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mPresenter.loadGoals(false);
     }
 
     @Override
@@ -241,6 +241,8 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
 
             textView = holder.stepsUnitTextView;
             textView.setText(R.string.steps);
+
+            holder.itemView.setOnClickListener(view -> mGoalItemListener.onGoalClick(goal));
         }
 
         @Override

@@ -68,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
 //                    null));
 //            mFragments.add(new Pair<String, Fragment>(getString(R.string.statistics_title),
 //                    null));
-            for (Pair<String, Fragment> pair : mFragments) {
-                System.out.println(pair.first + " " + pair.second.getClass());
-            }
         }
 
         @Override

@@ -60,7 +60,11 @@ public class GoalsPresenter implements GoalsContract.Presenter {
         mGoalsRepository.getGoals(new GoalsDataSource.LoadGoalsCallback() {
             @Override
             public void onGoalsLoaded(List<Goal> goals) {
-                mGoalsView.showGoals(goals);
+                if (goals.isEmpty()) {
+                    mGoalsView.showNoGoals();
+                } else {
+                    mGoalsView.showGoals(goals);
+                }
             }
 
             @Override

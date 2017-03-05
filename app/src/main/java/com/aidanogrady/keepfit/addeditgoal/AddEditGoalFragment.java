@@ -70,7 +70,7 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
                              Bundle savedInstanceState) {
         if (getArguments() != null) {
             String id = getArguments().getString(AddEditGoalFragment.ARGUMENT_EDIT_GOAL_ID);
-            mIsNewGoal = (id != null);
+            mIsNewGoal = (id == null);
         } else {
             mIsNewGoal = true;
         }
@@ -84,10 +84,11 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.add_edit_goal_menu, menu);
-        System.out.println(mIsNewGoal);
+        MenuItem item = menu.findItem(R.id.menu_delete);
         if (mIsNewGoal) {
-            MenuItem item = menu.findItem(R.id.menu_delete);
             item.setVisible(false);
+        } else {
+            item.setVisible(true);
         }
     }
 
@@ -110,7 +111,8 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        if (!mIsNewGoal)
+            mPresenter.populateGoal();
     }
 
     @Override

@@ -53,9 +53,7 @@ class KeepFitDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        System.out.println(GoalsPersistenceContract.getCreateTable());
         db.execSQL(GoalsPersistenceContract.getCreateTable());
-        System.out.println(HistoryPersistenceContract.getCreateTable());
         db.execSQL(HistoryPersistenceContract.getCreateTable());
         db.execSQL(UpdatesPersistenceContract.getCreateTable());
     }
