@@ -40,7 +40,7 @@ public class GoalsPresenter implements GoalsContract.Presenter {
 
     @Override
     public void start() {
-        loadGoals(false);
+        loadGoals(true);
     }
 
     @Override

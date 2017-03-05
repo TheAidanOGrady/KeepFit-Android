@@ -36,6 +36,13 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
     private boolean mIsDataMissing;
 
 
+    /**
+     * Constructs a new AddEditGoalPresenter.
+     *
+     * @param context the context the presenter is being viewed in.
+     * @param view the view being presented
+     * @param goalId the ID of the goal being shown.
+     */
     AddEditGoalPresenter(Context context, AddEditGoalContract.View view, String goalId) {
         mGoalsRepository = GoalsRepository.getInstance(context);
         mAddEditGoalView = view;

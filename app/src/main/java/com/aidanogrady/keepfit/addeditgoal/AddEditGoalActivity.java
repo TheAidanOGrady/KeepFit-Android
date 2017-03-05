@@ -54,7 +54,6 @@ public class AddEditGoalActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.content_frame);
 
         String goalId = getIntent().getStringExtra(AddEditGoalFragment.ARGUMENT_EDIT_GOAL_ID);
-
         if (addEditGoalFragment == null) {
             addEditGoalFragment = AddEditGoalFragment.newInstance();
 

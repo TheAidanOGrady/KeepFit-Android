@@ -2,7 +2,6 @@ package com.aidanogrady.keepfit.addeditgoal;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -43,6 +42,10 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
      */
     private TextView mSteps;
 
+    /**
+     * Is a new goal being created or an existing one being added?
+     */
+    private boolean mIsNewGoal;
 
     /**
      * Required empty constructor.
@@ -63,7 +66,14 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            String id = getArguments().getString(AddEditGoalFragment.ARGUMENT_EDIT_GOAL_ID);
+            mIsNewGoal = (id != null);
+        } else {
+            mIsNewGoal = true;
+        }
         View root = inflater.inflate(R.layout.fragment_add_edit_goal, container, false);
         mName = (TextView) root.findViewById(R.id.goal_name);
         mSteps = (TextView) root.findViewById(R.id.goal_steps);
@@ -74,6 +84,11 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.add_edit_goal_menu, menu);
+        System.out.println(mIsNewGoal);
+        if (mIsNewGoal) {
+            MenuItem item = menu.findItem(R.id.menu_delete);
+            item.setVisible(false);
+        }
     }
 
     @Override

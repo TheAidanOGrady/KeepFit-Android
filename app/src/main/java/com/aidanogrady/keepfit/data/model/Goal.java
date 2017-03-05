@@ -93,6 +93,16 @@ public class Goal {
         return mLastAchieved;
     }
 
+    @Override
+    public String toString() {
+        return "Goal{" +
+                "mId='" + mId + '\'' +
+                ", mName='" + mName + '\'' +
+                ", mSteps=" + mSteps +
+                ", mLastAchieved=" + mLastAchieved +
+                '}';
+    }
+
     /**
      * Converts a given int to a string.
      *

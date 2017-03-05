@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +50,11 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
      */
     private View mNoGoalsView;
 
+    /**
+     * The listener for when goals are pressed.
+     */
+    private GoalItemListener mGoalItemListener;
+
 
     /**
      * Returns a new goals fragment instance.
@@ -61,7 +68,8 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new GoalsAdapter(new ArrayList<>());
+        mGoalItemListener = goal -> mPresenter.editGoal(goal);
+        mAdapter = new GoalsAdapter(new ArrayList<>(), mGoalItemListener);
     }
 
     @Override
@@ -73,6 +81,12 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
         mGoalsView = (RecyclerView) root.findViewById(R.id.goals_recycler_view);
         mGoalsView.setAdapter(mAdapter);
         mNoGoalsView = root.findViewById(R.id.no_goals);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mGoalsView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(mGoalsView.getContext(), layoutManager.getOrientation());
+        mGoalsView.addItemDecoration(dividerItemDecoration);;
 
         FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab_add_goal);
         fab.setOnClickListener(view -> mPresenter.addNewGoal());
@@ -93,6 +107,7 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
     @Override
     public void showGoals(List<Goal> goals) {
         mAdapter.replaceData(goals);
+        mAdapter.notifyDataSetChanged();
         mGoalsView.setVisibility(View.VISIBLE);
         mNoGoalsView.setVisibility(View.GONE);
     }
@@ -155,14 +170,21 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
          */
         private List<Goal> mGoals;
 
+        /**
+         * The listener for when a goal is clicked.
+         */
+        private GoalItemListener mGoalItemListener;
+
 
         /**
          * Constructs a new GoalsAdapter with the given list of goals.
          *
          * @param goals the goals to be adapted
+         * @param mGoalItemListener the listener
          */
-        GoalsAdapter(List<Goal> goals) {
+        GoalsAdapter(List<Goal> goals, GoalItemListener mGoalItemListener) {
             setList(goals);
+            this.mGoalItemListener = mGoalItemListener;
         }
 
 
@@ -266,5 +288,9 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
             stepsTextView = (TextView) itemView.findViewById(R.id.goal_steps);
             stepsUnitTextView = (TextView) itemView.findViewById(R.id.steps_unit);
         }
+    }
+
+    interface GoalItemListener {
+        void onGoalClick(Goal goal);
     }
 }
