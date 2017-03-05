@@ -13,4 +13,8 @@
     <string name="no_goals_icon">\'No goals\' icon</string>
     <string name="no_goals_main">You have no goals!</string>
     <string name="no_goals_add">Add a goal item +</string>
+    <string name="no_history_main">There is no history</string>
+    <string name="no_history_add">Start walking or go to \'Today\' tab to input steps</string>
+    <string name="no_history_icon">Icon representing empty history</string>
+    <string name="goal_not_found">Goal not found</string>
 </resources>

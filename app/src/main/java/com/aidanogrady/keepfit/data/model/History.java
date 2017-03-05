@@ -14,9 +14,9 @@ public class History {
     private int mDate;
 
     /**
-     * The ID of the goal that was attempted on this day.
+     * The goal attempted on this date.
      */
-    private String mGoalId;
+    private Goal mGoal;
 
     /**
      * The number of steps achieved on this day.
@@ -28,22 +28,22 @@ public class History {
      * Constructs a new History object.
      *
      * @param date the date of this day in history
-     * @param goalId the id of the goal being achieved on this day
+     * @param goal the goal being achieved on this day
      */
-    public History(int date, String goalId) {
-        this(date, goalId, 0);
+    public History(int date, Goal goal) {
+        this(date, goal, 0);
     }
 
     /**
      * Constructs a new History object.
      *
      * @param date the date of this day in history
-     * @param goalId the id of the goal being achieved on this day
+     * @param goal the goal being achieved on this day
      * @param steps the number of steps achieved on this day
      */
-    public History(int date, String goalId, int steps) {
+    public History(int date, Goal goal, int steps) {
         this.mDate = date;
-        this.mGoalId = goalId;
+        this.mGoal = goal;
         this.mSteps = steps;
     }
 
@@ -62,8 +62,8 @@ public class History {
      *
      * @return goalId
      */
-    public String getGoalId() {
-        return mGoalId;
+    public Goal getGoal() {
+        return mGoal;
     }
 
     /**
@@ -73,5 +73,21 @@ public class History {
      */
     public int getSteps() {
         return mSteps;
+    }
+
+    /**
+     * Converts a given int to a string.
+     *
+     * @param date the date to be converted
+     * @return the converted date
+     */
+    public static String getLastAchievedAsString(int date) {
+        if (date == 0) {
+            return "Today";
+        }
+        if (date > 0) {
+            return date + " days ago";
+        }
+        return "N/A";
     }
 }

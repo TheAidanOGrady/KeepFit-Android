@@ -118,6 +118,11 @@ public class HistoryRepository implements HistoryDataSource {
     }
 
     @Override
+    public void refreshHistory() {
+        mCacheIsDirty = true;
+    }
+
+    @Override
     public void deleteAllHistory() {
         mHistoryLocalDataSource.deleteAllHistory();
         if (mCachedHistory == null) {

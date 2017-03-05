@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.aidanogrady.keepfit.data.model.Goal;
 import com.aidanogrady.keepfit.data.model.History;
+import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.HistoryDataSource;
 import com.aidanogrady.keepfit.data.source.local.HistoryPersistenceContract.HistoryEntry;
 
@@ -25,6 +27,11 @@ public class HistoryLocalDataSource implements HistoryDataSource {
     private static HistoryLocalDataSource sInstance;
 
     /**
+     * The data data source for goals.
+     */
+    private GoalsDataSource mGoalsLocalDataSource;
+
+    /**
      * The db helper.
      */
     private KeepFitDbHelper mDbHelper;
@@ -38,6 +45,7 @@ public class HistoryLocalDataSource implements HistoryDataSource {
      */
     private HistoryLocalDataSource(Context context) {
         mDbHelper = KeepFitDbHelper.getInstance(context);
+        mGoalsLocalDataSource = GoalsLocalDataSource.getInstance(context);
     }
 
 
@@ -68,11 +76,20 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
                 int date = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
-                String goal = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
+                String goalId = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
                 int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_STEPS));
+                mGoalsLocalDataSource.getGoal(goalId, new GoalsDataSource.GetGoalCallback() {
+                    @Override
+                    public void onGoalLoaded(Goal goal) {
+                        History history = new History(date, goal, steps);
+                        histories.add(history);
+                    }
 
-                History history = new History(date, goal, steps);
-                histories.add(history);
+                    @Override
+                    public void onDataNotAvailable() {
+                        History history = new History(date, null, steps);
+                    }
+                });
             }
         }
 
@@ -104,14 +121,26 @@ public class HistoryLocalDataSource implements HistoryDataSource {
 
         Cursor c = db.query(
                 HistoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
-        History history = null;
+
+        // TODO find better method of dealing with inner class
+        final History[] history = new History[1];
 
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
             int date_ = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
-            String goal = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
+            String goalId = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
             int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_STEPS));
-            history = new History(date_, goal, steps);
+            mGoalsLocalDataSource.getGoal(goalId, new GoalsDataSource.GetGoalCallback() {
+                @Override
+                public void onGoalLoaded(Goal goal) {
+                    history[0] = new History(date_, goal, steps);
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+                    history[0] = new History(date_, null, steps);
+                }
+            });
         }
 
         if (c != null) {
@@ -120,11 +149,11 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         db.close();
 
 
-        if (history == null) {
+        if (history[0] == null) {
             callback.onDataNotAvailable();
         }
         else {
-            callback.onHistoryLoaded(history);
+            callback.onHistoryLoaded(history[0]);
         }
     }
 
@@ -134,10 +163,15 @@ public class HistoryLocalDataSource implements HistoryDataSource {
 
         ContentValues values = new ContentValues();
         values.put(HistoryEntry.COLUMN_NAME_DATE, history.getDate());
-        values.put(HistoryEntry.COLUMN_NAME_GOAL, history.getGoalId());
+        values.put(HistoryEntry.COLUMN_NAME_GOAL, history.getGoal().getId());
         values.put(HistoryEntry.COLUMN_NAME_STEPS, history.getSteps());
 
         db.replace(HistoryEntry.TABLE_NAME, null, values);
+    }
+
+    @Override
+    public void refreshHistory() {
+        // No need to do anything, Repository handles this.
     }
 
     @Override

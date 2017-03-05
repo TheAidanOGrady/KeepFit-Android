@@ -27,11 +27,6 @@ public class GoalsPresenter implements GoalsContract.Presenter {
      */
     private final GoalsContract.View mGoalsView;
 
-    /**
-     * Whether or not this load is the first one.
-     */
-    private boolean mFirstLoad = true;
-
     public GoalsPresenter(Context context, GoalsContract.View goalsView) {
         mGoalsRepository = GoalsRepository.getInstance(context);
         mGoalsView = goalsView;

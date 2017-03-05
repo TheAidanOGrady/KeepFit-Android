@@ -53,6 +53,11 @@ public interface HistoryDataSource extends DataSource {
     void insertHistory(History history);
 
     /**
+     * Refreshes the data source.
+     */
+    void refreshHistory();
+
+    /**
      * Deletes all history from the data source.
      */
     void deleteAllHistory();
