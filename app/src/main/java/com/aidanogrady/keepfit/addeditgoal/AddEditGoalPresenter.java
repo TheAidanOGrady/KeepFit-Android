@@ -5,6 +5,7 @@ import android.content.Context;
 import com.aidanogrady.keepfit.data.model.Goal;
 import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.GoalsRepository;
+import com.google.common.base.Strings;
 
 /**
  * The AddEditGoalPresenter listens for user actions from UI, retrieves data and updates UI as
@@ -120,10 +121,10 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
      * @param steps the number of steps of the goal to be added
      */
     private void createGoal(String name, int steps) {
-        Goal goal = new Goal(name, steps);
-        if (goal.getName().isEmpty() && steps < 1) {
+        if (Strings.isNullOrEmpty(name) || steps < 1) {
             mAddEditGoalView.showEmptyGoalError();
         } else {
+            Goal goal = new Goal(name, steps);
             mGoalsRepository.insertGoal(goal);
             mAddEditGoalView.showGoalsList();
         }
@@ -139,7 +140,11 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
         if (isNewGoal()) {
             throw new RuntimeException("updateGoal() was called but task is new");
         }
-        mGoalsRepository.updateGoal(new Goal(name, steps), mGoalId);
-        mAddEditGoalView.showGoalsList();
+        if (Strings.isNullOrEmpty(name) || steps < 1) {
+            mAddEditGoalView.showEmptyGoalError();
+        } else {
+            mGoalsRepository.updateGoal(new Goal(name, steps), mGoalId);
+            mAddEditGoalView.showGoalsList();
+        }
     }
 }

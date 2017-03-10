@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aidanogrady.keepfit.R;
+import com.google.common.base.Strings;
 
 /**
  * Main UI for the add/edit goal fragment. Users can provide the name of a goal, the number of steps
@@ -99,8 +100,10 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
                 mPresenter.deleteGoal();
                 break;
             case R.id.menu_save:
-                mPresenter.saveGoal(mName.getText().toString(),
-                        Integer.valueOf(mSteps.getText().toString()));
+                String name = mName.getText().toString();
+                String stepsString = mSteps.getText().toString();
+                int steps = Strings.isNullOrEmpty(stepsString) ? 0 : Integer.valueOf(stepsString);
+                mPresenter.saveGoal(name, steps);
                 break;
             default:
                 break;
@@ -117,7 +120,7 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
 
     @Override
     public void showEmptyGoalError() {
-        Snackbar.make(mName, "Goal cannot be empty", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(mName, "Please provide goal name and steps", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
