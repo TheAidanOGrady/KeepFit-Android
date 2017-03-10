@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,9 @@ import java.util.Locale;
 /**
  * Displays the history stored in the data source to the user. The history cannot be modified from
  * this screen.
+ *
+ * @author Aidan O'Grady
+ * @since 0.4
  */
 public class HistoryFragment extends Fragment implements HistoryContract.View {
     /**
@@ -48,6 +50,15 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
     private View mNoHistoryView;
 
 
+    /**
+     * Returns a new history fragment instance.
+     *
+     * @return new history fragment
+     */
+    public static HistoryFragment newInstance() {
+        return new HistoryFragment();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +81,7 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
                         layoutManager.getOrientation());
         mHistoryView.addItemDecoration(dividerItemDecoration);
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return root;
     }
 
     @Override

@@ -45,6 +45,6 @@ class HistoryPersistenceContract {
      * @return drop goal table statement
      */
     static String getDropTable() {
-        return "DROP TABLE IF EXITS " + HistoryEntry.TABLE_NAME;
+        return "DROP TABLE IF EXISTS " + HistoryEntry.TABLE_NAME;
     }
 }

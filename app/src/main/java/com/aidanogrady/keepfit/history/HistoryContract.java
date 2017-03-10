@@ -40,7 +40,6 @@ class HistoryContract {
          * @return true if view is active, otherwise false
          */
         boolean isActive();
-
     }
 
     /**
@@ -53,6 +52,5 @@ class HistoryContract {
          * @param forceUpdate whether or not update should be forced.
          */
         void loadHistory(boolean forceUpdate);
-
     }
 }

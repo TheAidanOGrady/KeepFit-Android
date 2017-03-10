@@ -84,9 +84,11 @@ public class GoalsLocalDataSource implements GoalsDataSource {
         db.close();
 
         if (goals.isEmpty()) {
+            System.out.println("Goals local db: data not available");
             callback.onDataNotAvailable();
         }
         else {
+            System.out.println("Goals local db: goals loaded");
             callback.onGoalsLoaded(goals);
         }
     }

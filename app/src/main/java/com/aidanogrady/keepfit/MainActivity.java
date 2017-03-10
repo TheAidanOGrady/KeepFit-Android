@@ -1,5 +1,6 @@
 package com.aidanogrady.keepfit;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,8 @@ import android.view.View;
 
 import com.aidanogrady.keepfit.goals.GoalsFragment;
 import com.aidanogrady.keepfit.goals.GoalsPresenter;
+import com.aidanogrady.keepfit.history.HistoryFragment;
+import com.aidanogrady.keepfit.history.HistoryPresenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,14 +61,19 @@ public class MainActivity extends AppCompatActivity {
         KeepFitPagerAdapter(FragmentManager fm) {
             super(fm);
             mFragments = new ArrayList<>();
-            // Todo set up actual fragments
+            Context appContext = getApplicationContext();
+
+//            mFragments.add(new Pair<String, Fragment>(getString(R.string.today_title),
+//                    null));
+
             GoalsFragment goalsFragment = GoalsFragment.newInstance();
-            goalsFragment.setPresenter(new GoalsPresenter(getApplicationContext(), goalsFragment));
+            goalsFragment.setPresenter(new GoalsPresenter(appContext, goalsFragment));
             mFragments.add(new Pair<>(getString(R.string.goals_title), goalsFragment));
-//            mFragments.add(new Pair<String, Fragment>(getString(R.string.goals_title),
-//                    null));
-//            mFragments.add(new Pair<String, Fragment>(getString(R.string.history_title),
-//                    null));
+
+            HistoryFragment historyFragment = HistoryFragment.newInstance();
+            historyFragment.setPresenter(new HistoryPresenter(appContext, historyFragment));
+            mFragments.add(new Pair<>(getString(R.string.history_title), historyFragment));
+
 //            mFragments.add(new Pair<String, Fragment>(getString(R.string.statistics_title),
 //                    null));
         }

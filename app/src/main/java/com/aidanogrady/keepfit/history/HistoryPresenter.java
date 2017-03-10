@@ -30,7 +30,7 @@ public class HistoryPresenter implements HistoryContract.Presenter {
     public HistoryPresenter(Context context, HistoryContract.View historyView) {
         this.mHistoryRepository = HistoryRepository.getInstance(context);
         this.mHistoryView = historyView;
-        mHistoryView.setPresenter(this);
+        this.mHistoryView.setPresenter(this);
     }
 
 

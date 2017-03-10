@@ -27,11 +27,13 @@ public class GoalsPresenter implements GoalsContract.Presenter {
      */
     private final GoalsContract.View mGoalsView;
 
+
     public GoalsPresenter(Context context, GoalsContract.View goalsView) {
-        mGoalsRepository = GoalsRepository.getInstance(context);
-        mGoalsView = goalsView;
-        mGoalsView.setPresenter(this);
+        this.mGoalsRepository = GoalsRepository.getInstance(context);
+        this.mGoalsView = goalsView;
+        this.mGoalsView.setPresenter(this);
     }
+
 
     @Override
     public void start() {

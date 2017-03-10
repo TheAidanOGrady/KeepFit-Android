@@ -48,6 +48,6 @@ class GoalsPersistenceContract {
      * @return drop goal table statement
      */
     static String getDropTable() {
-        return "DROP TABLE IF EXITS " + GoalEntry.TABLE_NAME;
+        return "DROP TABLE IF EXISTS " + GoalEntry.TABLE_NAME;
     }
 }
