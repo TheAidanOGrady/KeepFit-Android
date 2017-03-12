@@ -1,20 +1,34 @@
 <resources>
     <string name="app_name">KeepFit</string>
-    <string name="today_title">Today</string>
+
+    <!-- Tab names -->
+    <string name="home_title">Home</string>
     <string name="goals_title">Goals</string>
     <string name="history_title">History</string>
     <string name="statistics_title">Statistics</string>
+
+    <!-- Home strings -->
+    <string name="set_goal">Set Goal</string>
+
+    <!-- Goal item strings -->
     <string name="last_achieved">Last Achieved:</string>
     <string name="steps">steps</string>
+
+    <!-- Goal editor strings -->
     <string name="enter_goal_name">Goal name</string>
     <string name="enter_goal_steps">No. of steps</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
+
+    <!-- Text displayed when there are no goals -->
     <string name="no_goals_icon">\'No goals\' icon</string>
     <string name="no_goals_main">You have no goals!</string>
     <string name="no_goals_add">Add a goal item +</string>
+
+    <!-- Text displayed when there is no history -->
     <string name="no_history_main">There is no history</string>
     <string name="no_history_add">Start walking or go to \'Today\' tab to input steps</string>
     <string name="no_history_icon">Icon representing empty history</string>
     <string name="goal_not_found">Goal not found</string>
+
 </resources>

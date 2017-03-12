@@ -17,6 +17,8 @@ import com.aidanogrady.keepfit.goals.GoalsFragment;
 import com.aidanogrady.keepfit.goals.GoalsPresenter;
 import com.aidanogrady.keepfit.history.HistoryFragment;
 import com.aidanogrady.keepfit.history.HistoryPresenter;
+import com.aidanogrady.keepfit.home.HomeFragment;
+import com.aidanogrady.keepfit.home.HomePresenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
             mFragments = new ArrayList<>();
             Context appContext = getApplicationContext();
 
-//            mFragments.add(new Pair<String, Fragment>(getString(R.string.today_title),
-//                    null));
+            HomeFragment homeFragment = HomeFragment.newInstance();
+            homeFragment.setPresenter(new HomePresenter(appContext, homeFragment));
+            mFragments.add(new Pair<>(getString(R.string.home_title), homeFragment));
 
             GoalsFragment goalsFragment = GoalsFragment.newInstance();
             goalsFragment.setPresenter(new GoalsPresenter(appContext, goalsFragment));

@@ -100,11 +100,9 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         db.close();
 
         if (histories.isEmpty()) {
-            System.out.println("History local db: data not available");
             callback.onDataNotAvailable();
         }
         else {
-            System.out.println("History local db: data not available");
             callback.onHistoryLoaded(histories);
         }
     }

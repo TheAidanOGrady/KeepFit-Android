@@ -66,7 +66,7 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mGoalItemListener = goal -> mPresenter.editGoal(goal);
         mAdapter = new GoalsAdapter(new ArrayList<>(), mGoalItemListener);

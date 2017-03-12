@@ -25,6 +25,15 @@ public class History {
 
 
     /**
+     * Constructs a new History object with no goal being worked towards.
+     *
+     * @param date the date of this day in history
+     */
+    public History(int date) {
+        this(date, null, 0);
+    }
+
+    /**
      * Constructs a new History object.
      *
      * @param date the date of this day in history

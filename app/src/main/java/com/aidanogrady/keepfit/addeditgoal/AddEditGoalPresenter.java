@@ -90,7 +90,6 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
 
     @Override
     public void onGoalLoaded(Goal goal) {
-        System.out.println(goal);
         if (mAddEditGoalView.isActive()) {
             mAddEditGoalView.setName(goal.getName());
             mAddEditGoalView.setSteps(goal.getSteps());
