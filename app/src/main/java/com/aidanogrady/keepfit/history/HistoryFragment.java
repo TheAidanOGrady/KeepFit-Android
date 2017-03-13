@@ -1,6 +1,7 @@
 package com.aidanogrady.keepfit.history;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 import com.aidanogrady.keepfit.R;
 import com.aidanogrady.keepfit.data.model.Goal;
 import com.aidanogrady.keepfit.data.model.History;
+
+import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,11 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.loadHistory(true);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new HistoryAdapter(new ArrayList<>());
@@ -76,9 +84,9 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mHistoryView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(mHistoryView.getContext(),
-                        layoutManager.getOrientation());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+                mHistoryView.getContext(),
+                layoutManager.getOrientation());
         mHistoryView.addItemDecoration(dividerItemDecoration);
 
         return root;
@@ -87,7 +95,7 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadHistory(false);
+        mPresenter.loadHistory(true);
     }
 
     @Override
@@ -161,7 +169,7 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
         /**
          * Sets the list of history to the given list of history.
          *
-         * @param history list of goals
+         * @param history list of history
          */
         private void setList(List<History> history) {
             if (history != null) {
@@ -182,14 +190,17 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
             History history = mHistory.get(position);
             Goal goal = history.getGoal();
 
-            holder.dateTextView.setText(History.getLastAchievedAsString(history.getDate()));
-            holder.stepsTextView.setText(String.format(Locale.getDefault(), "%d",history.getSteps()));
+            LocalDate localDate = LocalDate.ofEpochDay(history.getDate());
+            holder.dateTextView.setText(localDate.toString());
+            holder.stepsTextView.setText(String.format(Locale.getDefault(), "%d",
+                    history.getSteps()));
 
             if (goal != null) {
-                holder.iconTextView.setText(goal.getName().charAt(0));
+                holder.iconTextView.setText(Character.toString(goal.getName().charAt(0)));
                 holder.goalTextView.setText(goal.getName());
                 holder.percentageTextView.setText(
-                        String.format(Locale.getDefault(), "%d %%", history.getSteps() * 100)
+                        String.format(Locale.getDefault(), "%d %%",
+                                history.getSteps() * 100 / goal.getSteps())
                 );
             } else {
                 holder.goalTextView.setText(R.string.goal_not_found);

@@ -89,7 +89,7 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
     }
 
     @Override
-    public void getUpdatesForDate(int date, LoadUpdatesCallback callback) {
+    public void getUpdatesForDate(long date, LoadUpdatesCallback callback) {
         List<Update> updates = new ArrayList<>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 

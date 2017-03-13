@@ -43,7 +43,7 @@ public interface UpdatesDataSource extends DataSource {
      * @param date the date to get updates for
      * @param callback the callback to use when data retrieved.
      */
-    void getUpdatesForDate(int date, LoadUpdatesCallback callback);
+    void getUpdatesForDate(long date, LoadUpdatesCallback callback);
 
     /**
      * Inserts the given update into the database.

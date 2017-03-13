@@ -95,12 +95,7 @@ public class Goal {
 
     @Override
     public String toString() {
-        return "Goal{" +
-                "mId='" + mId + '\'' +
-                ", mName='" + mName + '\'' +
-                ", mSteps=" + mSteps +
-                ", mLastAchieved=" + mLastAchieved +
-                '}';
+        return mName + " (" + mSteps + " steps)";
     }
 
     /**

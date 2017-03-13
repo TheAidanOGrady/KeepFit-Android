@@ -30,7 +30,7 @@ public class HistoryRepository implements HistoryDataSource {
     /**
      * Cache of History obtained from the database.
      */
-    private Map<Integer, History> mCachedHistory;
+    private Map<Long, History> mCachedHistory;
 
     /**
      * Flag for indicating cache is invalid, to force updates next time data is requested.
@@ -84,7 +84,7 @@ public class HistoryRepository implements HistoryDataSource {
     }
 
     @Override
-    public void getHistory(int date, final GetHistoryCallback callback) {
+    public void getHistory(long date, final GetHistoryCallback callback) {
         History history = getHistoryWithDate(date);
         if (history != null) {
             callback.onHistoryLoaded(history);
@@ -132,7 +132,7 @@ public class HistoryRepository implements HistoryDataSource {
     }
 
     @Override
-    public void deleteHistory(int date) {
+    public void deleteHistory(long date) {
         mHistoryLocalDataSource.deleteHistory(date);
         mCachedHistory.remove(date);
     }
@@ -160,7 +160,7 @@ public class HistoryRepository implements HistoryDataSource {
      * @param date the date being searched for
      * @return history if it is found in cache, otherwise null
      */
-    private History getHistoryWithDate(int date) {
+    private History getHistoryWithDate(long date) {
         if (mCachedHistory == null || mCachedHistory.isEmpty()) {
             return null;
         } else {

@@ -1,5 +1,8 @@
 package com.aidanogrady.keepfit.data.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * History pertains to a historical record of what was achieved on a particular day. It keeps track
  * of which goal was attempted on a given day, and how many steps were recorded on that day.
@@ -11,7 +14,7 @@ public class History {
     /**
      * The day this history represents, stored as the number of days since the epoch.
      */
-    private int mDate;
+    private long mDate;
 
     /**
      * The goal attempted on this date.
@@ -23,14 +26,19 @@ public class History {
      */
     private int mSteps;
 
+    /**
+     * A list of updates entered on this date in history.
+     */
+    private List<Update> mUpdates;
+
 
     /**
      * Constructs a new History object with no goal being worked towards.
      *
      * @param date the date of this day in history
      */
-    public History(int date) {
-        this(date, null, 0);
+    public History(long date) {
+        this(date, null, 0, null);
     }
 
     /**
@@ -39,8 +47,8 @@ public class History {
      * @param date the date of this day in history
      * @param goal the goal being achieved on this day
      */
-    public History(int date, Goal goal) {
-        this(date, goal, 0);
+    public History(long date, Goal goal) {
+        this(date, goal, 0, null);
     }
 
     /**
@@ -50,10 +58,14 @@ public class History {
      * @param goal the goal being achieved on this day
      * @param steps the number of steps achieved on this day
      */
-    public History(int date, Goal goal, int steps) {
+    public History(long date, Goal goal, int steps, List<Update> updates) {
         this.mDate = date;
         this.mGoal = goal;
         this.mSteps = steps;
+        if (updates == null)
+            mUpdates = new ArrayList<>();
+        else
+            mUpdates = updates;
     }
 
 
@@ -62,7 +74,7 @@ public class History {
      *
      * @return date
      */
-    public int getDate() {
+    public long getDate() {
         return mDate;
     }
 
@@ -76,6 +88,15 @@ public class History {
     }
 
     /**
+     * Sets the goal of this history to the given goal.
+     *
+     * @param goal the goal achieved on this day in history
+     */
+    public void setGoal(Goal goal) {
+        this.mGoal = goal;
+    }
+
+    /**
      * Returns the number of steps achieved this day.
      *
      * @return steps
@@ -85,18 +106,24 @@ public class History {
     }
 
     /**
-     * Converts a given int to a string.
+     * Sets the number of steps to the given number of steps.
      *
-     * @param date the date to be converted
-     * @return the converted date
+     * @param steps the number of steps achieved on this day
      */
-    public static String getLastAchievedAsString(int date) {
-        if (date == 0) {
-            return "Today";
-        }
-        if (date > 0) {
-            return date + " days ago";
-        }
-        return "N/A";
+    public void setSteps(int steps) {
+        this.mSteps = steps;
+    }
+
+    /**
+     * Returns the list of updates of this given day.
+     *
+     * @return updates of this day.
+     */
+    public List<Update> getUpdates() {
+        return mUpdates;
+    }
+
+    public void addUpdate(Update update) {
+        mUpdates.add(update);
     }
 }

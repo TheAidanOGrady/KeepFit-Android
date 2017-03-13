@@ -7,8 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.aidanogrady.keepfit.data.model.Goal;
 import com.aidanogrady.keepfit.data.model.History;
+import com.aidanogrady.keepfit.data.model.Update;
 import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.HistoryDataSource;
+import com.aidanogrady.keepfit.data.source.UpdatesDataSource;
 import com.aidanogrady.keepfit.data.source.local.HistoryPersistenceContract.HistoryEntry;
 
 import java.util.ArrayList;
@@ -27,9 +29,14 @@ public class HistoryLocalDataSource implements HistoryDataSource {
     private static HistoryLocalDataSource sInstance;
 
     /**
-     * The data data source for goals.
+     * The data source for goals.
      */
-    private GoalsDataSource mGoalsLocalDataSource;
+    private GoalsDataSource mGoalsDataSource;
+
+    /**
+     * The data source for updates, used to retrieve updates of a given day.
+     */
+    private UpdatesDataSource mUpdatesDataSource;
 
     /**
      * The db helper.
@@ -45,7 +52,8 @@ public class HistoryLocalDataSource implements HistoryDataSource {
      */
     private HistoryLocalDataSource(Context context) {
         mDbHelper = KeepFitDbHelper.getInstance(context);
-        mGoalsLocalDataSource = GoalsLocalDataSource.getInstance(context);
+        mGoalsDataSource = GoalsLocalDataSource.getInstance(context);
+        mUpdatesDataSource = UpdatesLocalDataSource.getInstance(context);
     }
 
 
@@ -75,22 +83,15 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         Cursor c = db.query(HistoryEntry.TABLE_NAME, projection, null, null, null, null, null);
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
-                int date = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
-                String goalId = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
-                int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_STEPS));
-                mGoalsLocalDataSource.getGoal(goalId, new GoalsDataSource.GetGoalCallback() {
-                    @Override
-                    public void onGoalLoaded(Goal goal) {
-                        History history = new History(date, goal, steps);
-                        histories.add(history);
-                    }
 
-                    @Override
-                    public void onDataNotAvailable() {
-                        History history = new History(date, null, steps);
-                        histories.add(history);
-                    }
-                });
+                String goalId = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
+                int date = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
+                int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_STEPS));
+                Goal goal = getGoalWithId(goalId);
+                List<Update> updates = getUpdatesWithDate(date);
+
+                History history = new History(date, goal, steps, updates);
+                histories.add(history);
             }
         }
 
@@ -108,7 +109,7 @@ public class HistoryLocalDataSource implements HistoryDataSource {
     }
 
     @Override
-    public void getHistory(int date, GetHistoryCallback callback) {
+    public void getHistory(long date, GetHistoryCallback callback) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -123,25 +124,16 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         Cursor c = db.query(
                 HistoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
-        // TODO find better method of dealing with inner class
-        final History[] history = new History[1];
-
+        History history = null;
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
-            int date_ = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
             String goalId = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
+            Goal goal = getGoalWithId(goalId);
+            int date_ = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
             int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_STEPS));
-            mGoalsLocalDataSource.getGoal(goalId, new GoalsDataSource.GetGoalCallback() {
-                @Override
-                public void onGoalLoaded(Goal goal) {
-                    history[0] = new History(date_, goal, steps);
-                }
+            List<Update> updates = getUpdatesWithDate(date_);
 
-                @Override
-                public void onDataNotAvailable() {
-                    history[0] = new History(date_, null, steps);
-                }
-            });
+            history = new History(date, goal, steps, updates);
         }
 
         if (c != null) {
@@ -149,12 +141,11 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         }
         db.close();
 
-
-        if (history[0] == null) {
+        if (history == null) {
             callback.onDataNotAvailable();
         }
         else {
-            callback.onHistoryLoaded(history[0]);
+            callback.onHistoryLoaded(history);
         }
     }
 
@@ -183,11 +174,56 @@ public class HistoryLocalDataSource implements HistoryDataSource {
     }
 
     @Override
-    public void deleteHistory(int date) {
+    public void deleteHistory(long date) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         String selection = HistoryEntry.COLUMN_NAME_DATE + " LIKE ?";
         String[] selectionArgs = { String.valueOf(date) };
         db.delete(HistoryEntry.TABLE_NAME, selection, selectionArgs);
         db.close();
+    }
+
+    /**
+     * Returns the goal with the given ID from the goals local source.
+     *
+     * @param id the id of the goal being searched for
+     * @return goal if exists, otherwise null
+     */
+    private Goal getGoalWithId(String id) {
+        final Goal[] goals = new Goal[1]; // Final workaround
+        mGoalsDataSource.getGoal(id, new GoalsDataSource.GetGoalCallback() {
+            @Override
+            public void onGoalLoaded(Goal goal) {
+                goals[0] = goal;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                goals[0] = null;
+            }
+        });
+
+        return goals[0];
+    }
+
+    /**
+     * Returns a list of updates from the given date.
+     *
+     * @param date the date being searched for
+     * @return list of updates with that date, empty list if none exist
+     */
+    private List<Update> getUpdatesWithDate(long date) {
+        final List<Update> fUpdates = new ArrayList<>();
+        mUpdatesDataSource.getUpdatesForDate(date, new UpdatesDataSource.LoadUpdatesCallback() {
+            @Override
+            public void onUpdatesLoaded(List<Update> updates) {
+                fUpdates.addAll(updates);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                fUpdates.clear();
+            }
+        });
+        return fUpdates;
     }
 }

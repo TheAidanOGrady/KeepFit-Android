@@ -30,7 +30,7 @@ public class UpdatesRepository implements UpdatesDataSource {
     /**
      * Cache of Updates obtained from the database.
      */
-    private Multimap<Integer, Update> mCachedUpdates;
+    private Multimap<Long, Update> mCachedUpdates;
 
     /**
      * Flag for indicating cache is invalid, to force updates next time data is requested.
@@ -84,7 +84,7 @@ public class UpdatesRepository implements UpdatesDataSource {
     }
 
     @Override
-    public void getUpdatesForDate(final int date, final LoadUpdatesCallback callback) {
+    public void getUpdatesForDate(final long date, final LoadUpdatesCallback callback) {
         List<Update> updates = getUpdatesWithDate(date);
         if (updates != null) {
             callback.onUpdatesLoaded(updates);
@@ -148,7 +148,7 @@ public class UpdatesRepository implements UpdatesDataSource {
      * @param date the being searched for
      * @return update if it is found in cache, otherwise null
      */
-    private List<Update> getUpdatesWithDate(int date) {
+    private List<Update> getUpdatesWithDate(long date) {
         if (mCachedUpdates == null || mCachedUpdates.isEmpty()) {
             return null;
         } else {

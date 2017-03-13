@@ -43,7 +43,7 @@ public interface HistoryDataSource extends DataSource {
      * @param date the date of the history
      * @param callback the callback to enact when history is retrieved.
      */
-    void getHistory(int date, GetHistoryCallback callback);
+    void getHistory(long date, GetHistoryCallback callback);
 
     /**
      * Inserts this history to the data source.
@@ -67,5 +67,5 @@ public interface HistoryDataSource extends DataSource {
      *
      * @param date the history to be deleted from data source.
      */
-    void deleteHistory(int date);
+    void deleteHistory(long date);
 }

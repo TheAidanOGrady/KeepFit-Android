@@ -12,7 +12,7 @@ public class Update {
     /**
      * The date of the update.
      */
-    private int mDate;
+    private long mDate;
 
     /**
      * The time of the update.
@@ -32,7 +32,7 @@ public class Update {
      * @param time the time of this update
      * @param steps the number of steps of this update
      */
-    public Update(int date, long time, int steps) {
+    public Update(long date, long time, int steps) {
         this.mDate = date;
         this.mTime = time;
         this.mSteps = steps;
@@ -44,7 +44,7 @@ public class Update {
      *
      * @return the epoch days of this update
      */
-    public int getDate() {
+    public long getDate() {
         return mDate;
     }
 
