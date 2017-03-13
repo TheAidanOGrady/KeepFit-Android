@@ -99,6 +99,14 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            mPresenter.loadHistory(true);
+        }
+    }
+
+    @Override
     public void setPresenter(HistoryContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -135,7 +143,6 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
     public boolean isActive() {
         return false;
     }
-
 
     /**
      * The adapter for the history recycler view, handling the updating of the display as the

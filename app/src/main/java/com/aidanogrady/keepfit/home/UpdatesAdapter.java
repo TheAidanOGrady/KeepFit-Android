@@ -74,7 +74,6 @@ class UpdatesAdapter extends RecyclerView.Adapter<UpdatesAdapter.UpdateViewHolde
     @Override
     public void onBindViewHolder(UpdateViewHolder holder, int position) {
         Update update = mUpdates.get(position);
-        System.out.println(update.getSteps());
         LocalTime time = LocalTime.ofSecondOfDay(update.getTime());
         String timeString = time.toString();
         String stepsString = String.format(Locale.getDefault(), "%d", update.getSteps());
