@@ -18,6 +18,11 @@ class AddEditGoalContract {
         void showEmptyGoalError();
 
         /**
+         * Displays an error when the goal name is already taken.
+         */
+        void showNameExistsError();
+
+        /**
          * Shows the list of goals.
          */
         void showGoalsList();

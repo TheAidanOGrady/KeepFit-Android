@@ -7,6 +7,9 @@ import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.GoalsRepository;
 import com.google.common.base.Strings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The AddEditGoalPresenter listens for user actions from UI, retrieves data and updates UI as
  * required.
@@ -138,6 +141,24 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
     private void updateGoal(String name, int steps) {
         if (isNewGoal()) {
             throw new RuntimeException("updateGoal() was called but task is new");
+        }
+
+        List<String> names = new ArrayList<>();
+        mGoalsRepository.getGoals(new GoalsDataSource.LoadGoalsCallback() {
+            @Override
+            public void onGoalsLoaded(List<Goal> goals) {
+                for (Goal goal: goals)
+                    names.add(goal.getName());
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+
+        if (names.contains(name)) {
+            mAddEditGoalView.showNameExistsError();
         }
         if (Strings.isNullOrEmpty(name) || steps < 1) {
             mAddEditGoalView.showEmptyGoalError();

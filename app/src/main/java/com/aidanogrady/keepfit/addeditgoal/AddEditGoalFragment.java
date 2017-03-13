@@ -119,6 +119,12 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     }
 
     @Override
+    public void showNameExistsError() {
+        Snackbar.make(mName, "The name you entered is used by another goal", Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
     public void showEmptyGoalError() {
         Snackbar.make(mName, "Please provide goal name and steps", Snackbar.LENGTH_LONG).show();
     }
