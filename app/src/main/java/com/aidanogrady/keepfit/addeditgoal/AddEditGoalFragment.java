@@ -108,7 +108,7 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
             default:
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.aidanogrady.keepfit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.aidanogrady.keepfit.goals.GoalsFragment;
@@ -19,6 +22,7 @@ import com.aidanogrady.keepfit.history.HistoryFragment;
 import com.aidanogrady.keepfit.history.HistoryPresenter;
 import com.aidanogrady.keepfit.home.HomeFragment;
 import com.aidanogrady.keepfit.home.HomePresenter;
+import com.aidanogrady.keepfit.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +54,29 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(4);
         tabLayout.setupWithViewPager(viewPager);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Shows the preferences screen.
+     *
+     * @param item the menu item that triggered this method
+     */
+    public void showSettings(MenuItem item) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
 
     /**
      * The KeepFitPagerAdapter handles the switching between tabs within the app.

@@ -34,7 +34,13 @@
     <string name="no_goals_error">There are no goals to select from</string>
     <string name="add_steps">Add Steps</string>
     <string name="how_many_steps">No. of steps</string>
+
+    <!-- Settings -->
+    <string name="clear_history_title">Clear History</string>
+
+    <!-- OK and Cancel -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

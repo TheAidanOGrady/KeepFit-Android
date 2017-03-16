@@ -47,7 +47,6 @@ public class AddEditGoalActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
         }
 
         AddEditGoalFragment addEditGoalFragment = (AddEditGoalFragment)
@@ -74,11 +73,5 @@ public class AddEditGoalActivity extends AppCompatActivity {
         // Create presenter
         mPresenter = new AddEditGoalPresenter(getApplicationContext(), addEditGoalFragment, goalId);
         addEditGoalFragment.setPresenter(mPresenter);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 }

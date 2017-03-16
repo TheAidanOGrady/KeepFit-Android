@@ -74,6 +74,7 @@ public class HomePresenter implements HomeContract.Presenter {
             date = today;
         }
 
+        System.out.println(date);
         mHistoryRepository.getHistory(date, new HistoryDataSource.GetHistoryCallback() {
             @Override
             public void onHistoryLoaded(History history) {

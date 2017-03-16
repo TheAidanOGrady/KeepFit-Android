@@ -98,6 +98,14 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && mHomeCardView != null) {
+            mPresenter.loadProgress();
+        }
+    }
+
+    @Override
     public void setPresenter(HomeContract.Presenter presenter) {
         mPresenter = presenter;
     }

@@ -159,8 +159,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
 
         if (names.contains(name)) {
             mAddEditGoalView.showNameExistsError();
-        }
-        if (Strings.isNullOrEmpty(name) || steps < 1) {
+        } else if (Strings.isNullOrEmpty(name) || steps < 1) {
             mAddEditGoalView.showEmptyGoalError();
         } else {
             mGoalsRepository.updateGoal(new Goal(name, steps), mGoalId);
