@@ -3,6 +3,8 @@ package com.aidanogrady.keepfit.addeditgoal;
 import android.content.Context;
 
 import com.aidanogrady.keepfit.data.model.Goal;
+import com.aidanogrady.keepfit.data.model.units.Unit;
+import com.aidanogrady.keepfit.data.model.units.UnitsConverter;
 import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.GoalsRepository;
 import com.google.common.base.Strings;
@@ -61,11 +63,12 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
     }
 
     @Override
-    public void saveGoal(String name, int steps) {
+    public void saveGoal(String name, int steps, String unitName) {
+        Unit unit = Unit.valueOf(unitName);
         if (isNewGoal()) {
-            createGoal(name, steps);
+            createGoal(name, steps, unit);
         } else {
-            updateGoal(name, steps);
+            updateGoal(name, steps, unit);
         }
     }
 
@@ -75,6 +78,11 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
             throw new RuntimeException("populateGoal() was called but goal was new");
         }
         mGoalsRepository.getGoal(mGoalId, this);
+    }
+
+    @Override
+    public void populateUnits() {
+        mAddEditGoalView.setUnits(UnitsConverter.AVAILABLE_UNIT_NAMES);
     }
 
     @Override
@@ -95,7 +103,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
     public void onGoalLoaded(Goal goal) {
         if (mAddEditGoalView.isActive()) {
             mAddEditGoalView.setName(goal.getName());
-            mAddEditGoalView.setSteps(goal.getSteps());
+            mAddEditGoalView.setSteps(goal.getDistance());
         }
         mIsDataMissing = false;
     }
@@ -121,12 +129,13 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
      *
      * @param name the name of the goal to be added
      * @param steps the number of steps of the goal to be added
+     * @param unit the unit to be saved
      */
-    private void createGoal(String name, int steps) {
+    private void createGoal(String name, int steps, Unit unit) {
         if (Strings.isNullOrEmpty(name) || steps < 1) {
             mAddEditGoalView.showEmptyGoalError();
         } else {
-            Goal goal = new Goal(name, steps);
+            Goal goal = new Goal(name, steps, unit);
             mGoalsRepository.insertGoal(goal);
             mAddEditGoalView.showGoalsList();
         }
@@ -137,8 +146,9 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
      *
      * @param name the name of the goal to be added
      * @param steps the number of steps of the goal to be added
+     * @param unit the unit to be saved
      */
-    private void updateGoal(String name, int steps) {
+    private void updateGoal(String name, int steps, Unit unit) {
         if (isNewGoal()) {
             throw new RuntimeException("updateGoal() was called but task is new");
         }
@@ -157,12 +167,12 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
             }
         });
 
-        if (names.contains(name)) {
+        if (names.contains(name) && isNewGoal()) {
             mAddEditGoalView.showNameExistsError();
         } else if (Strings.isNullOrEmpty(name) || steps < 1) {
             mAddEditGoalView.showEmptyGoalError();
         } else {
-            mGoalsRepository.updateGoal(new Goal(name, steps), mGoalId);
+            mGoalsRepository.updateGoal(new Goal(name, steps, unit), mGoalId);
             mAddEditGoalView.showGoalsList();
         }
     }

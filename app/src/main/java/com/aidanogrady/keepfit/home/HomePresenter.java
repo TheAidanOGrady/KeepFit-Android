@@ -73,8 +73,7 @@ public class HomePresenter implements HomeContract.Presenter {
         } else {
             date = today;
         }
-
-        System.out.println(date);
+        
         mHistoryRepository.getHistory(date, new HistoryDataSource.GetHistoryCallback() {
             @Override
             public void onHistoryLoaded(History history) {
@@ -118,18 +117,20 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadProgress() {
+        Goal goal = mCurrentHistory.getGoal();
+
         mHomeView.setCurrentDate(mCurrentHistory.getDate());
         mHomeView.showUpdates(mCurrentHistory.getUpdates());
-        if (mCurrentHistory.getGoal() == null) {
+        if (goal == null) {
             mHomeView.setCurrentGoal("No goal selected");
-            mHomeView.setCurrentProgress(0, 0);
+            mHomeView.setCurrentProgress(0, 0, "");
             mHomeView.setCurrentPercentage(-1);
         } else {
-            mHomeView.setCurrentGoal(mCurrentHistory.getGoal().getName());
+            mHomeView.setCurrentGoal(goal.getName());
             int current = mCurrentHistory.getSteps();
-            int target = mCurrentHistory.getGoal().getSteps();
+            int target = goal.getDistance();
             int percentage = (current * 100) / target;
-            mHomeView.setCurrentProgress(current, target);
+            mHomeView.setCurrentProgress(current, target, goal.getUnit().toString());
             mHomeView.setCurrentPercentage(percentage);
         }
     }
@@ -145,7 +146,6 @@ public class HomePresenter implements HomeContract.Presenter {
 
             @Override
             public void onDataNotAvailable() {
-                System.out.println("This shouldn't have happened");
             }
         });
     }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.aidanogrady.keepfit.data.model.Goal;
+import com.aidanogrady.keepfit.data.model.units.Unit;
 import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.local.GoalsPersistenceContract.GoalEntry;
 
@@ -29,6 +30,11 @@ public class GoalsLocalDataSource implements GoalsDataSource {
      */
     private KeepFitDbHelper mDbHelper;
 
+    /**
+     * The units enum.
+     */
+    private Unit[] mUnits;
+
 
     /**
      * Constructs a new GoalsLocalDataSource. The constructor is private to ensure singleton is
@@ -38,6 +44,7 @@ public class GoalsLocalDataSource implements GoalsDataSource {
      */
     private GoalsLocalDataSource(Context context) {
         mDbHelper = KeepFitDbHelper.getInstance(context);
+        mUnits = Unit.values();
     }
 
 
@@ -62,7 +69,8 @@ public class GoalsLocalDataSource implements GoalsDataSource {
         String[] projection = {
                 GoalEntry.COLUMN_NAME_ID,
                 GoalEntry.COLUMN_NAME_NAME,
-                GoalEntry.COLUMN_NAME_STEPS,
+                GoalEntry.COLUMN_NAME_DISTANCE,
+                GoalEntry.COLUMN_NAME_UNIT,
                 GoalEntry.COLUMN_NAME_LAST_ACHIEVED
         };
 
@@ -71,9 +79,10 @@ public class GoalsLocalDataSource implements GoalsDataSource {
             while (c.moveToNext()) {
                 String goalId = c.getString(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_ID));
                 String name = c.getString(c.getColumnIndex(GoalEntry.COLUMN_NAME_NAME));
-                int steps = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_STEPS));
+                int distance = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_DISTANCE));
+                Unit unit = mUnits[c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_UNIT))];
                 int last = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_LAST_ACHIEVED));
-                Goal goal = new Goal(goalId, name, steps, last);
+                Goal goal = new Goal(goalId, name, distance, unit, last);
                 goals.add(goal);
             }
         }
@@ -98,7 +107,8 @@ public class GoalsLocalDataSource implements GoalsDataSource {
         String[] projection = {
                 GoalEntry.COLUMN_NAME_ID,
                 GoalEntry.COLUMN_NAME_NAME,
-                GoalEntry.COLUMN_NAME_STEPS,
+                GoalEntry.COLUMN_NAME_DISTANCE,
+                GoalEntry.COLUMN_NAME_UNIT,
                 GoalEntry.COLUMN_NAME_LAST_ACHIEVED
         };
 
@@ -112,9 +122,10 @@ public class GoalsLocalDataSource implements GoalsDataSource {
             c.moveToFirst();
             String goalId = c.getString(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_ID));
             String name = c.getString(c.getColumnIndex(GoalEntry.COLUMN_NAME_NAME));
-            int steps = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_STEPS));
+            int distance = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_DISTANCE));
+            Unit unit = mUnits[c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_UNIT))];
             int last = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_LAST_ACHIEVED));
-            goal = new Goal(goalId, name, steps, last);
+            goal = new Goal(goalId, name, distance, unit, last);
         }
 
         if (c != null) {
@@ -132,12 +143,15 @@ public class GoalsLocalDataSource implements GoalsDataSource {
 
     @Override
     public void insertGoal(Goal goal) {
+        System.out.println(goal.getUnit().toString());
+        System.out.println(goal.getUnit().ordinal());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(GoalEntry.COLUMN_NAME_ID, goal.getId());
         values.put(GoalEntry.COLUMN_NAME_NAME, goal.getName());
-        values.put(GoalEntry.COLUMN_NAME_STEPS, goal.getSteps());
+        values.put(GoalEntry.COLUMN_NAME_DISTANCE, goal.getDistance());
+        values.put(GoalEntry.COLUMN_NAME_UNIT, goal.getUnit().ordinal());
         values.put(GoalEntry.COLUMN_NAME_LAST_ACHIEVED, goal.getLastAchieved());
 
         db.insertOrThrow(GoalEntry.TABLE_NAME, null, values);
@@ -146,12 +160,14 @@ public class GoalsLocalDataSource implements GoalsDataSource {
 
     @Override
     public void updateGoal(Goal goal, String oldId) {
+        System.out.println(goal.getUnit().toString());
+        System.out.println(goal.getUnit().ordinal());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(GoalEntry.COLUMN_NAME_ID, goal.getId());
         values.put(GoalEntry.COLUMN_NAME_NAME, goal.getName());
-        values.put(GoalEntry.COLUMN_NAME_STEPS, goal.getSteps());
+        values.put(GoalEntry.COLUMN_NAME_DISTANCE, goal.getDistance());
+        values.put(GoalEntry.COLUMN_NAME_UNIT, goal.getUnit().ordinal());
         values.put(GoalEntry.COLUMN_NAME_LAST_ACHIEVED, goal.getLastAchieved());
 
         String where = GoalEntry.COLUMN_NAME_ID + " LIKE ?";

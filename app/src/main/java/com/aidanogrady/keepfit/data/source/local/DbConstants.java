@@ -18,6 +18,11 @@ class DbConstants {
     static final String INTEGER_TYPE = " INTEGER";
 
     /**
+     * The string used for indicating the column is of Real type.
+     */
+    static final String REAL_TYPE = " REAL";
+
+    /**
      * Comma separator.
      */
     static final String SEP = ",";

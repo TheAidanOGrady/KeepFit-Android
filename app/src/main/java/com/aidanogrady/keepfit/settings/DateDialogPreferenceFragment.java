@@ -42,7 +42,6 @@ public class DateDialogPreferenceFragment extends PreferenceDialogFragmentCompat
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
-        System.out.println("Derp");
 
         mDatePicker = (DatePicker) view.findViewById(R.id.date);
         if (mDatePicker == null) {
@@ -55,15 +54,12 @@ public class DateDialogPreferenceFragment extends PreferenceDialogFragmentCompat
             longDate = ((DateDialogPreference) preference).getDate();
         }
 
-        System.out.println(longDate);
         LocalDate date;
         if (longDate != null) {
             date = LocalDate.ofEpochDay(longDate);
         } else {
             date = LocalDate.now();
         }
-        System.out.println("Setting date picker date");
-        System.out.println(date);
         mDatePicker.updateDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
     }
 

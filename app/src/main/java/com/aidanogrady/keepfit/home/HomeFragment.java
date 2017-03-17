@@ -124,13 +124,13 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void setCurrentProgress(int currentSteps, int targetSteps) {
+    public void setCurrentProgress(int currentSteps, int targetSteps, String unitName) {
         TextView progressTextView = (TextView) mHomeCardView.findViewById(R.id.progress);
 
         if (currentSteps < 0 || targetSteps < 1) {
             progressTextView.setVisibility(View.INVISIBLE);
         } else {
-            String progress = currentSteps + " / " + targetSteps + " steps";
+            String progress = currentSteps + " / " + targetSteps + " " + unitName;
             progressTextView.setVisibility(View.VISIBLE);
             progressTextView.setText(progress);
         }

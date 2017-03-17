@@ -3,7 +3,6 @@ package com.aidanogrady.keepfit.goals;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -237,10 +236,10 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
             textView.setText(dateString);
 
             textView = holder.stepsTextView;
-            textView.setText(String.format(Locale.getDefault(), "%d", goal.getSteps()));
+            textView.setText(String.format(Locale.getDefault(), "%d", goal.getDistance()));
 
             textView = holder.stepsUnitTextView;
-            textView.setText(R.string.steps);
+            textView.setText(goal.getUnit().toString());
 
             holder.itemView.setOnClickListener(view -> mGoalItemListener.onGoalClick(goal));
         }

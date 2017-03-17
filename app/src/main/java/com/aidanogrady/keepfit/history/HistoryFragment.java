@@ -199,19 +199,24 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
 
             LocalDate localDate = LocalDate.ofEpochDay(history.getDate());
             holder.dateTextView.setText(localDate.toString());
-            holder.stepsTextView.setText(String.format(Locale.getDefault(), "%d",
-                    history.getSteps()));
 
             if (goal != null) {
                 holder.iconTextView.setText(Character.toString(goal.getName().charAt(0)));
                 holder.goalTextView.setText(goal.getName());
+
+                String progress = history.getSteps() + " / " + goal.getDistance() + " " +
+                        goal.getUnit().toString();
+                holder.stepsTextView.setText(progress);
+
                 holder.percentageTextView.setText(
                         String.format(Locale.getDefault(), "%d %%",
-                                history.getSteps() * 100 / goal.getSteps())
+                                history.getSteps() * 100 / goal.getDistance())
                 );
             } else {
                 holder.goalTextView.setText(R.string.goal_not_found);
                 holder.percentageTextView.setText("?? %");
+                holder.stepsTextView.setText(String.format(Locale.getDefault(), "%d",
+                        history.getSteps()));
             }
         }
 

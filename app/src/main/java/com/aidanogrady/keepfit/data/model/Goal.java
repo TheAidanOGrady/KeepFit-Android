@@ -1,5 +1,7 @@
 package com.aidanogrady.keepfit.data.model;
 
+import com.aidanogrady.keepfit.data.model.units.Unit;
+
 import java.util.UUID;
 
 /**
@@ -21,9 +23,14 @@ public class Goal {
     private String mName;
 
     /**
-     * The number of steps for this goal.
+     * The distance to walk for this goal.
      */
-    private int mSteps;
+    private int mDistance;
+
+    /**
+     * The unit of distance for this goal.
+     */
+    private Unit mUnit;
 
     /**
      * The number of days since this goal was last achieved.
@@ -35,10 +42,10 @@ public class Goal {
      * Constructs a new Goal. Use this constructor for brand new goals.
      *
      * @param name the name of the goal
-     * @param steps then umber of steps to achieve this goal
+     * @param distance then distance required to achieve this goal
      */
-    public Goal(String name, int steps) {
-        this(UUID.randomUUID().toString(), name, steps, -1);
+    public Goal(String name, int distance, Unit unit) {
+        this(UUID.randomUUID().toString(), name, distance, unit,  -1);
     }
 
     /**
@@ -47,12 +54,13 @@ public class Goal {
      *
      * @param id the id of the new goal
      * @param name the name of the new goal
-     * @param steps the number of steps required to achieve the new goal
+     * @param distance the distance required to achieve the new goal
      */
-    public Goal(String id, String name, int steps, int lastAchieved) {
+    public Goal(String id, String name, int distance, Unit unit, int lastAchieved) {
         this.mId = id;
         this.mName = name;
-        this.mSteps = steps;
+        this.mDistance = distance;
+        this.mUnit = unit;
         this.mLastAchieved = lastAchieved;
     }
 
@@ -80,8 +88,15 @@ public class Goal {
      *
      * @return steps
      */
-    public int getSteps() {
-        return mSteps;
+    public int getDistance() {
+        return mDistance;
+    }
+
+    /**
+     * Returns the unit of distance for this goal.
+     */
+    public Unit getUnit() {
+        return mUnit;
     }
 
     /**
@@ -95,7 +110,7 @@ public class Goal {
 
     @Override
     public String toString() {
-        return mName + " (" + mSteps + " steps)";
+        return mName + " (" + mDistance + " steps)";
     }
 
     /**

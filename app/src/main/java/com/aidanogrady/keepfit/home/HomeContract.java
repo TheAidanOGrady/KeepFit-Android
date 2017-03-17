@@ -39,8 +39,9 @@ public class HomeContract {
          *
          * @param currentSteps the number of steps worked so far, -1 if no goal is set
          * @param targetSteps the target of this goal, 0 if no goal is set
+         * @param unitName the name of the unit to be displayed
          */
-        void setCurrentProgress(int currentSteps, int targetSteps);
+        void setCurrentProgress(int currentSteps, int targetSteps, String unitName);
 
         /**
          * Sets the percentage representation of the progress thus far,

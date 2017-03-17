@@ -19,7 +19,8 @@ class GoalsPersistenceContract {
         static final String TABLE_NAME = "goal";
         static final String COLUMN_NAME_ID = "uuid";
         static final String COLUMN_NAME_NAME = "name";
-        static final String COLUMN_NAME_STEPS = "steps";
+        static final String COLUMN_NAME_DISTANCE = "distance";
+        static final String COLUMN_NAME_UNIT= "unit";
         static final String COLUMN_NAME_LAST_ACHIEVED = "last_achieved";
     }
 
@@ -37,7 +38,9 @@ class GoalsPersistenceContract {
                 DbConstants.SEP +
                 GoalEntry.COLUMN_NAME_NAME + DbConstants.TEXT_TYPE + DbConstants.UNIQUE +
                 DbConstants.SEP +
-                GoalEntry.COLUMN_NAME_STEPS + DbConstants.INTEGER_TYPE +
+                GoalEntry.COLUMN_NAME_DISTANCE + DbConstants.REAL_TYPE +
+                DbConstants.SEP +
+                GoalEntry.COLUMN_NAME_UNIT + DbConstants.INTEGER_TYPE +
                 DbConstants.SEP +
                 GoalEntry.COLUMN_NAME_LAST_ACHIEVED + DbConstants.INTEGER_TYPE + " )";
     }

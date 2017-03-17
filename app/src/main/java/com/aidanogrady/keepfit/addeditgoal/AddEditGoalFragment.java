@@ -10,6 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aidanogrady.keepfit.R;
@@ -44,6 +46,11 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     private TextView mSteps;
 
     /**
+     * The spinner displaying available units.
+     */
+    private Spinner mUnitSpinner;
+
+    /**
      * Is a new goal being created or an existing one being added?
      */
     private boolean mIsNewGoal;
@@ -75,9 +82,11 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
         } else {
             mIsNewGoal = true;
         }
+
         View root = inflater.inflate(R.layout.fragment_add_edit_goal, container, false);
         mName = (TextView) root.findViewById(R.id.goal_name);
         mSteps = (TextView) root.findViewById(R.id.goal_steps);
+        mUnitSpinner = (Spinner) root.findViewById(R.id.unit_spinner);
         setHasOptionsMenu(true);
         return root;
     }
@@ -103,7 +112,8 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
                 String name = mName.getText().toString();
                 String stepsString = mSteps.getText().toString();
                 int steps = Strings.isNullOrEmpty(stepsString) ? 0 : Integer.valueOf(stepsString);
-                mPresenter.saveGoal(name, steps);
+                String unitName = mUnitSpinner.getSelectedItem().toString();
+                mPresenter.saveGoal(name, steps, unitName);
                 break;
             default:
                 break;
@@ -114,8 +124,10 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     @Override
     public void onResume() {
         super.onResume();
-        if (!mIsNewGoal)
+        if (!mIsNewGoal) {
             mPresenter.populateGoal();
+        }
+        mPresenter.populateUnits();
     }
 
     @Override
@@ -143,6 +155,17 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     @Override
     public void setSteps(int steps) {
         mSteps.setText(String.valueOf(steps));
+    }
+
+    @Override
+    public void setUnits(String[] units) {
+        if (mUnitSpinner != null) {
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(
+                    getActivity(), android.R.layout.simple_spinner_item, units
+            );
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mUnitSpinner.setAdapter(adapter);
+        }
     }
 
     @Override

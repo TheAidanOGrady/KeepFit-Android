@@ -16,7 +16,7 @@
 
     <!-- Goal editor strings -->
     <string name="enter_goal_name">Goal name</string>
-    <string name="enter_goal_steps">No. of steps</string>
+    <string name="enter_goal_distance">Distance</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
 
