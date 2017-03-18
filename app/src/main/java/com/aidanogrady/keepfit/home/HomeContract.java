@@ -112,6 +112,10 @@ public class HomeContract {
          * Allows the user to set the current goal.
          */
         void setGoal();
-    }
 
+        /**
+         * Sets the current history, in the event that the history database has been cleared.
+         */
+        void loadCurrent();
+    }
 }

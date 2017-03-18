@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -86,7 +85,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mUpdatesView.setLayoutManager(layoutManager);
 
-
         Button button = (Button) root.findViewById(R.id.set_goal);
         button.setOnClickListener(view -> mPresenter.setGoal());
 
@@ -98,6 +96,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void onResume() {
         super.onResume();
+        mPresenter.loadCurrent();
         mPresenter.loadProgress();
     }
 
@@ -105,6 +104,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && mHomeCardView != null) {
+            mPresenter.loadCurrent();
             mPresenter.loadProgress();
         }
     }

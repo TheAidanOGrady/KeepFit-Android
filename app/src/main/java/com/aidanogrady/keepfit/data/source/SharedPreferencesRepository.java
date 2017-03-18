@@ -2,6 +2,7 @@ package com.aidanogrady.keepfit.data.source;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 
 /**
@@ -28,9 +29,14 @@ public class SharedPreferencesRepository implements PreferenceRepository {
      * is maintained.
      *
      * @param context the context required to retrieve shared preferences.
+     * @param listeners  the listeners to be registered.
      */
-    private SharedPreferencesRepository(Context context) {
+    private SharedPreferencesRepository(Context context,
+                                        OnSharedPreferenceChangeListener[] listeners) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        for (OnSharedPreferenceChangeListener listener: listeners) {
+            mSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+        }
     }
 
 
@@ -38,9 +44,10 @@ public class SharedPreferencesRepository implements PreferenceRepository {
      * Makes a new instance of the singleton.
      *
      * @param context the context
+     * @param listeners the listeners for the shared preferences
      */
-    public static void makeInstance(Context context) {
-        sInstance = new SharedPreferencesRepository(context);
+    public static void makeInstance(Context context, OnSharedPreferenceChangeListener[] listeners) {
+        sInstance = new SharedPreferencesRepository(context, listeners);
     }
 
     /**
@@ -105,6 +112,7 @@ public class SharedPreferencesRepository implements PreferenceRepository {
 
     @Override
     public double getStepsToMetres() {
-        return mSharedPreferences.getLong("metersPerStep", Double.doubleToLongBits(1.5));
+        String value = mSharedPreferences.getString("stepsPerMetre", "1.5");
+        return Double.valueOf(value);
     }
 }

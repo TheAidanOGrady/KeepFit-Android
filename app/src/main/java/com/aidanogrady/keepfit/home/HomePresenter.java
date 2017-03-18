@@ -1,8 +1,6 @@
 package com.aidanogrady.keepfit.home;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v4.util.Pair;
 
 import com.aidanogrady.keepfit.data.model.Goal;
@@ -16,12 +14,9 @@ import com.aidanogrady.keepfit.data.source.HistoryDataSource;
 import com.aidanogrady.keepfit.data.source.HistoryRepository;
 import com.aidanogrady.keepfit.data.source.SharedPreferencesRepository;
 import com.aidanogrady.keepfit.data.source.UpdatesRepository;
-import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
-import org.threeten.bp.ZoneId;
 import org.threeten.bp.temporal.ChronoUnit;
 
 import java.util.ArrayList;
@@ -68,28 +63,7 @@ public class HomePresenter implements HomeContract.Presenter {
         this.mHomeView.setPresenter(this);
 
         // Get number of days since epoch
-        LocalDate epoch = LocalDate.ofEpochDay(0);
-        LocalDate now = LocalDate.now();
-        long today = ChronoUnit.DAYS.between(epoch, now);
-
-        long date;
-        if (SharedPreferencesRepository.isTestModeEnabled()) {
-            date = SharedPreferencesRepository.getTestModeDate();
-        } else {
-            date = today;
-        }
-
-        mHistoryRepository.getHistory(date, new HistoryDataSource.GetHistoryCallback() {
-            @Override
-            public void onHistoryLoaded(History history) {
-                mCurrentHistory = history;
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                mCurrentHistory = new History(date);
-            }
-        });
+        loadCurrent();
     }
 
     @Override
@@ -113,6 +87,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
         Unit unit = Unit.valueOf(unitStr);
         Update update = new Update(date, time, dist, unit);
+        System.out.println("User input: ");
         double distance = UnitsConverter.convert(mCurrentHistory.getGoal().getUnit(), unit, dist);
 
         mCurrentHistory.setSteps(mCurrentHistory.getDistance() + distance);
@@ -149,6 +124,12 @@ public class HomePresenter implements HomeContract.Presenter {
             @Override
             public void onGoalLoaded(Goal goal) {
                 mCurrentHistory.setGoal(goal);
+                double newDist = 0.0;
+                Unit unit = goal.getUnit();
+                for (Update update: mCurrentHistory.getUpdates()) {
+                    newDist += UnitsConverter.convert(unit, update.getUnit(), update.getDistance());
+                }
+                mCurrentHistory.setSteps(newDist);
                 loadProgress();
             }
 
@@ -180,6 +161,36 @@ public class HomePresenter implements HomeContract.Presenter {
             @Override
             public void onDataNotAvailable() {
                 mHomeView.showNoGoalsMessage();
+            }
+        });
+    }
+
+    @Override
+    public void loadCurrent() {
+        LocalDate epoch = LocalDate.ofEpochDay(0);
+        LocalDate now = LocalDate.now();
+        long today = ChronoUnit.DAYS.between(epoch, now);
+
+        long date;
+        if (SharedPreferencesRepository.isTestModeEnabled()) {
+            date = SharedPreferencesRepository.getTestModeDate();
+        } else {
+            date = today;
+        }
+
+        mHistoryRepository.getHistory(date, new HistoryDataSource.GetHistoryCallback() {
+            @Override
+            public void onHistoryLoaded(History history) {
+                mCurrentHistory = history;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                if (mCurrentHistory != null && mCurrentHistory.getDistance() > 0) {
+                    mCurrentHistory = new History(date);
+                } else if (mCurrentHistory == null) {
+                    mCurrentHistory = new History(date);
+                }
             }
         });
     }

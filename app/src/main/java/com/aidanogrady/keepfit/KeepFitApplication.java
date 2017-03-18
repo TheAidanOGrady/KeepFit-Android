@@ -1,9 +1,12 @@
 package com.aidanogrady.keepfit;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
+import com.aidanogrady.keepfit.data.model.units.Unit;
 import com.aidanogrady.keepfit.data.model.units.UnitsConverter;
 import com.aidanogrady.keepfit.data.source.SharedPreferencesRepository;
+import com.aidanogrady.keepfit.settings.StepMetreChangeListener;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 /**
@@ -17,7 +20,10 @@ public class KeepFitApplication extends Application {
     public void onCreate() {
         super.onCreate();
         AndroidThreeTen.init(this);
-        SharedPreferencesRepository.makeInstance(getApplicationContext());
+
+        SharedPreferences.OnSharedPreferenceChangeListener[] listeners =
+                {new StepMetreChangeListener()};
+        SharedPreferencesRepository.makeInstance(getApplicationContext(), listeners);
         UnitsConverter.setSteps(SharedPreferencesRepository.getStepsPerMetre());
     }
 }

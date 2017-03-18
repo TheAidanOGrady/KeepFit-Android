@@ -50,10 +50,10 @@ public class DateDialogPreference extends DialogPreference {
      *
      * @param ctx the context of this dialog preference.
      * @param attrs the attribute set to be added to this preference
-     * @param prefStyle the style of the preference
+     * @param defStyleAttr the style of the preference
      */
-    public DateDialogPreference(Context ctx, AttributeSet attrs, int prefStyle) {
-        this(ctx, attrs, prefStyle, prefStyle);
+    public DateDialogPreference(Context ctx, AttributeSet attrs, int defStyleAttr) {
+        this(ctx, attrs, defStyleAttr, defStyleAttr);
     }
 
     /**
@@ -61,12 +61,14 @@ public class DateDialogPreference extends DialogPreference {
      *
      * @param ctx the context of this dialog preference.
      * @param attrs the attribute set to be added to this preference
-     * @param prefStyle the style of the preference
-     * @param prefStyle_ the next style
+     * @param defStyleAttr the style of the preference
+     * @param defStyleRes the next style
      */
-    public DateDialogPreference(Context ctx, AttributeSet attrs, int prefStyle, int prefStyle_) {
-        super(ctx, attrs, prefStyle, prefStyle_);
+    public DateDialogPreference(Context ctx, AttributeSet attrs, int defStyleAttr,
+                                int defStyleRes) {
+        super(ctx, attrs, defStyleAttr, defStyleRes);
     }
+
 
     /**
      * Returns the date selected.
