@@ -143,8 +143,6 @@ public class GoalsLocalDataSource implements GoalsDataSource {
 
     @Override
     public void insertGoal(Goal goal) {
-        System.out.println(goal.getUnit().toString());
-        System.out.println(goal.getUnit().ordinal());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();

@@ -105,7 +105,8 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
         String[] projection = {
                 UpdateEntry.COLUMN_NAME_DATE,
                 UpdateEntry.COLUMN_NAME_TIME,
-                UpdateEntry.COLUMN_NAME_DISTANCE
+                UpdateEntry.COLUMN_NAME_DISTANCE,
+                UpdateEntry.COLUMN_NAME_UNIT
         };
 
         String selection = UpdateEntry.COLUMN_NAME_DATE + " LIKE ?";

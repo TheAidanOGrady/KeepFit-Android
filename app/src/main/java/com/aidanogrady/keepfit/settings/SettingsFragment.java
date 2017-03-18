@@ -7,6 +7,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.aidanogrady.keepfit.R;
 import com.aidanogrady.keepfit.data.source.HistoryRepository;
+import com.aidanogrady.keepfit.data.source.UpdatesRepository;
 
 /**
  * The SettingsFragment displays the various settings that the users can change.
@@ -18,11 +19,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         HistoryRepository historyRepository = HistoryRepository.getInstance(getContext());
+        UpdatesRepository updatesRepository = UpdatesRepository.getInstance(getContext());
 
         addPreferencesFromResource(R.xml.app_preferences);
         Preference pref = getPreferenceManager().findPreference("clearHistory");
         pref.setOnPreferenceClickListener(preference -> {
             historyRepository.deleteAllHistory();
+            updatesRepository.deleteAllUpdates();
             return true;
         });
     }
