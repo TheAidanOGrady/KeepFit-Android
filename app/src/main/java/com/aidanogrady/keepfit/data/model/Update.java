@@ -1,5 +1,7 @@
 package com.aidanogrady.keepfit.data.model;
 
+import com.aidanogrady.keepfit.data.model.units.Unit;
+
 /**
  * An update denotes a timestamp and the number of steps the user manually recorded at this given
  * time. The date and time are recorded separately for easy retrieval of all updates of a given
@@ -20,9 +22,14 @@ public class Update {
     private long mTime;
 
     /**
-     * The number of steps for this update.
+     * The distance for this update.
      */
-    private int mSteps;
+    private double mDistance;
+
+    /**
+     * The unit of measurement of this update.
+     */
+    private Unit mUnit;
 
 
     /**
@@ -30,12 +37,14 @@ public class Update {
      *
      * @param date the date of this update
      * @param time the time of this update
-     * @param steps the number of steps of this update
+     * @param distance the distance of this update
+     * @param unit the unit of measurement of this update
      */
-    public Update(long date, long time, int steps) {
+    public Update(long date, long time, double distance, Unit unit) {
         this.mDate = date;
         this.mTime = time;
-        this.mSteps = steps;
+        this.mDistance = distance;
+        this.mUnit = unit;
     }
 
 
@@ -58,11 +67,19 @@ public class Update {
     }
 
     /**
-     * Returns the number of steps of this update.
+     * Returns the distance of this update.
      *
-     * @return update steps
+     * @return update distance
      */
-    public int getSteps() {
-        return mSteps;
+    public double getDistance() {
+        return mDistance;
     }
+
+    /**
+     * Returns the unit of distance for this goal.
+     */
+    public Unit getUnit() {
+        return mUnit;
+    }
+
 }

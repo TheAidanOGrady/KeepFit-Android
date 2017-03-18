@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.aidanogrady.keepfit.data.model.Update;
+import com.aidanogrady.keepfit.data.model.units.Unit;
 import com.aidanogrady.keepfit.data.source.UpdatesDataSource;
 import com.aidanogrady.keepfit.data.source.local.UpdatesPersistenceContract.UpdateEntry;
 
@@ -29,6 +30,11 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
      */
     private KeepFitDbHelper mDbHelper;
 
+    /**
+     * The units enum.
+     */
+    private Unit[] mUnits;
+
 
     /**
      * Constructs a new UpdatesLocalDataSource. The constructor is private to
@@ -38,6 +44,7 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
      */
     private UpdatesLocalDataSource(Context context) {
         mDbHelper = KeepFitDbHelper.getInstance(context);
+        mUnits = Unit.values();
     }
 
 
@@ -61,7 +68,8 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
         String[] projection = {
                 UpdateEntry.COLUMN_NAME_DATE,
                 UpdateEntry.COLUMN_NAME_TIME,
-                UpdateEntry.COLUMN_NAME_STEPS
+                UpdateEntry.COLUMN_NAME_DISTANCE,
+                UpdateEntry.COLUMN_NAME_UNIT
         };
 
         Cursor c = db.query(UpdateEntry.TABLE_NAME, projection, null, null, null, null, null);
@@ -69,9 +77,10 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
             while (c.moveToNext()) {
                 int date_ = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_DATE));
                 long time = c.getLong(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_TIME));
-                int steps = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_STEPS));
+                int steps = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_DISTANCE));
+                Unit unit = mUnits[c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_UNIT))];
 
-                Update update = new Update(date_, time, steps);
+                Update update = new Update(date_, time, steps, unit);
                 updates.add(update);
             }
         }
@@ -96,7 +105,7 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
         String[] projection = {
                 UpdateEntry.COLUMN_NAME_DATE,
                 UpdateEntry.COLUMN_NAME_TIME,
-                UpdateEntry.COLUMN_NAME_STEPS
+                UpdateEntry.COLUMN_NAME_DISTANCE
         };
 
         String selection = UpdateEntry.COLUMN_NAME_DATE + " LIKE ?";
@@ -108,9 +117,10 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
             while (c.moveToNext()) {
                 int date_ = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_DATE));
                 long time = c.getLong(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_TIME));
-                int steps = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_STEPS));
+                int steps = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_DISTANCE));
+                Unit unit = mUnits[c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_UNIT))];
 
-                Update update = new Update(date_, time, steps);
+                Update update = new Update(date_, time, steps, unit);
                 updates.add(update);
             }
         }
@@ -135,7 +145,7 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
         ContentValues values = new ContentValues();
         values.put(UpdateEntry.COLUMN_NAME_DATE, update.getDate());
         values.put(UpdateEntry.COLUMN_NAME_TIME, update.getTime());
-        values.put(UpdateEntry.COLUMN_NAME_STEPS, update.getSteps());
+        values.put(UpdateEntry.COLUMN_NAME_DISTANCE, update.getDistance());
 
         db.replace(UpdateEntry.TABLE_NAME, null, values);
     }

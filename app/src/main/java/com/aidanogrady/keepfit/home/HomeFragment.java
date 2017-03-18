@@ -14,17 +14,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aidanogrady.keepfit.R;
 import com.aidanogrady.keepfit.data.model.Update;
+import com.google.common.base.Strings;
 
 import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * The HomeFragment is the primary component of the app. Here the usual is able to see a brief
@@ -124,13 +128,15 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void setCurrentProgress(int currentSteps, int targetSteps, String unitName) {
+    public void setCurrentProgress(double currentSteps, double targetSteps, String unitName) {
         TextView progressTextView = (TextView) mHomeCardView.findViewById(R.id.progress);
 
         if (currentSteps < 0 || targetSteps < 1) {
             progressTextView.setVisibility(View.INVISIBLE);
         } else {
-            String progress = currentSteps + " / " + targetSteps + " " + unitName;
+            String currentStr = String.format(Locale.getDefault(), "%.2f", currentSteps);
+            String targetStr = String.format(Locale.getDefault(), "%.2f", targetSteps);
+            String progress = currentStr + " / " + targetStr + " " + unitName;
             progressTextView.setVisibility(View.VISIBLE);
             progressTextView.setText(progress);
         }
@@ -149,19 +155,25 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void showAddSteps() {
+    public void showAddSteps(String[] units) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_steps, null);
+        Spinner spinner = (Spinner) dialogView.findViewById(R.id.unit_spinner);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(
+                getActivity(), android.R.layout.simple_spinner_item, units
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.add_steps)
                 .setView(dialogView)
                 .setPositiveButton(R.string.ok, (dialog, i) -> {
                     EditText stepsEditText = (EditText) dialogView.findViewById(R.id.steps);
-                    int steps = Integer.parseInt(stepsEditText.getText().toString());
-                    if (steps > 0) {
-                        mPresenter.addSteps(steps);
-                    }
+                    String stepsStr = stepsEditText.getText().toString();
+                    double dist = Strings.isNullOrEmpty(stepsStr) ? 0 : Double.valueOf(stepsStr);
+                    String unitName = spinner.getSelectedItem().toString();
+                    mPresenter.addSteps(dist, unitName);
                 })
                 .setNegativeButton(R.string.cancel, (dialog, i) -> dialog.cancel());
         AlertDialog dialog = builder.create();

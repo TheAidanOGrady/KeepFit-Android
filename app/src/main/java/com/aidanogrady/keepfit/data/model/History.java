@@ -22,9 +22,9 @@ public class History {
     private Goal mGoal;
 
     /**
-     * The number of steps achieved on this day.
+     * The distance achieved on this day.
      */
-    private int mSteps;
+    private double mDistance;
 
     /**
      * A list of updates entered on this date in history.
@@ -56,12 +56,12 @@ public class History {
      *
      * @param date the date of this day in history
      * @param goal the goal being achieved on this day
-     * @param steps the number of steps achieved on this day
+     * @param distance the distance achieved on this day
      */
-    public History(long date, Goal goal, int steps, List<Update> updates) {
+    public History(long date, Goal goal, double distance, List<Update> updates) {
         this.mDate = date;
         this.mGoal = goal;
-        this.mSteps = steps;
+        this.mDistance = distance;
         if (updates == null)
             mUpdates = new ArrayList<>();
         else
@@ -97,21 +97,21 @@ public class History {
     }
 
     /**
-     * Returns the number of steps achieved this day.
+     * Returns the distance achieved this day.
      *
-     * @return steps
+     * @return distance
      */
-    public int getSteps() {
-        return mSteps;
+    public double getDistance() {
+        return mDistance;
     }
 
     /**
-     * Sets the number of steps to the given number of steps.
+     * Sets the distance to the given number of steps.
      *
-     * @param steps the number of steps achieved on this day
+     * @param distance the distance achieved on this day
      */
-    public void setSteps(int steps) {
-        this.mSteps = steps;
+    public void setSteps(double distance) {
+        this.mDistance = distance;
     }
 
     /**
@@ -123,6 +123,11 @@ public class History {
         return mUpdates;
     }
 
+    /**
+     * Adds an update to this day.
+     *
+     * @param update the update to be added
+     */
     public void addUpdate(Update update) {
         mUpdates.add(update);
     }

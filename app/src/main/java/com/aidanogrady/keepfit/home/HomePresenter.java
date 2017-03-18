@@ -8,6 +8,8 @@ import android.support.v4.util.Pair;
 import com.aidanogrady.keepfit.data.model.Goal;
 import com.aidanogrady.keepfit.data.model.History;
 import com.aidanogrady.keepfit.data.model.Update;
+import com.aidanogrady.keepfit.data.model.units.Unit;
+import com.aidanogrady.keepfit.data.model.units.UnitsConverter;
 import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.GoalsRepository;
 import com.aidanogrady.keepfit.data.source.HistoryDataSource;
@@ -97,17 +99,20 @@ public class HomePresenter implements HomeContract.Presenter {
         if (mCurrentHistory.getGoal() == null) {
             mHomeView.showSelectGoalMessage();
         } else {
-            mHomeView.showAddSteps();
+            mHomeView.showAddSteps(UnitsConverter.AVAILABLE_UNIT_NAMES);
         }
     }
 
     @Override
-    public void addSteps(int steps) {
+    public void addSteps(double dist, String unitStr) {
         long date = mCurrentHistory.getDate();
         long time = LocalTime.now().toSecondOfDay();
-        Update update = new Update(date, time, steps);
 
-        mCurrentHistory.setSteps(mCurrentHistory.getSteps() + steps);
+        Unit unit = Unit.valueOf(unitStr);
+        Update update = new Update(date, time, dist, unit);
+        double distance = UnitsConverter.convert(mCurrentHistory.getGoal().getUnit(), unit, dist);
+
+        mCurrentHistory.setSteps(mCurrentHistory.getDistance() + distance);
         mCurrentHistory.addUpdate(update);
         mUpdatesRepository.insertUpdate(update);
         mHistoryRepository.insertHistory(mCurrentHistory);
@@ -127,9 +132,9 @@ public class HomePresenter implements HomeContract.Presenter {
             mHomeView.setCurrentPercentage(-1);
         } else {
             mHomeView.setCurrentGoal(goal.getName());
-            int current = mCurrentHistory.getSteps();
+            double current = mCurrentHistory.getDistance();
             int target = goal.getDistance();
-            int percentage = (current * 100) / target;
+            int percentage = (int) (current * 100) / target;
             mHomeView.setCurrentProgress(current, target, goal.getUnit().toString());
             mHomeView.setCurrentPercentage(percentage);
         }

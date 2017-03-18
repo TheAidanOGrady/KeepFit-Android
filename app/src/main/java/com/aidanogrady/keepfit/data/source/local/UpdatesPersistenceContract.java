@@ -19,7 +19,8 @@ class UpdatesPersistenceContract {
         static final String TABLE_NAME = "updates";
         static final String COLUMN_NAME_DATE = "date";
         static final String COLUMN_NAME_TIME = "time";
-        static final String COLUMN_NAME_STEPS = "steps";
+        static final String COLUMN_NAME_DISTANCE = "distance";
+        static final String COLUMN_NAME_UNIT = "unit";
     }
 
 
@@ -36,7 +37,10 @@ class UpdatesPersistenceContract {
                 DbConstants.SEP +
                 UpdateEntry.COLUMN_NAME_TIME + DbConstants.INTEGER_TYPE +
                 DbConstants.SEP +
-                UpdateEntry.COLUMN_NAME_STEPS + DbConstants.INTEGER_TYPE + " )";
+                UpdateEntry.COLUMN_NAME_DISTANCE + DbConstants.REAL_TYPE +
+                DbConstants.SEP +
+                UpdateEntry.COLUMN_NAME_UNIT + DbConstants.INTEGER_TYPE + " )";
+
     }
 
     /**

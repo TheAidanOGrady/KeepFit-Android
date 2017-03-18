@@ -76,9 +76,10 @@ class UpdatesAdapter extends RecyclerView.Adapter<UpdatesAdapter.UpdateViewHolde
         Update update = mUpdates.get(position);
         LocalTime time = LocalTime.ofSecondOfDay(update.getTime());
         String timeString = time.toString();
-        String stepsString = String.format(Locale.getDefault(), "%d", update.getSteps());
+        String stepsString = String.format(Locale.getDefault(), "%.2f", update.getDistance());
 
-        String fullString = "At " + timeString + ", you added " + stepsString + " steps";
+        String fullString = "At " + timeString + ", you added " + stepsString + " " +
+                update.getUnit();
 
         SpannableStringBuilder ssb = new SpannableStringBuilder(fullString);
         StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);

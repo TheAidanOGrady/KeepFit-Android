@@ -71,7 +71,7 @@ public class UnitsConverter {
      *
      * @param steps the new mapping.
      */
-    public void setSteps(double steps) {
+    public static void setSteps(double steps) {
         // The map is defined by metres per unit, but the user defines steps per metre, hence 1 /
         UNITS.put(Unit.STEPS, 1 / steps);
     }

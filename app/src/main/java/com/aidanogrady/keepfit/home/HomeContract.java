@@ -41,7 +41,7 @@ public class HomeContract {
          * @param targetSteps the target of this goal, 0 if no goal is set
          * @param unitName the name of the unit to be displayed
          */
-        void setCurrentProgress(int currentSteps, int targetSteps, String unitName);
+        void setCurrentProgress(double currentSteps, double targetSteps, String unitName);
 
         /**
          * Sets the percentage representation of the progress thus far,
@@ -53,7 +53,7 @@ public class HomeContract {
         /**
          * Displays the view for adding steps to today's progress.
          */
-        void showAddSteps();
+        void showAddSteps(String[] units);
 
         /**
          * Display a message indicating that there are no goals to select from.
@@ -72,6 +72,11 @@ public class HomeContract {
          */
         void showSelectGoalMessage();
 
+        /**
+         * Displays the list of updates.
+         *
+         * @param updates the updates to be displayed.
+         */
         void showUpdates(List<Update> updates);
     }
 
@@ -87,9 +92,9 @@ public class HomeContract {
         /**
          * Adds steps to today's progress after user has provided information.
          *
-         * @param steps the number of steps to be added.
+         * @param dist the distance made this update
          */
-        void addSteps(int steps);
+        void addSteps(double dist, String unitStr);
 
         /**
          * Loads the progress from the database.

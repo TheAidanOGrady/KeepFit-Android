@@ -77,7 +77,7 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         String[] projection = {
                 HistoryEntry.COLUMN_NAME_DATE,
                 HistoryEntry.COLUMN_NAME_GOAL,
-                HistoryEntry.COLUMN_NAME_STEPS
+                HistoryEntry.COLUMN_NAME_DISTANCE
         };
 
         Cursor c = db.query(HistoryEntry.TABLE_NAME, projection, null, null, null, null, null);
@@ -86,7 +86,7 @@ public class HistoryLocalDataSource implements HistoryDataSource {
 
                 String goalId = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
                 int date = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
-                int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_STEPS));
+                int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DISTANCE));
                 Goal goal = getGoalWithId(goalId);
                 List<Update> updates = getUpdatesWithDate(date);
 
@@ -115,7 +115,7 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         String[] projection = {
                 HistoryEntry.COLUMN_NAME_DATE,
                 HistoryEntry.COLUMN_NAME_GOAL,
-                HistoryEntry.COLUMN_NAME_STEPS
+                HistoryEntry.COLUMN_NAME_DISTANCE
         };
 
         String selection = HistoryEntry.COLUMN_NAME_DATE + " LIKE ?";
@@ -130,7 +130,7 @@ public class HistoryLocalDataSource implements HistoryDataSource {
             String goalId = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
             Goal goal = getGoalWithId(goalId);
             int date_ = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
-            int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_STEPS));
+            int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DISTANCE));
             List<Update> updates = getUpdatesWithDate(date_);
 
             history = new History(date, goal, steps, updates);
@@ -156,7 +156,7 @@ public class HistoryLocalDataSource implements HistoryDataSource {
         ContentValues values = new ContentValues();
         values.put(HistoryEntry.COLUMN_NAME_DATE, history.getDate());
         values.put(HistoryEntry.COLUMN_NAME_GOAL, history.getGoal().getId());
-        values.put(HistoryEntry.COLUMN_NAME_STEPS, history.getSteps());
+        values.put(HistoryEntry.COLUMN_NAME_DISTANCE, history.getDistance());
 
         db.replace(HistoryEntry.TABLE_NAME, null, values);
     }

@@ -2,6 +2,8 @@ package com.aidanogrady.keepfit.goals;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.aidanogrady.keepfit.addeditgoal.AddEditGoalActivity;
 import com.aidanogrady.keepfit.data.model.Goal;

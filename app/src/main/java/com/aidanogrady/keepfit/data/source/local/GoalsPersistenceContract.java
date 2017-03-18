@@ -20,7 +20,7 @@ class GoalsPersistenceContract {
         static final String COLUMN_NAME_ID = "uuid";
         static final String COLUMN_NAME_NAME = "name";
         static final String COLUMN_NAME_DISTANCE = "distance";
-        static final String COLUMN_NAME_UNIT= "unit";
+        static final String COLUMN_NAME_UNIT = "unit";
         static final String COLUMN_NAME_LAST_ACHIEVED = "last_achieved";
     }
 

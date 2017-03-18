@@ -19,7 +19,7 @@ class HistoryPersistenceContract {
         static final String TABLE_NAME = "history";
         static final String COLUMN_NAME_DATE = "date";
         static final String COLUMN_NAME_GOAL = "goal";
-        static final String COLUMN_NAME_STEPS = "steps";
+        static final String COLUMN_NAME_DISTANCE = "distance";
     }
 
 
@@ -36,7 +36,7 @@ class HistoryPersistenceContract {
                 DbConstants.SEP +
                 HistoryEntry.COLUMN_NAME_GOAL + DbConstants.TEXT_TYPE +
                 DbConstants.SEP +
-                HistoryEntry.COLUMN_NAME_STEPS + DbConstants.INTEGER_TYPE + " )";
+                HistoryEntry.COLUMN_NAME_DISTANCE + DbConstants.REAL_TYPE + " )";
     }
 
     /**
