@@ -14,6 +14,7 @@ import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.GoalsRepository;
 import com.aidanogrady.keepfit.data.source.HistoryDataSource;
 import com.aidanogrady.keepfit.data.source.HistoryRepository;
+import com.aidanogrady.keepfit.data.source.SharedPreferencesRepository;
 import com.aidanogrady.keepfit.data.source.UpdatesRepository;
 
 import org.threeten.bp.LocalDate;
@@ -69,13 +70,12 @@ public class HomePresenter implements HomeContract.Presenter {
         long today = ChronoUnit.DAYS.between(epoch, now);
 
         long date;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (prefs.getBoolean("testModeToggle", false)) {
-            date = prefs.getLong("testModeDate", today);
+        if (SharedPreferencesRepository.isTestModeEnabled()) {
+            date = SharedPreferencesRepository.getTestModeDate();
         } else {
             date = today;
         }
-        
+
         mHistoryRepository.getHistory(date, new HistoryDataSource.GetHistoryCallback() {
             @Override
             public void onHistoryLoaded(History history) {

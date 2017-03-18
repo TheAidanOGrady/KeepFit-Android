@@ -2,13 +2,12 @@ package com.aidanogrady.keepfit.goals;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.aidanogrady.keepfit.addeditgoal.AddEditGoalActivity;
 import com.aidanogrady.keepfit.data.model.Goal;
 import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.GoalsRepository;
+import com.aidanogrady.keepfit.data.source.SharedPreferencesRepository;
 
 import java.util.List;
 
@@ -82,6 +81,8 @@ public class GoalsPresenter implements GoalsContract.Presenter {
 
     @Override
     public void editGoal(Goal goal) {
-        mGoalsView.showEditGoal(goal.getId());
+        if (SharedPreferencesRepository.isEditGoalEnabled()) {
+            mGoalsView.showEditGoal(goal.getId());
+        }
     }
 }
