@@ -36,11 +36,6 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
      */
     private String mGoalId;
 
-    /**
-     * Whether or not data is missing.
-     */
-    private boolean mIsDataMissing;
-
 
     /**
      * Constructs a new AddEditGoalPresenter.
@@ -63,7 +58,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
     }
 
     @Override
-    public void saveGoal(String name, int steps, String unitName) {
+    public void saveGoal(String name, double steps, String unitName) {
         Unit unit = Unit.valueOf(unitName);
         if (isNewGoal()) {
             createGoal(name, steps, unit);
@@ -95,17 +90,11 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
     }
 
     @Override
-    public boolean isDataMissing() {
-        return mIsDataMissing;
-    }
-
-    @Override
     public void onGoalLoaded(Goal goal) {
         if (mAddEditGoalView.isActive()) {
             mAddEditGoalView.setName(goal.getName());
             mAddEditGoalView.setSteps(goal.getDistance());
         }
-        mIsDataMissing = false;
     }
 
     @Override
@@ -131,7 +120,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
      * @param steps the number of steps of the goal to be added
      * @param unit the unit to be saved
      */
-    private void createGoal(String name, int steps, Unit unit) {
+    private void createGoal(String name, double steps, Unit unit) {
         if (Strings.isNullOrEmpty(name) || steps < 1) {
             mAddEditGoalView.showEmptyGoalError();
         } else {
@@ -145,10 +134,10 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
      * Updates a goal for the repository.
      *
      * @param name the name of the goal to be added
-     * @param steps the number of steps of the goal to be added
+     * @param distance the distance of the goal to be added
      * @param unit the unit to be saved
      */
-    private void updateGoal(String name, int steps, Unit unit) {
+    private void updateGoal(String name, double distance, Unit unit) {
         if (isNewGoal()) {
             throw new RuntimeException("updateGoal() was called but task is new");
         }
@@ -157,8 +146,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
         mGoalsRepository.getGoals(new GoalsDataSource.LoadGoalsCallback() {
             @Override
             public void onGoalsLoaded(List<Goal> goals) {
-                for (Goal goal: goals)
-                    names.add(goal.getName());
+                goals.forEach(goal -> names.add(goal.getName()));
             }
 
             @Override
@@ -169,10 +157,10 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
 
         if (names.contains(name) && isNewGoal()) {
             mAddEditGoalView.showNameExistsError();
-        } else if (Strings.isNullOrEmpty(name) || steps < 1) {
+        } else if (Strings.isNullOrEmpty(name) || distance < 1) {
             mAddEditGoalView.showEmptyGoalError();
         } else {
-            mGoalsRepository.updateGoal(new Goal(name, steps, unit), mGoalId);
+            mGoalsRepository.updateGoal(new Goal(name, distance, unit), mGoalId);
             mAddEditGoalView.showGoalsList();
         }
     }

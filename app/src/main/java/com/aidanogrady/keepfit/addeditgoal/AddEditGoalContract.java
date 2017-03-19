@@ -3,8 +3,6 @@ package com.aidanogrady.keepfit.addeditgoal;
 import com.aidanogrady.keepfit.base.BasePresenter;
 import com.aidanogrady.keepfit.base.BaseView;
 
-import java.util.List;
-
 /**
  * The contract between view and presenter for displaying the Goal Editor.
  *
@@ -41,7 +39,7 @@ class AddEditGoalContract {
          *
          * @param steps the number of steps to be displayed
          */
-        void setSteps(int steps);
+        void setSteps(double steps);
 
         /**
          * Populates the spinner with the units.
@@ -59,12 +57,11 @@ class AddEditGoalContract {
     interface Presenter extends BasePresenter {
         /**
          * Save goal with the given name and steps.
-         *
-         * @param name the name of the goal to be saved.
+         *  @param name the name of the goal to be saved.
          * @param steps the number of steps of the goal to be saved
          * @param unitName the name of the unit of distance for this goal
          */
-        void saveGoal(String name, int steps, String unitName);
+        void saveGoal(String name, double steps, String unitName);
 
         /**
          * Populates the editor with the correct data.
@@ -80,10 +77,5 @@ class AddEditGoalContract {
          * Deletes the current goal.
          */
         void deleteGoal();
-
-        /**
-         * Returns whether or not data is missing.
-         */
-        boolean isDataMissing();
     }
 }

@@ -25,7 +25,7 @@ public class Goal {
     /**
      * The distance to walk for this goal.
      */
-    private int mDistance;
+    private double mDistance;
 
     /**
      * The unit of distance for this goal.
@@ -44,7 +44,7 @@ public class Goal {
      * @param name the name of the goal
      * @param distance then distance required to achieve this goal
      */
-    public Goal(String name, int distance, Unit unit) {
+    public Goal(String name, double distance, Unit unit) {
         this(UUID.randomUUID().toString(), name, distance, unit,  -1);
     }
 
@@ -56,7 +56,7 @@ public class Goal {
      * @param name the name of the new goal
      * @param distance the distance required to achieve the new goal
      */
-    public Goal(String id, String name, int distance, Unit unit, int lastAchieved) {
+    public Goal(String id, String name, double distance, Unit unit, int lastAchieved) {
         this.mId = id;
         this.mName = name;
         this.mDistance = distance;
@@ -88,7 +88,7 @@ public class Goal {
      *
      * @return steps
      */
-    public int getDistance() {
+    public double getDistance() {
         return mDistance;
     }
 

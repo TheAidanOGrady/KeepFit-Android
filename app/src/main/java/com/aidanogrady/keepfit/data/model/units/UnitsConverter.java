@@ -73,8 +73,6 @@ public class UnitsConverter {
      */
     public static void setSteps(double steps) {
         // The map is defined by metres per unit, but the user defines steps per metre, hence 1 /
-        System.out.println("Steps per metre: "  + steps);
-        System.out.println("Metres per step: " + (1 / steps));
         UNITS.put(Unit.STEPS, 1 / steps);
     }
 

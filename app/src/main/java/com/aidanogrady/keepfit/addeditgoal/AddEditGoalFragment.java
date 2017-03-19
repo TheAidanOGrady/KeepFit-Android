@@ -111,7 +111,7 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
             case R.id.menu_save:
                 String name = mName.getText().toString();
                 String stepsString = mSteps.getText().toString();
-                int steps = Strings.isNullOrEmpty(stepsString) ? 0 : Integer.valueOf(stepsString);
+                double steps = Strings.isNullOrEmpty(stepsString) ? 0 : Double.valueOf(stepsString);
                 String unitName = mUnitSpinner.getSelectedItem().toString();
                 mPresenter.saveGoal(name, steps, unitName);
                 break;
@@ -153,7 +153,7 @@ public class AddEditGoalFragment extends Fragment implements AddEditGoalContract
     }
 
     @Override
-    public void setSteps(int steps) {
+    public void setSteps(double steps) {
         mSteps.setText(String.valueOf(steps));
     }
 

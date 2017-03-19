@@ -25,6 +25,11 @@ class HistoryContract {
         void showHistory(List<History> history);
 
         /**
+         * Shows the history filter.
+         */
+        void showHistoryFilter();
+
+        /**
          * Shows view for when there is no history.
          */
         void showNoHistory();
@@ -52,5 +57,10 @@ class HistoryContract {
          * @param forceUpdate whether or not update should be forced.
          */
         void loadHistory(boolean forceUpdate);
+
+        /**
+         * Loads the history filter.
+         */
+        void loadHistoryFilter();
     }
 }

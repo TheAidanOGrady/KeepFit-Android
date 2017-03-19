@@ -48,7 +48,7 @@ public class HomeContract {
          *
          * @param percentage percentage progress, -1 if no goal is set
          */
-        void setCurrentPercentage(int percentage);
+        void setCurrentPercentage(double percentage);
 
         /**
          * Displays the view for adding steps to today's progress.

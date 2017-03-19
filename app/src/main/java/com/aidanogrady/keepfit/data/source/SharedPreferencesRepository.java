@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 
+import com.aidanogrady.keepfit.data.model.HistoryDateFilter;
+import com.aidanogrady.keepfit.data.model.HistoryGoalFilter;
+import com.aidanogrady.keepfit.data.model.units.Unit;
+
 /**
  * The concrete PreferenceRepository retrieves the database from Android's SharedPreferences. This
  * allows for presenters to have no awareness of Android.
@@ -114,5 +118,51 @@ public class SharedPreferencesRepository implements PreferenceRepository {
     public double getStepsToMetres() {
         String value = mSharedPreferences.getString("stepsPerMetre", "1.5");
         return Double.valueOf(value);
+    }
+
+    @Override
+    public HistoryDateFilter getCurrentHistoryDateFilter() {
+        String value = mSharedPreferences.getString("historyDateFilter", "NONE");
+        return HistoryDateFilter.valueOf(value);
+    }
+
+    @Override
+    public void setCurrentHistoryDateFilter(HistoryDateFilter historyDateFilter) {
+        mSharedPreferences.edit().putString("historyDateFilter", historyDateFilter.name()).apply();
+    }
+
+    @Override
+    public HistoryGoalFilter getCurrentHistoryGoalFilter() {
+        String value = mSharedPreferences.getString("historyGoalFilter", "NONE");
+        return HistoryGoalFilter.valueOf(value);
+    }
+
+    @Override
+    public void setCurrentHistoryGoalFilter(HistoryGoalFilter historyGoalFilter) {
+        mSharedPreferences.edit().putString("historyGoalFilter", historyGoalFilter.name()).apply();
+    }
+
+    @Override
+    public double getCurrentHistoryGoalProgressFilter() {
+        String value = mSharedPreferences.getString("historyGoalProgressFilter", "0");
+        return Double.valueOf(value);
+    }
+
+    @Override
+    public void setCurrentHistoryGoalProgressFilter(double historyGoalProgressFilter) {
+        mSharedPreferences.edit().putString("historyGoalProgressFilter",
+                String.valueOf(historyGoalProgressFilter))
+                .apply();
+    }
+
+    @Override
+    public Unit getCurrentHistoryDisplayUnit() {
+        String value = mSharedPreferences.getString("historyDisplayUnit", "DEFAULT");
+        return Unit.valueOf(value);
+    }
+
+    @Override
+    public void setCurrentHistoryDisplayUnit(Unit unit) {
+        mSharedPreferences.edit().putString("historyDisplayUnit", unit.name()).apply();
     }
 }

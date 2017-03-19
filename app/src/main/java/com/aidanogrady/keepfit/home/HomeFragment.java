@@ -143,7 +143,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     @Override
-    public void setCurrentPercentage(int percentage) {
+    public void setCurrentPercentage(double percentage) {
         TextView percentageTextView = (TextView) mHomeCardView.findViewById(R.id.percentage);
         if (percentage < 0) {
             percentageTextView.setVisibility(View.INVISIBLE);

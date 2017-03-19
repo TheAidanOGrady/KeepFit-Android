@@ -3,7 +3,6 @@ package com.aidanogrady.keepfit;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.aidanogrady.keepfit.data.model.units.Unit;
 import com.aidanogrady.keepfit.data.model.units.UnitsConverter;
 import com.aidanogrady.keepfit.data.source.SharedPreferencesRepository;
 import com.aidanogrady.keepfit.settings.StepMetreChangeListener;

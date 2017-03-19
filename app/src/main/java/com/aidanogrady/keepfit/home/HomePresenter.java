@@ -87,10 +87,9 @@ public class HomePresenter implements HomeContract.Presenter {
 
         Unit unit = Unit.valueOf(unitStr);
         Update update = new Update(date, time, dist, unit);
-        System.out.println("User input: ");
         double distance = UnitsConverter.convert(mCurrentHistory.getGoal().getUnit(), unit, dist);
 
-        mCurrentHistory.setSteps(mCurrentHistory.getDistance() + distance);
+        mCurrentHistory.setDistance(mCurrentHistory.getDistance() + distance);
         mCurrentHistory.addUpdate(update);
         mUpdatesRepository.insertUpdate(update);
         mHistoryRepository.insertHistory(mCurrentHistory);
@@ -111,8 +110,8 @@ public class HomePresenter implements HomeContract.Presenter {
         } else {
             mHomeView.setCurrentGoal(goal.getName());
             double current = mCurrentHistory.getDistance();
-            int target = goal.getDistance();
-            int percentage = (int) (current * 100) / target;
+            double target = goal.getDistance();
+            double percentage = (int) (current * 100) / target;
             mHomeView.setCurrentProgress(current, target, goal.getUnit().toString());
             mHomeView.setCurrentPercentage(percentage);
         }
@@ -129,7 +128,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 for (Update update: mCurrentHistory.getUpdates()) {
                     newDist += UnitsConverter.convert(unit, update.getUnit(), update.getDistance());
                 }
-                mCurrentHistory.setSteps(newDist);
+                mCurrentHistory.setDistance(newDist);
                 loadProgress();
             }
 

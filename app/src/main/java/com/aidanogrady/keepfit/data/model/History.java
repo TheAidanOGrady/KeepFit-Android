@@ -110,8 +110,17 @@ public class History {
      *
      * @param distance the distance achieved on this day
      */
-    public void setSteps(double distance) {
+    public void setDistance(double distance) {
         this.mDistance = distance;
+    }
+
+    /**
+     * Returns the percentage of goal completion.
+     *
+     * @return the percentage progress of this history.
+     */
+    public double getPercentage() {
+        return mDistance * 100 / mGoal.getDistance();
     }
 
     /**

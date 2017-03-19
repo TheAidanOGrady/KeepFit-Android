@@ -3,9 +3,16 @@ package com.aidanogrady.keepfit.history;
 import android.content.Context;
 
 import com.aidanogrady.keepfit.data.model.History;
+import com.aidanogrady.keepfit.data.model.HistoryDateFilter;
+import com.aidanogrady.keepfit.data.model.HistoryGoalFilter;
 import com.aidanogrady.keepfit.data.source.HistoryDataSource;
 import com.aidanogrady.keepfit.data.source.HistoryRepository;
+import com.aidanogrady.keepfit.data.source.PreferenceRepository;
+import com.aidanogrady.keepfit.data.source.SharedPreferencesRepository;
 
+import org.threeten.bp.LocalDate;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,7 +58,7 @@ public class HistoryPresenter implements HistoryContract.Presenter {
                 if (histories.isEmpty()) {
                     mHistoryView.showNoHistory();
                 } else {
-                    mHistoryView.showHistory(histories);
+                    mHistoryView.showHistory(getFilteredHistory(histories));
                 }
             }
 
@@ -62,5 +69,97 @@ public class HistoryPresenter implements HistoryContract.Presenter {
                 }
             }
         });
+    }
+
+    /**
+     * Returns the filtered list of history given.
+     *
+     * @param histories the history list to be filtered
+     * @return the filtered list
+     */
+    private List<History> getFilteredHistory(List<History> histories) {
+        PreferenceRepository preferenceRepository = SharedPreferencesRepository.getInstance();
+        histories = filterGoal(histories, preferenceRepository);
+        histories = filterDate(histories, preferenceRepository);
+        return histories;
+    }
+
+    /**
+     * Filters the given list of history based on the current date filter set.
+     *
+     * @param histories the history to be filtered
+     * @param prefs the repository storing the filter values
+     * @return the filtered list
+     */
+    private List<History> filterDate(List<History> histories, PreferenceRepository prefs) {
+        List<History> filteredList = new ArrayList<>();
+
+        LocalDate now = LocalDate.now();
+        HistoryDateFilter filter = prefs.getCurrentHistoryDateFilter();
+        switch (filter) {
+            case NONE:
+                filteredList.addAll(histories);
+                break;
+            case WEEK:
+                LocalDate weekAgo = now.minusDays(7);
+                long lastWeek = weekAgo.toEpochDay();
+                histories.stream()
+                        .filter(history -> (lastWeek - history.getDate()) < 7)
+                        .forEachOrdered(filteredList::add);
+                break;
+            case MONTH:
+                long start = now.minusDays(now.getDayOfMonth()).toEpochDay();
+                histories.stream()
+                        .filter(history -> history.getDate() > start)
+                        .forEachOrdered(filteredList::add);
+                break;
+            case CUSTOM:
+                // TODO implement proper
+                filteredList.addAll(histories);
+                break;
+        }
+        return filteredList;
+    }
+
+    /**
+     * Filters the given list of history based on the current goal filter set.
+     *
+     * @param histories the history to be filtered
+     * @param prefs the repository storing the filter values
+     * @return the filtered list
+     */
+    private List<History> filterGoal(List<History> histories, PreferenceRepository prefs) {
+        List<History> filteredList = new ArrayList<>();
+
+        HistoryGoalFilter filter = prefs.getCurrentHistoryGoalFilter();
+        double progress = prefs.getCurrentHistoryGoalProgressFilter();
+
+        switch (filter) {
+            case NONE:
+                filteredList.addAll(histories);
+                break;
+            case COMPLETED:
+                histories.stream()
+                        .filter(history -> history.getPercentage() >= 100)
+                        .forEachOrdered(filteredList::add);
+                break;
+            case BELOW:
+                histories.stream()
+                        .filter(history -> history.getPercentage() <= progress)
+                        .forEachOrdered(filteredList::add);
+                break;
+            case ABOVE:
+                histories.stream()
+                        .filter(history -> history.getPercentage() >= progress)
+                        .forEachOrdered(filteredList::add);
+                break;
+        }
+        return filteredList;
+    }
+
+
+    @Override
+    public void loadHistoryFilter() {
+        mHistoryView.showHistoryFilter();
     }
 }
