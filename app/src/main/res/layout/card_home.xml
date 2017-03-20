@@ -41,7 +41,6 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/date"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:textAlignment="textEnd"
                 android:textSize="28sp" />
 

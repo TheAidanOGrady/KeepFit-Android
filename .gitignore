@@ -6,3 +6,19 @@
 /captures
 .externalNativeBuild
 .idea/
+
+# All LaTeX files 
+*.aux 
+*.fdb_latexmk 
+*.log 
+*.synctex.gz 
+*.toc 
+*.bbl 
+*.blg 
+*.pdf 
+*.bcf 
+*.out 
+*.run.xml 
+*.fls 
+*.lof 
+*.lot
