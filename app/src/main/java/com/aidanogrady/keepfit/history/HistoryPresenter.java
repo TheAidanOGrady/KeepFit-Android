@@ -78,9 +78,8 @@ public class HistoryPresenter implements HistoryContract.Presenter {
      * @return the filtered list
      */
     private List<History> getFilteredHistory(List<History> histories) {
-        PreferenceRepository preferenceRepository = SharedPreferencesRepository.getInstance();
-        histories = filterGoal(histories, preferenceRepository);
-        histories = filterDate(histories, preferenceRepository);
+        histories = filterGoal(histories);
+        histories = filterDate(histories);
         return histories;
     }
 
@@ -88,34 +87,41 @@ public class HistoryPresenter implements HistoryContract.Presenter {
      * Filters the given list of history based on the current date filter set.
      *
      * @param histories the history to be filtered
-     * @param prefs the repository storing the filter values
      * @return the filtered list
      */
-    private List<History> filterDate(List<History> histories, PreferenceRepository prefs) {
+    private List<History> filterDate(List<History> histories) {
         List<History> filteredList = new ArrayList<>();
 
         LocalDate now = LocalDate.now();
-        HistoryDateFilter filter = prefs.getCurrentHistoryDateFilter();
+        HistoryDateFilter filter = SharedPreferencesRepository.getHistoryDateFilter();
+
+        long start;
         switch (filter) {
             case NONE:
                 filteredList.addAll(histories);
                 break;
             case WEEK:
                 LocalDate weekAgo = now.minusDays(7);
-                long lastWeek = weekAgo.toEpochDay();
+                start = weekAgo.toEpochDay();
                 histories.stream()
-                        .filter(history -> (lastWeek - history.getDate()) < 7)
+                        .filter(history -> (start - history.getDate()) < 7)
                         .forEachOrdered(filteredList::add);
                 break;
             case MONTH:
-                long start = now.minusDays(now.getDayOfMonth()).toEpochDay();
+                start = now.minusDays(now.getDayOfMonth()).toEpochDay();
                 histories.stream()
                         .filter(history -> history.getDate() > start)
                         .forEachOrdered(filteredList::add);
                 break;
             case CUSTOM:
-                // TODO implement proper
-                filteredList.addAll(histories);
+                start = SharedPreferencesRepository.getHistoryStartDateFilter();
+                long end = SharedPreferencesRepository.getHistoryEndDateFilter();
+                System.out.println("Start " + start);
+                System.out.println("End " + end);
+                histories.stream()
+                        .filter(history -> history.getDate() >= start)
+                        .filter(history -> history.getDate() <= end)
+                        .forEachOrdered(filteredList::add);
                 break;
         }
         return filteredList;
@@ -125,14 +131,13 @@ public class HistoryPresenter implements HistoryContract.Presenter {
      * Filters the given list of history based on the current goal filter set.
      *
      * @param histories the history to be filtered
-     * @param prefs the repository storing the filter values
      * @return the filtered list
      */
-    private List<History> filterGoal(List<History> histories, PreferenceRepository prefs) {
+    private List<History> filterGoal(List<History> histories) {
         List<History> filteredList = new ArrayList<>();
 
-        HistoryGoalFilter filter = prefs.getCurrentHistoryGoalFilter();
-        double progress = prefs.getCurrentHistoryGoalProgressFilter();
+        HistoryGoalFilter filter = SharedPreferencesRepository.getHistoryGoalFilter();
+        double progress = SharedPreferencesRepository.getHistoryGoalProgressFilter();
 
         switch (filter) {
             case NONE:
@@ -156,7 +161,6 @@ public class HistoryPresenter implements HistoryContract.Presenter {
         }
         return filteredList;
     }
-
 
     @Override
     public void loadHistoryFilter() {

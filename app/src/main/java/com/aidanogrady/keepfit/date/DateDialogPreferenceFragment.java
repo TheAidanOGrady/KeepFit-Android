@@ -1,4 +1,4 @@
-package com.aidanogrady.keepfit.settings;
+package com.aidanogrady.keepfit.date;
 
 import android.os.Bundle;
 import android.support.v7.preference.DialogPreference;

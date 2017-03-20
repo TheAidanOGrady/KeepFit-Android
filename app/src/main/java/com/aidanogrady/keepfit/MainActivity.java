@@ -103,9 +103,6 @@ public class MainActivity extends AppCompatActivity {
             HistoryFragment historyFragment = HistoryFragment.newInstance();
             historyFragment.setPresenter(new HistoryPresenter(appContext, historyFragment));
             mFragments.add(new Pair<>(getString(R.string.history_title), historyFragment));
-
-//            mFragments.add(new Pair<String, Fragment>(getString(R.string.statistics_title),
-//                    null));
         }
 
         @Override

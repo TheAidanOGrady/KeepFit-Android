@@ -120,6 +120,9 @@ public class History {
      * @return the percentage progress of this history.
      */
     public double getPercentage() {
+        if (mGoal == null) {
+            return -1;
+        }
         return mDistance * 100 / mGoal.getDistance();
     }
 

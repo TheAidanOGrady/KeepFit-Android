@@ -8,6 +8,8 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import com.aidanogrady.keepfit.R;
 import com.aidanogrady.keepfit.data.source.HistoryRepository;
 import com.aidanogrady.keepfit.data.source.UpdatesRepository;
+import com.aidanogrady.keepfit.date.DateDialogPreference;
+import com.aidanogrady.keepfit.date.DateDialogPreferenceFragment;
 
 /**
  * The SettingsFragment displays the various settings that the users can change.

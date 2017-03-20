@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.aidanogrady.keepfit.R;
 import com.aidanogrady.keepfit.data.model.History;
-import com.aidanogrady.keepfit.historyfilter.HistoryFilterActivity;
+import com.aidanogrady.keepfit.filters.history.HistoryFilterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +142,7 @@ public class HistoryFragment extends Fragment implements HistoryContract.View {
     @Override
     public void showHistoryFilter() {
         Intent intent = new Intent(getContext(), HistoryFilterActivity.class);
-        startActivityForResult(intent, HistoryFilterActivity.FILTERS_SAVED);
+        startActivity(intent);
     }
 
     @Override

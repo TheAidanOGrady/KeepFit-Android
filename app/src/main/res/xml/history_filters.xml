@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.preference.PreferenceCategory
+        android:title="Date Filter">
+        <android.support.v7.preference.ListPreference
+            android:key="historyDateFilter"
+            android:title="Date Filter"
+            android:summary="Filter goals based on based certain date ranges"/>
+
+        <com.aidanogrady.keepfit.date.DateDialogPreference
+            android:key="historyStartDateFilter"
+            android:title="Start date"
+            android:summary="The start date of the history date filter"
+            style="@style/AppPreference.DialogPreference" />
+
+        <com.aidanogrady.keepfit.date.DateDialogPreference
+            android:key="historyEndDateFilter"
+            android:title="End date"
+            android:summary="The end date of the history date filter"
+            style="@style/AppPreference.DialogPreference" />
+    </android.support.v7.preference.PreferenceCategory>
+
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="Goal Filter">
+        <android.support.v7.preference.ListPreference
+            android:key="historyGoalFilter"
+            android:title="Goal Filter"
+            android:summary="Filter goals based on completion, progress"/>
+
+        <android.support.v7.preference.EditTextPreference
+            android:key="historyGoalProgressFilter"
+            android:title="Goal progress filter"
+            android:summary="The value to filter goals with progress above or below"
+            android:inputType="numberDecimal"
+            android:defaultValue="0"/>
+    </android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>

@@ -9,6 +9,8 @@ import com.aidanogrady.keepfit.data.model.HistoryDateFilter;
 import com.aidanogrady.keepfit.data.model.HistoryGoalFilter;
 import com.aidanogrady.keepfit.data.model.units.Unit;
 
+import org.threeten.bp.LocalDate;
+
 /**
  * The concrete PreferenceRepository retrieves the database from Android's SharedPreferences. This
  * allows for presenters to have no awareness of Android.
@@ -99,6 +101,60 @@ public class SharedPreferencesRepository implements PreferenceRepository {
         return sInstance.getStepsToMetres();
     }
 
+    /**
+     * Returns the display unit for history.
+     *
+     * @return display unit
+     */
+    public static Unit getHistoryDisplayUnit() {
+        return sInstance.getCurrentHistoryDisplayUnit();
+    }
+
+    /**
+     * Returns the stored history date filter.
+     *
+     * @return date filter
+     */
+    public static HistoryDateFilter getHistoryDateFilter() {
+        return sInstance.getCurrentHistoryDateFilter();
+    }
+
+    /**
+     * Returns the stored history goal filter.
+     *
+     * @return goal  filter
+     */
+    public static HistoryGoalFilter getHistoryGoalFilter() {
+        return sInstance.getCurrentHistoryGoalFilter();
+    }
+
+    /**
+     * Returns the stored history goal progress.
+     *
+     * @return goal progress
+     */
+    public static double getHistoryGoalProgressFilter() {
+        return sInstance.getCurrentHistoryGoalProgressFilter();
+    }
+
+    /**
+     * Returns the start date of the history dates filter.
+     *
+     * @return start date
+     */
+    public static long getHistoryStartDateFilter() {
+        return sInstance.getCurrentHistoryStartDateFilter();
+    }
+
+    /**
+     * Returns the end date of the history dates filter.
+     *
+     * @return end date
+     */
+    public static long getHistoryEndDateFilter() {
+        return sInstance.getCurrentHistoryEndDateFilter();
+    }
+
     @Override
     public boolean getIsEditGoalEnabled() {
         return mSharedPreferences.getBoolean("editGoalsEnabled", true);
@@ -106,12 +162,18 @@ public class SharedPreferencesRepository implements PreferenceRepository {
 
     @Override
     public boolean getIsTestModeEnabled() {
-        return mSharedPreferences.getBoolean("testModeEnabled", true);
+        return mSharedPreferences.getBoolean("testModeEnabled", false);
     }
 
     @Override
     public long getTestDate() {
-        return mSharedPreferences.getLong("testModeDate", -1);
+        return mSharedPreferences.getLong("testModeDate", LocalDate.now().toEpochDay());
+    }
+
+    @Override
+    public Unit getCurrentHistoryDisplayUnit() {
+        String value = mSharedPreferences.getString("historyDisplayUnit", "DEFAULT");
+        return Unit.valueOf(value);
     }
 
     @Override
@@ -127,8 +189,15 @@ public class SharedPreferencesRepository implements PreferenceRepository {
     }
 
     @Override
-    public void setCurrentHistoryDateFilter(HistoryDateFilter historyDateFilter) {
-        mSharedPreferences.edit().putString("historyDateFilter", historyDateFilter.name()).apply();
+    public long getCurrentHistoryStartDateFilter() {
+        LocalDate now = LocalDate.now();
+        long defaultValue = now.minusDays(now.getDayOfMonth()).toEpochDay();
+        return mSharedPreferences.getLong("historyStartDateFilter", defaultValue);
+    }
+
+    @Override
+    public long getCurrentHistoryEndDateFilter() {
+        return mSharedPreferences.getLong("historyEndDateFilter", LocalDate.now().toEpochDay());
     }
 
     @Override
@@ -138,31 +207,8 @@ public class SharedPreferencesRepository implements PreferenceRepository {
     }
 
     @Override
-    public void setCurrentHistoryGoalFilter(HistoryGoalFilter historyGoalFilter) {
-        mSharedPreferences.edit().putString("historyGoalFilter", historyGoalFilter.name()).apply();
-    }
-
-    @Override
     public double getCurrentHistoryGoalProgressFilter() {
         String value = mSharedPreferences.getString("historyGoalProgressFilter", "0");
         return Double.valueOf(value);
-    }
-
-    @Override
-    public void setCurrentHistoryGoalProgressFilter(double historyGoalProgressFilter) {
-        mSharedPreferences.edit().putString("historyGoalProgressFilter",
-                String.valueOf(historyGoalProgressFilter))
-                .apply();
-    }
-
-    @Override
-    public Unit getCurrentHistoryDisplayUnit() {
-        String value = mSharedPreferences.getString("historyDisplayUnit", "DEFAULT");
-        return Unit.valueOf(value);
-    }
-
-    @Override
-    public void setCurrentHistoryDisplayUnit(Unit unit) {
-        mSharedPreferences.edit().putString("historyDisplayUnit", unit.name()).apply();
     }
 }

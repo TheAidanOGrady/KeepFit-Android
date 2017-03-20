@@ -42,6 +42,13 @@ public interface PreferenceRepository {
     double getStepsToMetres();
 
     /**
+     * Returns the current display distance unit for the history display.
+     *
+     * @return the current unit to display
+     */
+    Unit getCurrentHistoryDisplayUnit();
+
+    /**
      * Returns the current date filter for the history display.
      *
      * @return the current filter
@@ -49,11 +56,18 @@ public interface PreferenceRepository {
     HistoryDateFilter getCurrentHistoryDateFilter();
 
     /**
-     * Sets the current history date filter to the given value.
+     * Returns the start date of the current custom date range filter.
      *
-     * @param historyDateFilter the new filter
+     * @return the start date of the custom period to filter
      */
-    void setCurrentHistoryDateFilter(HistoryDateFilter historyDateFilter);
+    long getCurrentHistoryStartDateFilter();
+
+    /**
+     * Returns the end date of the current custom date range filter.
+     *
+     * @return the end date of the custom period to filter
+     */
+    long getCurrentHistoryEndDateFilter();
 
     /**
      * Returns the current goal filter for the history display.
@@ -63,38 +77,9 @@ public interface PreferenceRepository {
     HistoryGoalFilter getCurrentHistoryGoalFilter();
 
     /**
-     * Sets the current history goal filter to the given value.
-     *
-     * @param historyGoalFilter the new filter
-     */
-    void setCurrentHistoryGoalFilter(HistoryGoalFilter historyGoalFilter);
-
-    /**
      * Returns the value set as the filter for goals above or below certain progress.
      *
      * @return progress filter
      */
     double getCurrentHistoryGoalProgressFilter();
-
-    /**
-     * Sets the value of the filter for goals above or below certain progress.
-     *
-     * @param historyGoalProgressFilter the new progress filter
-     */
-    void setCurrentHistoryGoalProgressFilter(double historyGoalProgressFilter);
-
-
-    /**
-     * Returns the current display distance unit for the history display.
-     *
-     * @return the current unit to display
-     */
-    Unit getCurrentHistoryDisplayUnit();
-
-    /**
-     * Sets the current history display unit to the given value.
-     *
-     * @param unit the new
-     */
-    void setCurrentHistoryDisplayUnit(Unit unit);
 }

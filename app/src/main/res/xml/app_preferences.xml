@@ -32,7 +32,7 @@
             android:summary="Enables arbitrary date setting"
             android:defaultValue="false" />
 
-        <com.aidanogrady.keepfit.settings.DateDialogPreference
+        <com.aidanogrady.keepfit.date.DateDialogPreference
             android:key="testModeDate"
             android:dependency="testModeEnabled"
             android:title="Test Mode date"

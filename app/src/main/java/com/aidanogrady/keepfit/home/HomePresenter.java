@@ -111,9 +111,8 @@ public class HomePresenter implements HomeContract.Presenter {
             mHomeView.setCurrentGoal(goal.getName());
             double current = mCurrentHistory.getDistance();
             double target = goal.getDistance();
-            double percentage = (int) (current * 100) / target;
             mHomeView.setCurrentProgress(current, target, goal.getUnit().toString());
-            mHomeView.setCurrentPercentage(percentage);
+            mHomeView.setCurrentPercentage(mCurrentHistory.getPercentage());
         }
     }
 

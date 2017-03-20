@@ -150,9 +150,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
             }
 
             @Override
-            public void onDataNotAvailable() {
-
-            }
+            public void onDataNotAvailable() {}
         });
 
         if (names.contains(name) && isNewGoal()) {

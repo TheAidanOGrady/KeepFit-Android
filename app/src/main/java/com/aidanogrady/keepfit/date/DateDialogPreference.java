@@ -1,4 +1,4 @@
-package com.aidanogrady.keepfit.settings;
+package com.aidanogrady.keepfit.date;
 
 import android.content.Context;
 import android.content.res.TypedArray;
