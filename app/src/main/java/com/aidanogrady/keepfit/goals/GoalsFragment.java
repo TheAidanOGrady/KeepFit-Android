@@ -90,7 +90,15 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadGoals(false);
+        mPresenter.loadGoals(true);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            mPresenter.loadGoals(true);
+        }
     }
 
     @Override
@@ -159,7 +167,7 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
      * A basic listener for goal items.
      */
     interface GoalItemListener {
-        /**
+        /**\
          * On a goal being clicked, something should happen to the goal stored in the view.
          *
          * @param goal the goal clicked on

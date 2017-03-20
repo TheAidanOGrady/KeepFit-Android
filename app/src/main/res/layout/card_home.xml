@@ -43,7 +43,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:textAlignment="textEnd"
-                android:textSize="40sp" />
+                android:textSize="28sp" />
 
         </RelativeLayout>
 

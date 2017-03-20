@@ -80,7 +80,8 @@ public class HistoryLocalDataSource implements HistoryDataSource {
                 HistoryEntry.COLUMN_NAME_DISTANCE
         };
 
-        Cursor c = db.query(HistoryEntry.TABLE_NAME, projection, null, null, null, null, null);
+        String orderBy = HistoryEntry.COLUMN_NAME_DATE + " DESC";
+        Cursor c = db.query(HistoryEntry.TABLE_NAME, projection, null, null, null, null, orderBy);
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
 

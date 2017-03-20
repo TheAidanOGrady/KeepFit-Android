@@ -76,8 +76,9 @@ public class GoalsLocalDataSource implements GoalsDataSource {
         };
 
         String selection = GoalEntry.COLUMN_NAME_DELETED + " = 0";
+        String orderBy = GoalEntry.COLUMN_NAME_NAME + " ASC";
 
-        Cursor c = db.query(GoalEntry.TABLE_NAME, projection, selection, null, null, null, null);
+        Cursor c = db.query(GoalEntry.TABLE_NAME, projection, selection, null, null, null, orderBy);
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
                 String goalId = c.getString(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_ID));
