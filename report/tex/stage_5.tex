@@ -1,0 +1,59 @@
+\documentclass[report.tex]{subfiles}
+\begin{document}
+\section{Enhanced Activity History} % (fold)
+\label{sec:enhanced_activity_history}
+\subsection{Implementation} % (fold)
+\label{sub:implementation_5}
+The implementation of this stage was doing using the Preferences support library
+(v7 and v14 were used). Again, the \emph{DateDialogPreference} was used for
+handling the setting of dates. The main problem in this stage was that the
+\emph{EditTextPreference} in this support library removed access to the
+\emph{EditText} object, meaning that the user could not be prevented from
+entering ant string into the preference. A \emph{ListView} or \emph{Spinner} may
+have been a more appropriate option here.
+
+ The \emph{SharedPreferencesRepository}
+handles this resorting to the default value when the string cannot be parsed to
+a double.
+
+The goal and date filters are enums, and Java 8 streams are used to handle the
+filtering when the \emph{HistoryPresenter} passes the history onto the view. The
+database has no knowledge of these filters.
+
+It was decided that even if the current filter does not need them, the
+preferences for the custom date range and goals above or below a certain value
+were left enabled due to there being no harm in being changed during these
+other filters.
+% subsection implementation_5 (end)
+
+\subsection{Screenshots} % (fold)
+\label{sub:screenshots_5}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490047254}
+    \caption{The available filters for filtering history based on date}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490047259}
+    \caption{The DatePicker for choosing stand and end date of history filter}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490047261}
+    \caption{The available filters for filtering history based on goal progress}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490047264}
+    \caption{The filter for goal progress, the user sets the specific percentage
+    to filter above or below.}
+\end{figure}
+% subsection screenshots_5 (end)
+% section enhanced_activity_history (end)
+
+\newpage
+\end{document}

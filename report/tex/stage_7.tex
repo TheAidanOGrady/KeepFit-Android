@@ -1,0 +1,44 @@
+\documentclass[report.tex]{subfiles}
+\begin{document}
+\section{User Preferences and Settings} % (fold)
+\label{sec:user_preferences_and_settings}
+\subsection{Implementation} % (fold)
+\label{sub:implementation_7}
+The Preferences were implemented using the Preferences support libraries, v7 and
+v14. The preferences were split into categories based on their functionality,
+for example Test Mode is its own category.
+
+The preferences do not require confirmation before clearing history, although it
+should.
+
+In order to make accessing the preferences elsewhere in the application, a
+\emph{PreferencesRepoistory} interface was defined, which is implemented by
+\emph{SharedPreferencesRepository}, which enables static retrieval of the
+preferences.
+% subsection implementation_7 (end)
+
+\subsection{Screenshots} % (fold)
+\label{sub:screenshots_7}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490048744}
+    \caption{The preferences screen}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490048746}
+    \caption{Selecting the ratio between steps and metres}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490048749}
+    \caption{Selecting how the history will display progress}
+\end{figure}
+% subsection screenshots_7 (end)
+% section user_preferences_and_settings (end)
+
+\newpage
+\end{document}

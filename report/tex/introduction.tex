@@ -1,0 +1,61 @@
+\documentclass[report.tex]{subfiles}
+\begin{document}
+
+\section{Introduction} % (fold)
+\label{sec:introduction}
+The application developed was done for the Android platform, with a target SDK
+version of 25 and a minimum SDK version of 21.
+
+For the purposes of this assignment, the following stages were attempted:
+\begin{itemize}
+    \item Stage 1: Basic activity goal setting and recording
+    \item Stage 2: Basic activity history
+    \item Stage 3: Test mode
+    \item Stage 4: Enhanced activity goal setting and recording
+    \item Stage 5: Enhanced activity history
+    \item Stage 7: User preferences and settings
+\end{itemize}
+
+All of these stages were implemented to the fullest extent, with Stage 6 skipped
+to provide more robustness to the already existing stages. The bonus stages were
+not attempted for similar reasons.
+
+\subsection{Design and Guidelines} % (fold)
+\label{sub:design_and_guidelines}
+The application was designed using Model-View-Presenter, which was inspired by
+a GitHub repository provided by Google which demonstrates various architectures
+(\url{https://github.com/googlesamples/Android-Architecture}). However,
+improvements could be made since currently, the Presenters still require being
+passed \emph{Context}s in the constructor since they are required for the
+database objects.
+
+Accessing data sources such as the SQLite databases and the user preferences
+are done using a version of the Repository pattern. The Repository classes are
+the only classes with knowledge of SQLite or \emph{SharedPreference}s, with
+all other classes accessing the data through the repository's interface.
+
+When developing on the SDK versions chosen, it was noted that the Java 8 time
+APIs were not available on the platform, with the obsolete APIs still present.
+Due to a personal preference over the new API, the library ThreeTenBP
+(\url{https://github.com/ThreeTen/threetenbp}) was added for the project. This
+is a backport based on JSR-10 (the new date and time library) meaning that I
+was able to use manipulate dates and time in a more comfortable fashion.
+
+The application sticks to Material Design as consistently as possible. The
+colour scheme is consistent throughout the application, and appropriate elements
+are used throughout. The application makes appropriate use out of 
+\emph{RecyclerView}s, \emph{DialogPreference} as well.
+% subsection design_and_guidelines (end)
+
+\subsection{Feedback} % (fold)
+\label{sub:feedback}
+The feedback in Phase 2 of the assignment was incorporated at this stage. The
+addition of goals is performed with a FloatingActionButton, while deleting goals
+is not now. In addition, snackbars were used throughout the program indicating
+messages to users. It is likely that there were other situations where they
+would have been appropriate, but the essential ones were implemented.
+% subsection feedback (end)
+% section introduction (end)
+
+\newpage
+\end{document}

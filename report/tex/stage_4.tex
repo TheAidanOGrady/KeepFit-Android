@@ -1,0 +1,40 @@
+\documentclass[report.tex]{subfiles}
+\begin{document}
+\section{Enhanced Activity Goal Setting and Recording} % (fold)
+\label{sec:enhanced_activity_goal_setting_and_recording}
+\subsection{Implementation} % (fold)
+\label{sub:implementation_4}
+To incorporate different units, the \emph{Unit} enum was added, with the
+abbreviation names of the measurements included to override the enum's 
+\emph{toString} method. The \emph{UnitsConverter} class has the responsibility
+of handling the conversion between units, which is accessed statically by other
+classes.
+
+The user is able to enter steps in any measurement, which is converted
+internally while maintaining the user's original input.
+% subsection implementation_4 (end)
+
+\subsection{Screenshots} % (fold)
+\label{sub:screenshots_4}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490046441}
+    \caption{Selecting the unit of measuring when in the goal editor}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490046448}
+    \caption{Selecting the unit of measuring when adding steps}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490046823}
+    \caption{The updates displayed based on the unit used when adding the steps}
+\end{figure}
+% subsection screenshots_4 (end)
+% section enhanced_activity_goal_setting_and_recording (end)
+
+\newpage
+\end{document}

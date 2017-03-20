@@ -1,0 +1,37 @@
+\documentclass[report.tex]{subfiles}
+\begin{document}
+\section{Test Mode} % (fold)
+\label{sec:test_mode}
+\subsection{Implementation} % (fold)
+\label{sub:implementation_3}
+The Test Mode is achieved using the SharedPreferences to store the data, with
+the view achieved by implementing the PreferencesFragmentCompat class, which
+handles how the preferences are displayed. The file \emph{app\_preferences.xml}
+contains the menu content.
+
+In order to achieve choosing the Test Mode date with a DatePicker, the class
+\emph{DateDialogPreference} was implemented to handle this, with the
+\emph{DateDialogPreferenceFragment} handling the displaying of the Dialog for
+this preference. The dialog still defaults to January 1, 1970 which is not ideal
+in terms of user experience.
+% subsection implementation_3 (end)
+
+\subsection{Screenshots} % (fold)
+\label{sub:screenshots_3}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490046003}
+    \caption{The Test Mode preferences, the date picker is dependant on the
+    switch}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.33\textwidth]{./img/Screenshot_1490046009}
+    \caption{Selecting the date for test mode}
+\end{figure}
+% subsection screenshots_3 (end)
+% section test_mode (end)
+
+\newpage
+\end{document}
