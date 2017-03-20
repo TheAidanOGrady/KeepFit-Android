@@ -72,7 +72,7 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
         if (isNewGoal()) {
             throw new RuntimeException("populateGoal() was called but goal was new");
         }
-        mGoalsRepository.getGoal(mGoalId, this);
+        mGoalsRepository.getGoal(mGoalId, false, this);
     }
 
     @Override

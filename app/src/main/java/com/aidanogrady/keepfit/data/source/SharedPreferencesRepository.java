@@ -173,7 +173,7 @@ public class SharedPreferencesRepository implements PreferenceRepository {
     @Override
     public Unit getCurrentHistoryDisplayUnit() {
         String value = mSharedPreferences.getString("historyDisplayUnit", "DEFAULT");
-        return Unit.valueOf(value);
+        return (!value.equals("DEFAULT")) ? Unit.valueOf(value) : null;
     }
 
     @Override

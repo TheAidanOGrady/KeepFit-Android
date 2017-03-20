@@ -71,10 +71,13 @@ public class GoalsLocalDataSource implements GoalsDataSource {
                 GoalEntry.COLUMN_NAME_NAME,
                 GoalEntry.COLUMN_NAME_DISTANCE,
                 GoalEntry.COLUMN_NAME_UNIT,
-                GoalEntry.COLUMN_NAME_LAST_ACHIEVED
+                GoalEntry.COLUMN_NAME_LAST_ACHIEVED,
+                GoalEntry.COLUMN_NAME_DELETED
         };
 
-        Cursor c = db.query(GoalEntry.TABLE_NAME, projection, null, null, null, null, null);
+        String selection = GoalEntry.COLUMN_NAME_DELETED + " = 0";
+
+        Cursor c = db.query(GoalEntry.TABLE_NAME, projection, selection, null, null, null, null);
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
                 String goalId = c.getString(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_ID));
@@ -101,7 +104,7 @@ public class GoalsLocalDataSource implements GoalsDataSource {
     }
 
     @Override
-    public void getGoal(String id, GetGoalCallback callback) {
+    public void getGoal(String id, boolean deleted, GetGoalCallback callback) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -112,11 +115,14 @@ public class GoalsLocalDataSource implements GoalsDataSource {
                 GoalEntry.COLUMN_NAME_LAST_ACHIEVED
         };
 
-        String selection = GoalEntry.COLUMN_NAME_ID + " LIKE ?";
-        String[] selectionArgs = { id };
+        String selection = null;
+        String[] args = null;
+        if (deleted) {
+            selection = GoalEntry.COLUMN_NAME_ID + " LIKE ?";
+            args = new String[] {id};
+        }
 
-        Cursor c = db.query(
-                GoalEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        Cursor c = db.query(GoalEntry.TABLE_NAME, projection, selection, args, null, null, null);
         Goal goal = null;
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
@@ -151,6 +157,7 @@ public class GoalsLocalDataSource implements GoalsDataSource {
         values.put(GoalEntry.COLUMN_NAME_DISTANCE, goal.getDistance());
         values.put(GoalEntry.COLUMN_NAME_UNIT, goal.getUnit().ordinal());
         values.put(GoalEntry.COLUMN_NAME_LAST_ACHIEVED, goal.getLastAchieved());
+        values.put(GoalEntry.COLUMN_NAME_DELETED, "0");
 
         db.insertOrThrow(GoalEntry.TABLE_NAME, null, values);
         db.close();
@@ -165,6 +172,7 @@ public class GoalsLocalDataSource implements GoalsDataSource {
         values.put(GoalEntry.COLUMN_NAME_DISTANCE, goal.getDistance());
         values.put(GoalEntry.COLUMN_NAME_UNIT, goal.getUnit().ordinal());
         values.put(GoalEntry.COLUMN_NAME_LAST_ACHIEVED, goal.getLastAchieved());
+        values.put(GoalEntry.COLUMN_NAME_DELETED, "0");
 
         String where = GoalEntry.COLUMN_NAME_ID + " LIKE ?";
         String[] whereArgs = { oldId };
@@ -186,9 +194,12 @@ public class GoalsLocalDataSource implements GoalsDataSource {
     @Override
     public void deleteGoal(String id) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        String selection = GoalEntry.COLUMN_NAME_ID + " LIKE ?";
-        String[] selectionArgs = { id };
-        db.delete(GoalEntry.TABLE_NAME, selection, selectionArgs);
-        db.close();
+
+        ContentValues values = new ContentValues();
+        values.put(GoalEntry.COLUMN_NAME_DELETED, "1");
+
+        String where = GoalEntry.COLUMN_NAME_ID + " LIKE ?";
+        String[] whereArgs = { id };
+        db.update(GoalEntry.TABLE_NAME, values, where, whereArgs);
     }
 }

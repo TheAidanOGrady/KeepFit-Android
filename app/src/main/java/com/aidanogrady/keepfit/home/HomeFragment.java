@@ -148,7 +148,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         if (percentage < 0) {
             percentageTextView.setVisibility(View.INVISIBLE);
         } else {
-            String percentageString = percentage + " %";
+            String percentageString = String.format(Locale.getDefault(), "%.2f %%", percentage);
             percentageTextView.setVisibility(View.VISIBLE);
             percentageTextView.setText(percentageString);
         }

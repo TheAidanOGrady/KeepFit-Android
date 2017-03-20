@@ -83,14 +83,14 @@ public class GoalsRepository implements GoalsDataSource {
     }
 
     @Override
-    public void getGoal(String id, final GetGoalCallback callback) {
+    public void getGoal(String id, boolean deleted, final GetGoalCallback callback) {
         Goal cachedGoal = getGoalWithId(id);
         if (cachedGoal != null) {
             callback.onGoalLoaded(cachedGoal);
             return;
         }
 
-        mGoalsLocalDataSource.getGoal(id, new GetGoalCallback() {
+        mGoalsLocalDataSource.getGoal(id, deleted, new GetGoalCallback() {
             @Override
             public void onGoalLoaded(Goal goal) {
                 if (mCachedGoals == null) {

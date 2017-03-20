@@ -22,6 +22,11 @@
             android:summary="Sets the number of steps equivalent to one metre"
             android:inputType="numberDecimal"
             android:defaultValue="1.5"/>
+
+        <android.support.v7.preference.ListPreference
+            android:key="historyDisplayUnit"
+            android:title="Display unit"
+            android:summary="Select the unit for dislaying history"/>
     </android.support.v7.preference.PreferenceCategory>
 
     <android.support.v7.preference.PreferenceCategory

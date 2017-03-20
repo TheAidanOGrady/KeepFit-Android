@@ -81,14 +81,13 @@ class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> implements 
             holder.iconTextView.setText(Character.toString(goal.getName().charAt(0)));
             holder.goalTextView.setText(goal.getName());
 
-            String progress = history.getDistance() + " / " + goal.getDistance() + " " +
-                    goal.getUnit().toString();
-            holder.stepsTextView.setText(progress);
+            holder.stepsTextView.setText(String.format(Locale.getDefault(), "%.2f / %.2f %s",
+                    history.getDistance(),
+                    goal.getDistance(),
+                    goal.getUnit().toString()));
 
-            holder.percentageTextView.setText(
-                    String.format(Locale.getDefault(), "%.2f %%",
-                            history.getDistance() * 100 / goal.getDistance())
-            );
+            holder.percentageTextView.setText(String.format(Locale.getDefault(), "%.2f %%",
+                    history.getDistance() * 100 / goal.getDistance()));
         } else {
             holder.goalTextView.setText(R.string.goal_not_found);
             holder.percentageTextView.setText("?? %");

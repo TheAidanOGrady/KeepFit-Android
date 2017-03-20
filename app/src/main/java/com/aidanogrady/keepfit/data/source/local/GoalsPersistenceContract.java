@@ -22,6 +22,7 @@ class GoalsPersistenceContract {
         static final String COLUMN_NAME_DISTANCE = "distance";
         static final String COLUMN_NAME_UNIT = "unit";
         static final String COLUMN_NAME_LAST_ACHIEVED = "last_achieved";
+        static final String COLUMN_NAME_DELETED = "deleted";
     }
 
 
@@ -36,13 +37,15 @@ class GoalsPersistenceContract {
                 DbConstants.SEP +
                 GoalEntry.COLUMN_NAME_ID + DbConstants.TEXT_TYPE + DbConstants.UNIQUE +
                 DbConstants.SEP +
-                GoalEntry.COLUMN_NAME_NAME + DbConstants.TEXT_TYPE + DbConstants.UNIQUE +
+                GoalEntry.COLUMN_NAME_NAME + DbConstants.TEXT_TYPE +
                 DbConstants.SEP +
                 GoalEntry.COLUMN_NAME_DISTANCE + DbConstants.REAL_TYPE +
                 DbConstants.SEP +
                 GoalEntry.COLUMN_NAME_UNIT + DbConstants.INTEGER_TYPE +
                 DbConstants.SEP +
-                GoalEntry.COLUMN_NAME_LAST_ACHIEVED + DbConstants.INTEGER_TYPE + " )";
+                GoalEntry.COLUMN_NAME_LAST_ACHIEVED + DbConstants.INTEGER_TYPE +
+                DbConstants.SEP +
+                GoalEntry.COLUMN_NAME_DELETED + DbConstants.INTEGER_TYPE + " )";
     }
 
     /**

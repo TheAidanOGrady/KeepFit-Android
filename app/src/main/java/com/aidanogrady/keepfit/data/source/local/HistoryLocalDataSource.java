@@ -190,7 +190,7 @@ public class HistoryLocalDataSource implements HistoryDataSource {
      */
     private Goal getGoalWithId(String id) {
         final Goal[] goals = new Goal[1]; // Final workaround
-        mGoalsDataSource.getGoal(id, new GoalsDataSource.GetGoalCallback() {
+        mGoalsDataSource.getGoal(id, true, new GoalsDataSource.GetGoalCallback() {
             @Override
             public void onGoalLoaded(Goal goal) {
                 goals[0] = goal;

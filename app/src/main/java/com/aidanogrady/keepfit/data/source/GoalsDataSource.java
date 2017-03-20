@@ -33,7 +33,7 @@ public interface GoalsDataSource extends DataSource {
     /**
      * Gets all goals and performs the given callback.
      *
-     * @param callback the callback to enact when goals retrieved.
+     * @param callback the callback to enact when goals retrieved
      */
     void getGoals(LoadGoalsCallback callback);
 
@@ -41,14 +41,15 @@ public interface GoalsDataSource extends DataSource {
      * Gets the goal with the given ID and enacts the given callback.
      *
      * @param id the ID of the goal
-     * @param callback the callback to enact when goal is retrieved.
+     * @param deleted retrieve goal user has deleted if true
+     * @param callback the callback to enact when goal is retrieved
      */
-    void getGoal(String id, GetGoalCallback callback);
+    void getGoal(String id, boolean deleted, GetGoalCallback callback);
 
     /**
      * Inserts this goal to the data source.
      *
-     * @param goal the goal to be inserted.
+     * @param goal the goal to be inserted
      */
     void insertGoal(Goal goal);
 
@@ -56,7 +57,7 @@ public interface GoalsDataSource extends DataSource {
      * Updates the given goal to the database. The id and name of the goal are used to determine if
      * the goal can be updated.
      *
-     * @param goal the goal to be updated.
+     * @param goal the goal to be updated
      */
     void updateGoal(Goal goal, String oldId);
 
@@ -66,14 +67,14 @@ public interface GoalsDataSource extends DataSource {
     void refreshGoals();
 
     /**
-     * Deletes all goals from the data source.
+     * Deletes all goals from the data source
      */
     void deleteAllGoals();
 
     /**
      * Deletes the goal with the given ID from the data source.
      *
-     * @param id the goal to be deleted from data source.
+     * @param id the goal to be deleted from data source
      */
     void deleteGoal(String id);
 }

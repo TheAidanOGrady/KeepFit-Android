@@ -126,7 +126,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void setCurrentGoal(String id) {
-        mGoalsRepository.getGoal(id, new GoalsDataSource.GetGoalCallback() {
+        mGoalsRepository.getGoal(id, false, new GoalsDataSource.GetGoalCallback() {
             @Override
             public void onGoalLoaded(Goal goal) {
                 mCurrentHistory.setGoal(goal);
