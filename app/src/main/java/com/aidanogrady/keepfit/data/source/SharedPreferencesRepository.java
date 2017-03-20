@@ -207,7 +207,13 @@ public class SharedPreferencesRepository implements PreferenceRepository {
     @Override
     public double getStepsToMetres() {
         String value = mSharedPreferences.getString("stepsPerMetre", "1.5");
-        return Double.valueOf(value);
+        double val;
+        try {
+            val = Double.valueOf(value);
+        } catch (NumberFormatException e) {
+            val = 1.5;
+        }
+        return val;
     }
 
     @Override
@@ -237,6 +243,12 @@ public class SharedPreferencesRepository implements PreferenceRepository {
     @Override
     public double getCurrentHistoryGoalProgressFilter() {
         String value = mSharedPreferences.getString("historyGoalProgressFilter", "0");
-        return Double.valueOf(value);
+        double val;
+        try {
+            val = Double.valueOf(value);
+        } catch (NumberFormatException e) {
+            val = 0;
+        }
+        return val;
     }
 }

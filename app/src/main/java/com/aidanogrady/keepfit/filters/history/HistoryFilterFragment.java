@@ -2,6 +2,7 @@ package com.aidanogrady.keepfit.filters.history;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -27,6 +28,9 @@ public class HistoryFilterFragment extends PreferenceFragmentCompat {
         setDateFilterListPreferenceData(dateFilters);
         ListPreference goalFilters = (ListPreference) findPreference("historyGoalFilter");
         setGoalFilterListPreferenceData(goalFilters);
+
+        EditTextPreference goalProgressFilter =
+                (EditTextPreference) findPreference("historyGoalProgressFilter");
     }
 
     @Override

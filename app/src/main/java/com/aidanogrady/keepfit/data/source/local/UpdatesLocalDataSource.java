@@ -120,6 +120,7 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
                 long time = c.getLong(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_TIME));
                 int steps = c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_DISTANCE));
                 Unit unit = mUnits[c.getInt(c.getColumnIndexOrThrow(UpdateEntry.COLUMN_NAME_UNIT))];
+                System.out.println(unit);
 
                 Update update = new Update(date_, time, steps, unit);
                 updates.add(update);
@@ -147,6 +148,7 @@ public class UpdatesLocalDataSource implements UpdatesDataSource {
         values.put(UpdateEntry.COLUMN_NAME_DATE, update.getDate());
         values.put(UpdateEntry.COLUMN_NAME_TIME, update.getTime());
         values.put(UpdateEntry.COLUMN_NAME_DISTANCE, update.getDistance());
+        values.put(UpdateEntry.COLUMN_NAME_UNIT, update.getUnit().ordinal());
 
         db.replace(UpdateEntry.TABLE_NAME, null, values);
     }

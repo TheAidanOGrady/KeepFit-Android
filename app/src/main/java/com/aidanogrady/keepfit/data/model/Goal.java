@@ -121,7 +121,7 @@ public class Goal {
 
     @Override
     public String toString() {
-        return mName + " (" + mDistance + " steps)";
+        return mName + " (" + mDistance + " " + mUnit.toString() + ")";
     }
 
     /**
