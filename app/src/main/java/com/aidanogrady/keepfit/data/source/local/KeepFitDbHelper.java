@@ -15,7 +15,7 @@ class KeepFitDbHelper extends SQLiteOpenHelper {
     /**
      * The current version of the database.
      */
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     /**
      * The name of the database.
