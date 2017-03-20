@@ -46,5 +46,6 @@
     <string name="progress">Progress</string>
     <string name="range_error_message">The end date must be after the start date</string>
     <string name="goal_filter">Goal filter</string>
+    <string name="active_goal_message">You cannot modify active goal</string>
 
 </resources>

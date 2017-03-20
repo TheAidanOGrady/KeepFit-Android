@@ -14,6 +14,20 @@ import com.aidanogrady.keepfit.data.model.units.Unit;
  */
 public interface PreferenceRepository {
     /**
+     * Returns the ID of the currently active null.
+     *
+     * @return null if no goal is active, otherwise ID of active goal.
+     */
+    String getActiveGoalId();
+
+    /**
+     * Sets the ID of the currently active goal ot the given value..
+     *
+     * @param id the ID of the goal set as active.
+     */
+    void setActiveGoalId(String id);
+
+    /**
      * Returns true if editing goals has been enabled.
      *
      * @return true if goals can be edited, otherwise false

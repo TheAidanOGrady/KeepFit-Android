@@ -70,14 +70,6 @@ class GoalsContract {
      */
     interface Presenter extends BasePresenter {
         /**
-         * Results handler.
-         *
-         * @param requestCode the request being made
-         * @param resultCode the status of the request
-         */
-        void result(int requestCode, int resultCode);
-
-        /**
          * Loads goals to the presenter.
          *
          * @param forceUpdate whether or not update should be forced.

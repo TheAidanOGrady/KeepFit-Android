@@ -136,6 +136,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     newDist += UnitsConverter.convert(unit, update.getUnit(), update.getDistance());
                 }
                 mCurrentHistory.setDistance(newDist);
+                SharedPreferencesRepository.setActiveGoal(goal.getId());
                 loadProgress();
             }
 

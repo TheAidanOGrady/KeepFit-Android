@@ -36,11 +36,11 @@ class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.GoalsViewHolder> {
      * Constructs a new GoalsAdapter with the given list of goals.
      *
      * @param goals the goals to be adapted
-     * @param mGoalItemListener the listener
+     * @param listener the listener
      */
-    GoalsAdapter(List<Goal> goals, GoalsFragment.GoalItemListener mGoalItemListener) {
+    GoalsAdapter(List<Goal> goals, GoalsFragment.GoalItemListener listener) {
         setList(goals);
-        this.mGoalItemListener = mGoalItemListener;
+        this.mGoalItemListener = listener;
     }
 
 

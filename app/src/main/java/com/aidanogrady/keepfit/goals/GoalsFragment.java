@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import com.aidanogrady.keepfit.R;
 import com.aidanogrady.keepfit.addeditgoal.AddEditGoalActivity;
 import com.aidanogrady.keepfit.data.model.Goal;
+import com.aidanogrady.keepfit.data.source.SharedPreferencesRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Displays the list of goals. Users can choose to select a goal or create new goals.
@@ -46,11 +48,6 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
      */
     private View mNoGoalsView;
 
-    /**
-     * The listener for when goals are pressed.
-     */
-    private GoalItemListener mGoalItemListener;
-
 
     /**
      * Returns a new goals fragment instance.
@@ -64,7 +61,8 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mGoalItemListener = goal -> mPresenter.editGoal(goal);
+
+        GoalItemListener mGoalItemListener = new ActiveGoalItemListener();
         mAdapter = new GoalsAdapter(new ArrayList<>(), mGoalItemListener);
     }
 
@@ -167,5 +165,21 @@ public class GoalsFragment extends Fragment implements GoalsContract.View {
          * @param goal the goal clicked on
          */
         void onGoalClick(Goal goal);
+    }
+
+    /**
+     * A class for handling the prevention of the active goal being edited.
+     */
+    private class ActiveGoalItemListener implements GoalItemListener {
+        @Override
+        public void onGoalClick(Goal goal) {
+            String active = SharedPreferencesRepository.getActiveGoal();
+            String id = goal.getId();
+            if (!id.equals(active)) {
+                mPresenter.editGoal(goal);
+            } else {
+                Snackbar.make(getView(), R.string.active_goal_message, Snackbar.LENGTH_LONG).show();
+            }
+        }
     }
 }

@@ -66,6 +66,24 @@ public class SharedPreferencesRepository implements PreferenceRepository {
     }
 
     /**
+     * Returns the active goal's ID if it exists.
+     *
+     * @return ID of active goal if it exists, otherwise false.
+     */
+    public static String getActiveGoal() {
+        return sInstance.getActiveGoalId();
+    }
+
+    /**
+     * Sets the ID of the currently active goal ot the given value..
+     *
+     * @param id the ID of the goal set as active.
+     */
+    public static void setActiveGoal(String id) {
+        sInstance.setActiveGoalId(id);
+    }
+
+    /**
      * Returns true if editing goals has been enabled.
      *
      * @return true if goals can be edited, otherwise false
@@ -153,6 +171,16 @@ public class SharedPreferencesRepository implements PreferenceRepository {
      */
     public static long getHistoryEndDateFilter() {
         return sInstance.getCurrentHistoryEndDateFilter();
+    }
+
+    @Override
+    public String getActiveGoalId() {
+        return mSharedPreferences.getString("activeGoalId", null);
+    }
+
+    @Override
+    public void setActiveGoalId(String id) {
+        mSharedPreferences.edit().putString("activeGoalId", id).apply();
     }
 
     @Override

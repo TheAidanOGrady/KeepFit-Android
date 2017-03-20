@@ -1,9 +1,7 @@
 package com.aidanogrady.keepfit.goals;
 
-import android.app.Activity;
 import android.content.Context;
 
-import com.aidanogrady.keepfit.addeditgoal.AddEditGoalActivity;
 import com.aidanogrady.keepfit.data.model.Goal;
 import com.aidanogrady.keepfit.data.source.GoalsDataSource;
 import com.aidanogrady.keepfit.data.source.GoalsRepository;
@@ -39,14 +37,6 @@ public class GoalsPresenter implements GoalsContract.Presenter {
     @Override
     public void start() {
         loadGoals(true);
-    }
-
-    @Override
-    public void result(int requestCode, int resultCode) {
-        if (AddEditGoalActivity.REQUEST_ADD_GOAL == requestCode && Activity.RESULT_OK == resultCode)
-        {
-            mGoalsView.showSuccessfullySavedMessage();
-        }
     }
 
     @Override
