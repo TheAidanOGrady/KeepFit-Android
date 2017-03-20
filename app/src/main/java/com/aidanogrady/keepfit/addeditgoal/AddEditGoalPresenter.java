@@ -117,15 +117,27 @@ class AddEditGoalPresenter implements AddEditGoalContract.Presenter,
      * Creates a new goal and inserts it into repository.
      *
      * @param name the name of the goal to be added
-     * @param steps the number of steps of the goal to be added
+     * @param distance the number of steps of the goal to be added
      * @param unit the unit to be saved
      */
-    private void createGoal(String name, double steps, Unit unit) {
-        if (Strings.isNullOrEmpty(name) || steps < 1) {
+    private void createGoal(String name, double distance, Unit unit) {
+        List<String> names = new ArrayList<>();
+        mGoalsRepository.getGoals(new GoalsDataSource.LoadGoalsCallback() {
+            @Override
+            public void onGoalsLoaded(List<Goal> goals) {
+                goals.forEach(goal -> names.add(goal.getName()));
+            }
+
+            @Override
+            public void onDataNotAvailable() {}
+        });
+
+        if (names.contains(name) && isNewGoal()) {
+            mAddEditGoalView.showNameExistsError();
+        } else if (Strings.isNullOrEmpty(name) || distance < 1) {
             mAddEditGoalView.showEmptyGoalError();
         } else {
-            Goal goal = new Goal(name, steps, unit);
-            mGoalsRepository.insertGoal(goal);
+            mGoalsRepository.insertGoal(new Goal(name, distance, unit));
             mAddEditGoalView.showGoalsList();
         }
     }

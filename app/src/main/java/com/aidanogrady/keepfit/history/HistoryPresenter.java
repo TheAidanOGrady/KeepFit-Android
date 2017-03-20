@@ -60,17 +60,14 @@ public class HistoryPresenter implements HistoryContract.Presenter {
             public void onHistoryLoaded(List<History> histories) {
                 histories = getFilteredHistory(histories);
                 if (histories.isEmpty()) {
-                    System.out.println("History empty");
                     mHistoryView.showNoHistory();
                 } else {
-                    System.out.println("Showing history");
                     mHistoryView.showHistory(histories);
                 }
             }
 
             @Override
             public void onDataNotAvailable() {
-                System.out.println("Data isn't available");
                 mHistoryView.showNoHistory();
                 if (mHistoryView.isActive()) {
                     mHistoryView.showLoadingHistoryError();

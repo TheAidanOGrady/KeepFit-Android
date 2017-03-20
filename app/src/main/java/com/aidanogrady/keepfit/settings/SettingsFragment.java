@@ -37,7 +37,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         });
 
         ListPreference displayUnit = (ListPreference) findPreference("historyDisplayUnit");
-        System.out.println(displayUnit == null);
         setHistoryDisplayUnitPreferenceData(displayUnit);
     }
 
@@ -57,8 +56,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             entries[i + 1] = units[i].name();
             entryValues[i + 1] = units[i].name();
         }
-
-        System.out.println(Arrays.toString(entryValues));
         listPreference.setEntries(entries);
 
         Unit current = SharedPreferencesRepository.getHistoryDisplayUnit();
@@ -70,7 +67,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         }
         listPreference.setDefaultValue(currentStr);
         listPreference.setEntryValues(entryValues);
-        System.out.println(currentStr);
 
     }
 
