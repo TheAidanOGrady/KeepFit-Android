@@ -94,6 +94,14 @@ public class HomePresenter implements HomeContract.Presenter {
         mUpdatesRepository.insertUpdate(update);
         mHistoryRepository.insertHistory(mCurrentHistory);
 
+        Goal goal = mCurrentHistory.getGoal();
+        if (mCurrentHistory.getDistance() > goal.getDistance() &&
+                mCurrentHistory.getDate() > goal.getLastAchieved()) {
+            goal.setLastAchieved(mCurrentHistory.getDate());
+            mCurrentHistory.setGoal(goal);
+            mGoalsRepository.updateGoal(goal, goal.getId());
+        }
+
         loadProgress();
     }
 

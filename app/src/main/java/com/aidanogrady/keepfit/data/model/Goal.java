@@ -2,6 +2,8 @@ package com.aidanogrady.keepfit.data.model;
 
 import com.aidanogrady.keepfit.data.model.units.Unit;
 
+import org.threeten.bp.LocalDate;
+
 import java.util.UUID;
 
 /**
@@ -35,7 +37,7 @@ public class Goal {
     /**
      * The number of days since this goal was last achieved.
      */
-    private int mLastAchieved;
+    private long mLastAchieved;
 
 
     /**
@@ -104,8 +106,17 @@ public class Goal {
      *
      * @return -1 if goal never achieved, else the day this goal was last achieved.
      */
-    public int getLastAchieved() {
+    public long getLastAchieved() {
         return mLastAchieved;
+    }
+
+    /**
+     * Sets the last achieved date of this goal to the given value.
+     *
+     * @param date the new date this goal was last achieved.
+     */
+    public void setLastAchieved(long date) {
+        this.mLastAchieved = date;
     }
 
     @Override
@@ -119,9 +130,9 @@ public class Goal {
      * @param lastAchieved the date to be converted
      * @return the converted date
      */
-    public static String getLastAchievedAsString(int lastAchieved) {
+    public static String getLastAchievedAsString(long lastAchieved) {
         if (lastAchieved > 0) {
-            return lastAchieved + " days ago";
+            return LocalDate.ofEpochDay(lastAchieved).toString();
         }
         return "N/A";
     }

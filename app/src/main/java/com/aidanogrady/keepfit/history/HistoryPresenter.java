@@ -55,15 +55,20 @@ public class HistoryPresenter implements HistoryContract.Presenter {
         mHistoryRepository.getHistory(new HistoryDataSource.LoadHistoryCallback() {
             @Override
             public void onHistoryLoaded(List<History> histories) {
+                histories = getFilteredHistory(histories);
                 if (histories.isEmpty()) {
+                    System.out.println("History empty");
                     mHistoryView.showNoHistory();
                 } else {
-                    mHistoryView.showHistory(getFilteredHistory(histories));
+                    System.out.println("Showing history");
+                    mHistoryView.showHistory(histories);
                 }
             }
 
             @Override
             public void onDataNotAvailable() {
+                System.out.println("Data isn't available");
+                mHistoryView.showNoHistory();
                 if (mHistoryView.isActive()) {
                     mHistoryView.showLoadingHistoryError();
                 }
@@ -116,8 +121,6 @@ public class HistoryPresenter implements HistoryContract.Presenter {
             case CUSTOM:
                 start = SharedPreferencesRepository.getHistoryStartDateFilter();
                 long end = SharedPreferencesRepository.getHistoryEndDateFilter();
-                System.out.println("Start " + start);
-                System.out.println("End " + end);
                 histories.stream()
                         .filter(history -> history.getDate() >= start)
                         .filter(history -> history.getDate() <= end)
