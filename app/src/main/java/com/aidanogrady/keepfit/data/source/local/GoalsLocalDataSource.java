@@ -83,10 +83,10 @@ public class GoalsLocalDataSource implements GoalsDataSource {
             while (c.moveToNext()) {
                 String goalId = c.getString(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_ID));
                 String name = c.getString(c.getColumnIndex(GoalEntry.COLUMN_NAME_NAME));
-                int distance = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_DISTANCE));
+                double dist = c.getDouble(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_DISTANCE));
                 Unit unit = mUnits[c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_UNIT))];
                 int last = c.getInt(c.getColumnIndexOrThrow(GoalEntry.COLUMN_NAME_LAST_ACHIEVED));
-                Goal goal = new Goal(goalId, name, distance, unit, last);
+                Goal goal = new Goal(goalId, name, dist, unit, last);
                 goals.add(goal);
             }
         }

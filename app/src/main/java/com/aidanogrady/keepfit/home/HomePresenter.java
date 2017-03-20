@@ -136,6 +136,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     newDist += UnitsConverter.convert(unit, update.getUnit(), update.getDistance());
                 }
                 mCurrentHistory.setDistance(newDist);
+                mHistoryRepository.insertHistory(mCurrentHistory);
                 SharedPreferencesRepository.setActiveGoal(goal.getId());
                 loadProgress();
             }
@@ -184,6 +185,7 @@ public class HomePresenter implements HomeContract.Presenter {
         } else {
             date = today;
         }
+        System.out.println(date);
 
         mHistoryRepository.getHistory(date, new HistoryDataSource.GetHistoryCallback() {
             @Override
@@ -193,10 +195,10 @@ public class HomePresenter implements HomeContract.Presenter {
 
             @Override
             public void onDataNotAvailable() {
-                if (mCurrentHistory != null && mCurrentHistory.getDistance() > 0) {
+                if (mCurrentHistory == null || mCurrentHistory.getDistance() > 0) {
                     mCurrentHistory = new History(date);
-                } else if (mCurrentHistory == null) {
-                    mCurrentHistory = new History(date);
+                } else {
+                    mCurrentHistory.setDate(date);
                 }
             }
         });

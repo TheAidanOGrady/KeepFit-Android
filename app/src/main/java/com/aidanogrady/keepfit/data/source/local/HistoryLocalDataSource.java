@@ -131,10 +131,10 @@ public class HistoryLocalDataSource implements HistoryDataSource {
             String goalId = c.getString(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_GOAL));
             Goal goal = getGoalWithId(goalId);
             int date_ = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DATE));
-            int steps = c.getInt(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DISTANCE));
+            double dist = c.getDouble(c.getColumnIndexOrThrow(HistoryEntry.COLUMN_NAME_DISTANCE));
             List<Update> updates = getUpdatesWithDate(date_);
 
-            history = new History(date, goal, steps, updates);
+            history = new History(date, goal, dist, updates);
         }
 
         if (c != null) {

@@ -109,7 +109,7 @@ public class HistoryPresenter implements HistoryContract.Presenter {
         history.setDistance(distance);
 
         double target = UnitsConverter.convert(unit, goal.getUnit(), goal.getDistance());
-        Goal convertedGoal = new Goal(goal.getName(), target, goal.getUnit());
+        Goal convertedGoal = new Goal(goal.getName(), target, unit);
         history.setGoal(convertedGoal);
 
         return history;

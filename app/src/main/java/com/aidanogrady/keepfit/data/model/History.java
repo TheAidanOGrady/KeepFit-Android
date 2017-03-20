@@ -79,6 +79,15 @@ public class History {
     }
 
     /**
+     * Sets the date of this history object to the new value.
+     *
+     * @param date the new date of this history
+     */
+    public void setDate(long date) {
+        mDate = date;
+    }
+
+    /**
      * Returns the ID of the goal attempted this day.
      *
      * @return goalId
